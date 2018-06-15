@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+   android:clipToPadding="true"
+    android:background="@color/nav_color"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar2"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/nav_color"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+               <com.businessstore.view.customize.BackImageView
+                   android:layout_marginBottom="15dp"
+                   android:layout_gravity="bottom"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content">
+
+               </com.businessstore.view.customize.BackImageView>
+            </FrameLayout>
+
+        </android.support.v7.widget.Toolbar>
+  <com.miguelcatalan.materialsearchview.MaterialSearchView
+
+            android:id="@+id/search_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            />
+
+        <FrameLayout
+            android:id="@+id/search_icon"
+            android:background="@drawable/search_border"
+            android:layout_marginLeft="60dp"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center_horizontal|bottom|left"
+            android:layout_width="250dp"
+            android:layout_height="35dp">
+            <ImageView
+                android:layout_marginLeft="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="left"
+                android:src="@drawable/search_gray_icon" />
+
+
+
+        </FrameLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:elevation="5dp"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+        <FrameLayout
+            android:id="@+id/select_order_icon"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:textColor="@color/nav_fontcolor"
+                android:text="@string/orders"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/select_order_down"
+                android:layout_marginEnd="55dp"
+                android:layout_gravity="center_vertical|right"
+                android:src="@drawable/arrow_down"
+                android:layout_width="15dp"
+                android:layout_height="15dp" />
+            <ImageView
+                android:id="@+id/select_order_up"
+                android:visibility="gone"
+                android:layout_marginEnd="55dp"
+                android:layout_gravity="center_vertical|right"
+                android:src="@drawable/arrow_up"
+                android:layout_width="15dp"
+                android:layout_height="15dp" />
+
+        </FrameLayout>
+        <FrameLayout
+
+            android:id="@+id/select_time_icon"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:textColor="@color/nav_fontcolor"
+                android:text="@string/selection_period"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/select_time_down"
+                android:layout_marginEnd="40dp"
+                android:layout_gravity="center_vertical|right"
+                android:src="@drawable/arrow_down"
+                android:layout_width="15dp"
+                android:layout_height="15dp" />
+            <ImageView
+                android:id="@+id/select_time_up"
+                android:visibility="gone"
+                android:layout_marginEnd="40dp"
+                android:layout_gravity="center_vertical|right"
+                android:src="@drawable/arrow_up"
+                android:layout_width="15dp"
+                android:layout_height="15dp" />
+
+        </FrameLayout>
+    </LinearLayout>
+    <FrameLayout
+
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/order_test"
+            android:layout_gravity="left"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <FrameLayout
+                android:id="@+id/processed_orders"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/nav_fontcolor"
+                    android:text="@string/Processed_orders"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:layout_marginRight="20dp"
+                    android:layout_gravity="right|center"
+                    android:src="@drawable/v"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
+                <View
+                    android:layout_gravity="bottom"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/line"
+                    />
+            </FrameLayout>
+            <FrameLayout
+                android:id="@+id/unprocessed_orders"
+                android:elevation="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/nav_fontcolor"
+                    android:text="@string/Unprocessed_orders"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:visibility="gone"
+                    android:layout_marginRight="20dp"
+                    android:layout_gravity="right|center"
+                    android:src="@drawable/v"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
+                <View
+                    android:layout_gravity="bottom"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/line"
+                    />
+            </FrameLayout>
+        </LinearLayout>
+        <FrameLayout
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.aspsine.swipetoloadlayout.SwipeToLoadLayout
+                android:id="@+id/swipeToLoadLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+                <com.businessstore.view.header.RefreshHeaderView
+                    android:id="@id/swipe_refresh_header"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:layout_height="100dp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@id/swipe_target"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <com.businessstore.view.footer.LoadMoreFooterView
+                    android:id="@id/swipe_load_more_footer"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:layout_height="100dp" />
+
+            </com.aspsine.swipetoloadlayout.SwipeToLoadLayout>
+        </FrameLayout>
+    </FrameLayout>
+
+
+
+
+
+</LinearLayout>

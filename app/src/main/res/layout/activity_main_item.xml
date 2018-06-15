@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    android:id="@+id/activity_main_frameItem"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+  >
+
+    <com.aspsine.swipetoloadlayout.SwipeToLoadLayout
+        android:id="@+id/swipeToLoadLayout_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.businessstore.view.header.RefreshHeaderView
+            android:id="@id/swipe_refresh_header"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:gravity="center" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/commodity_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.businessstore.view.footer.LoadMoreFooterView
+            android:id="@id/swipe_load_more_footer"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:gravity="center" />
+
+    </com.aspsine.swipetoloadlayout.SwipeToLoadLayout>
+</FrameLayout>

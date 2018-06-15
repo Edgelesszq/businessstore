@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:background="@drawable/login_logo"
+        android:layout_width="match_parent"
+        android:layout_height="180dp">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            />
+    </FrameLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+        </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <TextView
+
+                android:layout_marginLeft="50dp"
+                android:gravity="center"
+                android:text="邮箱"
+                android:textSize="14sp"
+                android:textColor="@color/mgray"
+                android:layout_width="40dp"
+                android:layout_height="49dp" />
+            <EditText
+                android:inputType="textEmailAddress"
+                android:layout_gravity="center_vertical"
+                android:background="@null"
+                android:layout_marginLeft="100dp"
+                android:layout_width="200dp"
+                android:layout_height="49dp" />
+            <View
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line"
+                />
+        </FrameLayout>
+        <FrameLayout
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <TextView
+
+                android:layout_marginLeft="50dp"
+                android:gravity="center"
+                android:text="密码"
+                android:textSize="14sp"
+                android:textColor="@color/mgray"
+                android:layout_width="40dp"
+                android:layout_height="49dp" />
+
+            <EditText
+                android:inputType="textPassword"
+                android:gravity="center_vertical"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="100dp"
+                android:background="@null" />
+            <View
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line"
+                />
+
+        </FrameLayout>
+        <FrameLayout
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <TextView
+
+                android:layout_marginLeft="50dp"
+                android:gravity="center"
+                android:text="国家"
+                android:textSize="14sp"
+                android:textColor="@color/mgray"
+                android:layout_width="40dp"
+                android:layout_height="49dp" />
+
+            <EditText
+                android:inputType="text"
+                android:gravity="center_vertical"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="100dp"
+                android:background="@null" />
+            <View
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line"
+                />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_marginTop="80px"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+            <TextView
+                android:id="@+id/register_one_ensure"
+                android:text="下一步"
+                android:gravity="center"
+
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:background="@drawable/login_btn"
+                android:layout_gravity="center"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content" />
+
+        </FrameLayout>
+
+
+    </LinearLayout>
+</LinearLayout>
