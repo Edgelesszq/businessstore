@@ -2,28 +2,45 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
-   android:clipToPadding="true"
-    android:background="@color/nav_color"
+    android:clipToPadding="true"
     android:fitsSystemWindows="true"
+    android:background="@color/title"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <FrameLayout
+    <!--
+    沉浸式从状态栏
+    android:clipToPadding="true"
+    android:background="@color/nav_color"
+    android:fitsSystemWindows="true"
+-->
+
+    <LinearLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <include
+            android:id="@+id/title_layout"
+            layout="@layout/title_layout"
+            />
+
+    <!--<FrameLayout
 
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <android.support.v7.widget.Toolbar
+        android:layout_height="50dp">
+       &lt;!&ndash; <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar2"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="50dp"
             android:background="@color/nav_color"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:contentInsetLeft="0dp"
-            app:contentInsetStart="0dp">
+            app:contentInsetStart="0dp">&ndash;&gt;
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="50dp">
                <com.businessstore.view.customize.BackImageView
                    android:layout_marginBottom="15dp"
                    android:layout_gravity="bottom"
@@ -33,7 +50,7 @@
                </com.businessstore.view.customize.BackImageView>
             </FrameLayout>
 
-        </android.support.v7.widget.Toolbar>
+       &lt;!&ndash; </android.support.v7.widget.Toolbar>&ndash;&gt;
   <com.miguelcatalan.materialsearchview.MaterialSearchView
 
             android:id="@+id/search_view"
@@ -45,10 +62,10 @@
         <FrameLayout
             android:id="@+id/search_icon"
             android:background="@drawable/search_border"
-            android:layout_marginLeft="60dp"
+            android:layout_marginLeft="40dp"
             android:layout_marginBottom="10dp"
             android:layout_gravity="center_horizontal|bottom|left"
-            android:layout_width="250dp"
+            android:layout_width="300dp"
             android:layout_height="35dp">
             <ImageView
                 android:layout_marginLeft="12dp"
@@ -56,17 +73,18 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="left"
                 android:src="@drawable/search_gray_icon" />
-
-
-
         </FrameLayout>
-    </FrameLayout>
+    </FrameLayout>-->
 
-    <LinearLayout
-        android:elevation="5dp"
+    <RelativeLayout
         android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:orientation="vertical"
+        android:layout_height="50dp">
+        <LinearLayout
+            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <FrameLayout
             android:id="@+id/select_order_icon"
             android:layout_weight="1"
@@ -128,7 +146,14 @@
                 android:layout_height="15dp" />
 
         </FrameLayout>
-    </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/my_account_number_line"/>
+    </RelativeLayout>
     <FrameLayout
 
 
@@ -144,7 +169,7 @@
             <FrameLayout
                 android:id="@+id/processed_orders"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="40dp">
                 <TextView
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="8dp"
@@ -165,14 +190,13 @@
 
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@color/line"
+                    android:background="@color/my_account_number_line"
                     />
             </FrameLayout>
             <FrameLayout
                 android:id="@+id/unprocessed_orders"
-                android:elevation="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="40dp">
 
                 <TextView
                     android:layout_marginLeft="20dp"
@@ -195,7 +219,7 @@
 
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@color/line"
+                    android:background="@color/my_account_number_line"
                     />
             </FrameLayout>
         </LinearLayout>
@@ -231,7 +255,7 @@
     </FrameLayout>
 
 
-
+    </LinearLayout>
 
 
 </LinearLayout>

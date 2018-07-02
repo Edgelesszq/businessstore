@@ -1,3 +1,4 @@
+
 package com.businessstore.view.customize;
 
 import android.annotation.SuppressLint;
@@ -13,9 +14,11 @@ import android.widget.ImageView;
 import activity.com.businessstore.R;
 
 
+
 /**
  * Created by joe on 2018/6/14.
  */
+
 
 
 public class BackImageView extends FrameLayout implements View.OnClickListener {
@@ -36,3 +39,4 @@ public class BackImageView extends FrameLayout implements View.OnClickListener {
         }
     }
 }
+

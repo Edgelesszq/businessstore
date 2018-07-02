@@ -72,6 +72,37 @@
         <activity android:name=".SettingMainActivity">
 
         </activity>
+        <activity android:name=".thirdPartyDomianMianActivity">
+
+        </activity>
+        <activity android:name=".thirdPartyDomianTwoActivity">
+
+        </activity>
+        <activity android:name=".thirdPartyDomianThreeActivity">
+
+        </activity>
+        <activity android:name=".thirdPartyDomianFourActivity">
+
+        </activity>
+        <activity android:name=".thirdPartyDomianFiveActivity">
+
+        </activity>
+        <activity android:name=".MainSearchActivity">
+
+        </activity>
+        <activity android:name=".CommodityUploadActivity">
+
+        </activity>
+        <activity android:name=".FeedbackActivity">
+
+        </activity>
+        <activity android:name=".MainCommodityDetailsActivity">
+
+        </activity>
+        <activity android:name=".TotalRecoveryActivity">
+
+        </activity>
+
     </application>
 
 </manifest>

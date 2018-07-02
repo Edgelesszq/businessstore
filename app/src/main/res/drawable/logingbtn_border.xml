@@ -2,11 +2,12 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <!-- 背景色 -->
-    <solid android:color="@color/white" />
+    <solid android:color="#00000000"/>
     <!-- 边框色 -->
     <stroke
         android:width="0.5dp"
-        android:color="@color/nav_color" />
+
+    android:color="@color/nav_color" />
     <!-- 圆角 -->
     <corners android:radius="2dp" />
     <!-- padding -->

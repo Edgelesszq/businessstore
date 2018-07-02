@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <FrameLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:background="@color/title"
+    >
+    <LinearLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/title_layout"
+            layout="@layout/title_layout"
+            />
+   <!-- <FrameLayout
         android:background="@drawable/login_logo"
         android:layout_width="match_parent"
         android:layout_height="75dp">
@@ -11,6 +26,7 @@
             android:layout_gravity="bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
+
 
         </com.businessstore.view.customize.BackImageView>
         <TextView
@@ -21,7 +37,7 @@
             android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    </FrameLayout>
+    </FrameLayout>-->
     <FrameLayout
         android:layout_marginTop="80dp"
         android:layout_width="match_parent"
@@ -34,14 +50,14 @@
             android:textColorHint="@color/q_gray"
             android:textColor="@color/q_gray"
             android:inputType="textEmailAddress"
-            android:layout_gravity="center"
             android:background="@null"
-
-            android:layout_width="250dp"
+            android:layout_marginLeft="40dp"
+            android:layout_width="match_parent"
             android:layout_height="49dp" />
         <View
             android:layout_gravity="bottom"
-
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/line"
@@ -49,15 +65,15 @@
     </FrameLayout>
     <FrameLayout
 
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <TextView
-            android:gravity="center"
+            android:gravity="left"
             android:textSize="14sp"
             android:text="@string/third_party_Instructions"
             android:textColor="@color/q_gray"
@@ -66,23 +82,21 @@
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/next_domian_main"
         android:layout_marginRight="20dp"
         android:layout_gravity="right"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
        android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-
-
+            android:layout_width="120dp"
+            android:layout_height="45dp"
             android:background="@drawable/login_btn"
             android:gravity="center"
             android:text="Next"
-
             android:textColor="@color/white"
             android:textSize="18sp" />
     </FrameLayout>
-
+    </LinearLayout>
 </LinearLayout>

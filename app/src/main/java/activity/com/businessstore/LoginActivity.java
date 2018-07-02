@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity implements View.OnClickListener{
     private TextView register_btn;
     private TextView forget_password_btn;
     @Override

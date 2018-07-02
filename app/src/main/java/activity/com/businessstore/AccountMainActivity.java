@@ -1,5 +1,6 @@
 package activity.com.businessstore;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class AccountMainActivity extends BaseActivity implements View.OnClickListener,CommonPopupWindow.ViewInterface {
+    private Context mContext;
     private TextView update_password,update_phonenum;
     private CommonPopupWindow popupWindow;
     private CircleImageView HeadPortrait_update;
@@ -23,9 +25,12 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_account);
+        mContext = this;
         initview();
     }
     public void initview(){
+        setTitleView(R.drawable.backimage,R.string.my_account);
+        mTitleLefeBackImg.setOnClickListener(this);
         update_password=findViewById(R.id.update_password_textview);
         update_phonenum=findViewById(R.id.update_phoneNum_text);
         update_password.setOnClickListener(this);
@@ -39,6 +44,9 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void onClick(View view) {
         switch (view.getId()){
+            case R.id.title_left_back_img:
+                this.finish();
+                break;
             case R.id.update_password_textview:
                 Intent intent=new Intent(AccountMainActivity.this,AccountUpadatePasswordActivity.class);
                 startActivity(intent);

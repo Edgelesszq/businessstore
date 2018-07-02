@@ -1,5 +1,6 @@
 package activity.com.businessstore;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -23,8 +24,9 @@ import chihane.jdaddressselector.model.Street;
  * Created by joe on 2018/6/12.
  */
 
-public class RegisterUserActivityTwo extends BaseActivity implements OnAddressSelectedListener{
+public class RegisterUserActivityTwo extends BaseActivity implements OnAddressSelectedListener, View.OnClickListener{
    // private FrameLayout address_frameLayout;
+    private Context mContext;
     private TextView address_textView,register_one_ensure2;
     private ImageView img_btn;
     View addressView;
@@ -35,10 +37,13 @@ public class RegisterUserActivityTwo extends BaseActivity implements OnAddressSe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_two);
+        mContext = this;
 
         initview();
     }
     public void initview(){
+        setTitleView(R.drawable.backimage,R.string.open_store);
+        mTitleLefeBackImg.setOnClickListener(this);
 
         register_one_ensure2=findViewById(R.id.register_one_ensure2);
         register_one_ensure2.setOnClickListener(this);
@@ -93,6 +98,11 @@ public class RegisterUserActivityTwo extends BaseActivity implements OnAddressSe
     @Override
     public void onClick(View view) {
         switch (view.getId()){
+            case R.id.title_left_back_img:
+            {
+                this.finish();
+            }
+            break;
           case R.id.img_btn:
           {
 
@@ -102,11 +112,13 @@ public class RegisterUserActivityTwo extends BaseActivity implements OnAddressSe
               dialog.show();
 
           }
+          break;
             case R.id.register_one_ensure2:
             {
                 Intent intent=new Intent(RegisterUserActivityTwo.this,RegisterUserActivityThree.class);
                 startActivity(intent);
             }
+            break;
       }
 
     }

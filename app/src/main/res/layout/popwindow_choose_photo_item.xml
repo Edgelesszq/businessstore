@@ -25,8 +25,8 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/q_gray" />
+            android:layout_height="0.5dp"
+            android:background="@color/my_account_number_line" />
 
         <Button
             android:id="@+id/btn_select_photo"

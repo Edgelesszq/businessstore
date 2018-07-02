@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <FrameLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:background="@color/title"
+    >
+    <!--<FrameLayout
         android:background="@drawable/login_logo"
         android:layout_width="match_parent"
         android:layout_height="75dp">
@@ -21,9 +26,17 @@
             android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    </FrameLayout>
+    </FrameLayout>-->
+    <LinearLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <include
+        android:id="@+id/title_layout"
+        layout="@layout/title_layout"
+        />
     <FrameLayout
-        android:layout_marginTop="0dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -38,7 +51,7 @@
             android:layout_marginTop="130dp"
             android:layout_gravity="top|center_horizontal"
             android:text="\@\世上再无张居正"
-            android:textColor="@color/mgray"
+            android:textColor="@color/nav_fontcolor"
             android:textSize="16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -50,7 +63,7 @@
             android:layout_marginRight="100px"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/line"
+            android:background="@color/my_account_number_line"
             />
     </FrameLayout>
     <FrameLayout
@@ -79,8 +92,8 @@
             android:layout_marginLeft="30px"
             android:layout_marginRight="30px"
             android:layout_width="match_parent"
-            android:layout_height="0.1dp"
-            android:background="@color/line"
+            android:layout_height="0.5dp"
+            android:background="@color/my_account_number_line"
             />
 
     </FrameLayout>
@@ -120,8 +133,8 @@
             android:layout_marginLeft="30px"
             android:layout_marginRight="30px"
             android:layout_width="match_parent"
-            android:layout_height="0.1dp"
-            android:background="@color/line"
+            android:layout_height="0.5dp"
+            android:background="@color/my_account_number_line"
             />
 
     </FrameLayout>
@@ -152,8 +165,8 @@
         android:layout_marginLeft="30px"
         android:layout_marginRight="30px"
         android:layout_width="match_parent"
-        android:layout_height="0.1dp"
-        android:background="@color/line"
+        android:layout_height="0.5dp"
+        android:background="@color/my_account_number_line"
         />
 
         <TextView
@@ -194,8 +207,9 @@
             android:layout_marginRight="30px"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/line"
+            android:background="@color/my_account_number_line"
             />
 
     </FrameLayout>
+</LinearLayout>
 </LinearLayout>

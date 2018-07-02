@@ -13,5 +13,11 @@
     <color name="black">#000000</color>
     <color name="nav_fontcolor">#333333</color>
     <color name="line">#d5d5d5</color>
+    <color name="my_account_number_line">#e6e6e6</color>
+    <color name="main_search_bg">#f4f4f4</color>
+    <color name="title">#f9fafc</color>
+    <color name="color5B92E1">#5b92e1</color>
+    <color name="colorf5f8fa">#f5f8fa</color>
+
 
 </resources>

@@ -1,167 +1,215 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v4.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-
-    >
+    android:fitsSystemWindows="true">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
+        android:background="@color/white"
+        android:orientation="vertical">
 
-
-
-      >
         <android.support.v7.widget.Toolbar
-
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="@dimen/actionBarSize"
             android:background="@color/nav_color"
+            android:fitsSystemWindows="true"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:contentInsetLeft="0dp"
             app:contentInsetStart="0dp"
-            >
-            <LinearLayout
-                android:layout_marginLeft="0dp"
-                android:orientation="horizontal"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="0dp"
 
                 >
+
                 <ImageView
                     android:id="@+id/nav_personal_btn"
-                    android:layout_gravity="center|center_vertical"
                     android:layout_width="25dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/personal_icon"
-                    android:layout_weight="1"/>
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="7"
-                    android:text="@string/store_name"
-                    android:gravity="center"
-                    android:textColor="#ffffff"
-                    android:textSize="18sp"
-                    />
-                <ImageView
-                   android:layout_gravity="center_vertical"
-                    android:layout_width="12dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/search_icon"
-                    android:layout_weight="1"/>
-                <ImageView
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/personal_icon" />
 
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="12dp"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="15dp"
+                    android:text="@string/store_name"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/main_search_imgview"
+                    android:layout_width="25dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/message_icon"
-                    android:layout_weight="1"/>
-            </LinearLayout>
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_toLeftOf="@+id/message_imgview"
+                    android:src="@drawable/search_icon" />
+
+                <ImageView
+                    android:id="@+id/message_imgview"
+                    android:layout_width="25dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/message_icon" />
+            </RelativeLayout>
 
 
         </android.support.v7.widget.Toolbar>
-
+        <!--android:background="@color/main_search_bg"-->
         <LinearLayout
-            android:orientation="vertical"
+            android:id="@+id/main_linearlayout_set_bg"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="10">
-           <!-- <LinearLayout
-                android:orientation="horizontal"
+            android:layout_height="match_parent"
+            android:background="@color/main_search_bg"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:background="@color/white"
+                android:id="@+id/main_login_framlayout"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-
-
-
-
-
-                >
-
-            </LinearLayout>-->
-            <FrameLayout
-                android:elevation="5dp"
                 android:alpha="250"
                 android:transitionGroup="true"
-                android:background="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
+                android:visibility="gone">
+
                 <TextView
-                    android:paddingLeft="18dp"
-                    android:layout_gravity="center_vertical|left"
-                    android:textColor="@color/mgray"
-                    android:textSize="14sp"
-                    android:text="你还未登录,请先登录才能使用！"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|left"
+                    android:paddingLeft="18dp"
+                    android:text="你还未登录,请先登录才能使用！"
+                    android:textSize="14sp" />
 
                 <Button
                     android:id="@+id/main_loginbtn"
+                    style="?android:attr/borderlessButtonStyle"
                     android:layout_width="50dp"
                     android:layout_height="25dp"
                     android:layout_gravity="right|center_vertical"
-                    android:elevation="0dp"
                     android:layout_marginRight="20dp"
                     android:background="@drawable/logingbtn_border"
                     android:text="登录"
                     android:textColor="@color/nav_color"
                     android:textSize="14sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_gravity="bottom"
+                    android:background="@color/my_account_number_line" />
             </FrameLayout>
-            <ImageView
-                android:layout_marginTop="150dp"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_gravity="center"
-                android:src="@drawable/no_goods_icon" />
-            <TextView
-                android:layout_gravity="center"
-                android:text="@string/no_goods_tips"
-                android:textSize="16sp"
-                android:textColor="#a3a3a3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:id="@+id/main_nodata_linearlayout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="150dp"
+                    android:src="@drawable/no_goods_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/no_goods_tips"
+                    android:textColor="#a3a3a3"
+                    android:textSize="16sp" />
 
 
+            </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/mian_recycleview_linearlayout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:visibility="visible">
 
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/main_recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="9dp"
+                    android:layout_marginRight="9dp"
+                    android:overScrollMode="never"
+                    android:layout_below="@id/toolbar">
 
-        </LinearLayout>
+                </android.support.v7.widget.RecyclerView>
+            </LinearLayout>
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.2">
-            <TextView
-                android:id="@+id/upload_btn"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_width="175dp"
-                android:layout_height="45dp"
-                android:background="@drawable/upload_goods_border"
-                android:text="@string/upload_goods_tips"
-                android:textColor="#ffffff"
-                android:textSize="18sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/white"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:id="@+id/upload_btn"
+                    android:layout_width="175dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/upload_goods_border"
+                    android:gravity="center"
+                    android:text="@string/upload_goods_tips"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp" />
+            </LinearLayout>
         </LinearLayout>
 
 
     </LinearLayout>
 
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:menu="@menu/main_toolbar"
-        app:headerLayout="@layout/nav_header" />
-</android.support.v4.widget.DrawerLayout>
+        android:background="@drawable/slide_bac"
+        android:clipToPadding="true"
+        android:fitsSystemWindows="true"
+        android:clickable="true"
+        >
+        <include
+            layout="@layout/nav_header"
+            android:id="@+id/nav_header"/>
+    </LinearLayout>
+
+
+    <!--<android.support.design.widget.NavigationView
+    android:id="@+id/nav_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    app:headerLayout="@layout/nav_header"
+    app:menu="@null"
+    />-->
+    </android.support.v4.widget.DrawerLayout>
 
