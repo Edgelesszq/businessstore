@@ -3,16 +3,25 @@ package activity.com.businessstore;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.businessstore.model.SearchHistory;
+
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+
+import adapter.com.businessstore.AdapterSearchActivity;
 
 public class MainSearchActivity extends BaseActivity implements View.OnClickListener {
     private Context mContext;
     private SearchView searchView;
     private TextView cancle;
+    private List<SearchHistory> searchHistories = new ArrayList<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,12 +29,20 @@ public class MainSearchActivity extends BaseActivity implements View.OnClickList
         mContext = this;
         initView();
 
+        RecyclerView recyclerView = findViewById(R.id.recycler_searchhistory);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        AdapterSearchActivity adapterSearchActivity = new AdapterSearchActivity(searchHistories);
+        recyclerView.setAdapter(adapterSearchActivity);
 
     }
 
     private void initView() {
         cancle = findViewById(R.id.mainsearchacvivity_cancle);
         cancle.setOnClickListener(this);
+
+        SearchHistory history1 = new SearchHistory("Test");
+        searchHistories.add(history1);
 //        searchView =  findViewById(R.id.searchView);
         //第一种：根据属性：
         /*Class<?> c = searchView.getClass();
