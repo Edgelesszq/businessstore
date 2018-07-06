@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,12 +41,13 @@ import adapter.com.businessstore.AdapterSearchActivity;
 public class MainSearchActivity extends BaseActivity implements View.OnClickListener {
     private Context mContext;
     private SearchView searchView;
-    private TextView cancle;
+    private TextView cancle;    //返回
     private List<String> searchHistories = new ArrayList<>();
     private ACache mCache;
-    private EditText mEt_string_input;
-
-    private RecyclerView recyclerView;
+    private EditText mEt_string_input;      //搜索框
+    private ImageView search_clear;         //清除搜索框内容
+    private TextView clear_history;         //清除历史记录
+    private RecyclerView recyclerView;      //历史记录显示
     private LinearLayoutManager layoutManager;
     private AdapterSearchActivity adapterSearchActivity;
     private List<String> arrayset = new ArrayList<>();
@@ -63,7 +65,7 @@ public class MainSearchActivity extends BaseActivity implements View.OnClickList
         adapterSearchActivity = new AdapterSearchActivity(searchHistories);
         recyclerView.setAdapter(adapterSearchActivity);
 
-        readDatas();
+        readDatas();    //初始读取历史记录
 
 
         mEt_string_input.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -82,7 +84,7 @@ public class MainSearchActivity extends BaseActivity implements View.OnClickList
                     if (mEt_string_input.getText().toString().trim().length()!=0){
                         String newhistory = mEt_string_input.getText().toString();
                         if (searchHistories.contains(newhistory)){
-                            searchHistories.remove(searchHistories.lastIndexOf(newhistory));//删除该元素
+                            searchHistories.remove(searchHistories.lastIndexOf(newhistory));//删除重复元素
                         }
                         searchHistories.add(0,newhistory);//加入在第0位
                         save(searchHistories);
@@ -101,9 +103,10 @@ public class MainSearchActivity extends BaseActivity implements View.OnClickList
         cancle.setOnClickListener(this);
         mEt_string_input = findViewById(R.id.edit_search);
         recyclerView = findViewById(R.id.recycler_searchhistory);
-        
-
-
+        search_clear = findViewById(R.id.img_searchclear);
+        search_clear.setOnClickListener(this);
+        clear_history = findViewById(R.id.text_clearhistoryall);
+        clear_history.setOnClickListener(this);
 
 //        readDatas();
 //        read();
@@ -128,6 +131,12 @@ public class MainSearchActivity extends BaseActivity implements View.OnClickList
             case R.id.mainsearchacvivity_cancle:
                 this.finish();
                 break;
+            case R.id.img_searchclear:
+                mEt_string_input.setText("");
+                break;
+            case R.id.text_clearhistoryall:
+                clear();
+                break;
         }
 
     }
@@ -143,7 +152,6 @@ public class MainSearchActivity extends BaseActivity implements View.OnClickList
 //        mCache.put("testString",mEt_string_input.getText().toString());
         String flilistArray = GsonUtil.getGson().toJson(searchHistories);
         mCache.put("key", flilistArray);
-        Log.d("laze","存储save");
     }
 
 /*    private void saveDates(final Set<SearchHistory> searchHistories){
@@ -213,6 +221,20 @@ public class MainSearchActivity extends BaseActivity implements View.OnClickList
      * @param
      */
     public void clear(){
-        mCache.clear();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mCache.clear();
+                        searchHistories.clear();
+                        adapterSearchActivity.notifyDataSetChanged();
+                    }
+                });
+
+            }
+        }).start();
+
     }
 }
