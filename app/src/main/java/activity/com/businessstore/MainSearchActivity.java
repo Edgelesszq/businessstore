@@ -79,10 +79,16 @@ public class MainSearchActivity extends BaseActivity implements View.OnClickList
 /*                    save();
                     read();*/
 //                    SearchHistory  history = new SearchHistory(mEt_string_input.getText().toString());
-                    searchHistories.add(0,mEt_string_input.getText().toString());//加入在第0位
-                    save(searchHistories);
-                    readDatas();
-                    Log.d("laze","点击了回车");
+                    if (mEt_string_input.getText().toString().trim().length()!=0){
+                        String newhistory = mEt_string_input.getText().toString();
+                        if (searchHistories.contains(newhistory)){
+                            searchHistories.remove(searchHistories.lastIndexOf(newhistory));//删除该元素
+                        }
+                        searchHistories.add(0,newhistory);//加入在第0位
+                        save(searchHistories);
+                        readDatas();
+                    }
+
                     return true;
                 }
                 return false;
@@ -95,7 +101,7 @@ public class MainSearchActivity extends BaseActivity implements View.OnClickList
         cancle.setOnClickListener(this);
         mEt_string_input = findViewById(R.id.edit_search);
         recyclerView = findViewById(R.id.recycler_searchhistory);
-
+        
 
 
 
@@ -133,9 +139,6 @@ public class MainSearchActivity extends BaseActivity implements View.OnClickList
      * @param
      */
     public void save(final List<String> searchHistories){
-        if (mEt_string_input.getText().toString().trim().length()==0){
-            Toast.makeText(this,"输入内容为空",Toast.LENGTH_SHORT).show();
-        }
 
 //        mCache.put("testString",mEt_string_input.getText().toString());
         String flilistArray = GsonUtil.getGson().toJson(searchHistories);
@@ -143,7 +146,7 @@ public class MainSearchActivity extends BaseActivity implements View.OnClickList
         Log.d("laze","存储save");
     }
 
-    private void saveDates(final Set<SearchHistory> searchHistories){
+/*    private void saveDates(final Set<SearchHistory> searchHistories){
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -154,7 +157,7 @@ public class MainSearchActivity extends BaseActivity implements View.OnClickList
             }
         }).start();
 
-    }
+    }*/
 
     /**
      *
