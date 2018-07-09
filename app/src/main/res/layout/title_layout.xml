@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/title"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <FrameLayout
 
@@ -71,6 +71,18 @@
                 android:textColor="@color/nav_fontcolor"
                 android:textSize="16sp"
                 android:visibility="gone" />
+            <TextView
+                android:id="@+id/title_right_text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:layout_marginBottom="13dp"
+                android:layout_marginRight="10dp"
+                android:text="@string/save"
+                android:textColor="@color/red"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
 
             <ImageView
                 android:id="@+id/title_right_img"
@@ -94,23 +106,31 @@
                 android:id="@+id/title_center_search_img"
                 android:layout_width="280dp"
                 android:layout_height="35dp"
-                android:layout_gravity="center_horizontal|bottom|left"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="40dp"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="5dp"
                 android:background="@drawable/search_border"
                 android:visibility="gone">
 
                 <ImageView
+
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="left"
-                    android:layout_marginLeft="12dp"
+                    android:layout_marginLeft="10dp"
                     android:src="@drawable/search_gray_icon" />
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="30dp"
+                    android:textSize="14sp"
+                    android:textColor="@color/q_gray"
+                    android:text="搜索订单"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
             </FrameLayout>
 
 
-        </FrameLayout>
-
+              </FrameLayout>
 
     </LinearLayout>
 </LinearLayout>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="activity.com.businessstore">
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:name="com.businessstore.util.MyApplication"
@@ -102,6 +103,13 @@
         <activity android:name=".TotalRecoveryActivity">
 
         </activity>
+        <activity android:name=".OrderCommodityDetailsActivity">
+
+        </activity>
+        <activity android:name=".BigPhotoActivity">
+
+        </activity>
+
 
     </application>
 

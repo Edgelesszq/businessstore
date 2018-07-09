@@ -52,15 +52,28 @@
                 android:text="大码女装重工打条刺绣斗篷显瘦连衣裙95720"
                 android:textColor="@color/mgray"
                 android:textSize="13sp" />
-
-            <TextView
-                android:id="@+id/main_recyclerview_item_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <LinearLayout
                 android:layout_marginTop="5dp"
-                android:text="$119"
-                android:textColor="@color/red"
-                android:textSize="14sp" />
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$"
+                    android:textColor="@color/red"
+                    android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/main_recyclerview_item_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:text="199"
+                    android:textColor="@color/red"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+
 
             <View
                 android:layout_width="wrap_content"
