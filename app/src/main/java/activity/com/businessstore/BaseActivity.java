@@ -41,6 +41,7 @@ public class BaseActivity extends AppCompatActivity{
         mTitleCenterText = findViewById(R.id.title_center_text);
         mTitleRightText = findViewById(R.id.title_right_text);
 
+
         mTitleLefeBackImg.setVisibility(View.VISIBLE);
         mTitleCenterText.setVisibility(View.VISIBLE);
         mTitleRightText.setVisibility(View.VISIBLE);
@@ -69,7 +70,7 @@ public class BaseActivity extends AppCompatActivity{
     protected void setTitleView(int leftImgId, boolean isCenterSearch) {
         mTitleLefeBackImg = findViewById(R.id.title_left_back_img);
         mTitleCenterSearchImg = findViewById(R.id.title_center_search_img);
-        mTitleCenterSearchView = findViewById(R.id.title_center_search_view);
+      //  mTitleCenterSearchView = findViewById(R.id.title_center_search_view);
 
         mTitleLefeBackImg.setVisibility(View.VISIBLE);
         mTitleLefeBackImg.setImageResource(leftImgId);
@@ -91,7 +92,20 @@ public class BaseActivity extends AppCompatActivity{
 //        mTitleCenterText.setText(cecterTextId);
         mTitleRightImg.setImageResource(rightImgId);
     }
+    protected void setTitleView2(int leftImgId, int cecterTextId, int rightTextId){
+        mTitleLefeBackImg = findViewById(R.id.title_left_back_img);
+        mTitleCenterText = findViewById(R.id.title_center_text);
+        mTitleRightText = findViewById(R.id.title_right_text2);
 
+
+        mTitleLefeBackImg.setVisibility(View.VISIBLE);
+        mTitleCenterText.setVisibility(View.VISIBLE);
+        mTitleRightText.setVisibility(View.VISIBLE);
+
+        mTitleLefeBackImg.setImageResource(leftImgId);
+        mTitleCenterText.setText(cecterTextId);
+        mTitleRightText.setText(rightTextId);
+    }
     /*protected void setTitleView( boolean isMainSearch,int rightTextId ) {
         if(isMainSearch){
 

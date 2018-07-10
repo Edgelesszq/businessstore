@@ -3,16 +3,15 @@ package activity.com.businessstore;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,14 +21,13 @@ import android.widget.Toast;
 import com.aspsine.swipetoloadlayout.OnLoadMoreListener;
 import com.aspsine.swipetoloadlayout.OnRefreshListener;
 import com.aspsine.swipetoloadlayout.SwipeToLoadLayout;
-import com.businessstore.util.LogUtil;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import org.feezu.liuli.timeselector.TimeSelector;
 
-import scut.carson_ho.searchview.ICallBack;
-import scut.carson_ho.searchview.SearchView;
-import scut.carson_ho.searchview.bCallBack;
+import java.util.List;
+
+import adapter.com.businessstore.AdapterOrderRecycler;
 
 /**
  * Created by joe on 2018/6/11.
@@ -38,8 +36,7 @@ import scut.carson_ho.searchview.bCallBack;
 public class OrderMainActivity extends BaseActivity implements OnRefreshListener, OnLoadMoreListener, View.OnClickListener {
     private Context mContext;
     private SwipeToLoadLayout swipeToLoadLayout;
-//    private MaterialSearchView search_view;
-//    private  FrameLayout search_icon;
+    private LinearLayout searchLinerLayout,title_layout;
 
     private FrameLayout select_time_icon, select_order_icon, processed_orders, unprocessed_orders;
     //    private Toolbar toolbar;
@@ -47,8 +44,13 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
     private static Boolean TimeIcon = true, OrderIcon = true;
     private LinearLayout order_test;
     TimeSelector timeSelector;
+    //定单完成的recyclerView 适配器
+    private EditText order_search_edit;//搜索输入框
 
+    private RecyclerView recyclerview_completed;
+    private AdapterOrderRecycler adapterOrderRecyclerCompleted;
 
+    private List<String> mlist;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -62,46 +64,61 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
 //        toolbar=findViewById(R.id.toolbar2);
 //        setSupportActionBar(toolbar);
         initview();
+        initAdapter();
     }
-
+    private void initAdapter(){
+        recyclerview_completed=findViewById(R.id.swipe_target);
+        adapterOrderRecyclerCompleted = new AdapterOrderRecycler(mContext, mlist);
+        recyclerview_completed.addItemDecoration(new DividerItemDecoration(mContext,LinearLayoutManager.VERTICAL));
+        recyclerview_completed.setAdapter(adapterOrderRecyclerCompleted);
+        adapterOrderRecyclerCompleted.setOnItemClickListener(new AdapterOrderRecycler.OnItemClickListener() {
+                                                                 @Override
+                                                                 public void onClick(View v, int position) {
+                                                                     Toast.makeText(mContext, "Item 的点击事件", Toast.LENGTH_SHORT).show();
+                                                                     Intent intent=new Intent(OrderMainActivity.this,OrderCommodityDetailsActivity.class);
+                                                                     startActivity(intent);
+                                                                 }
+                                                             });
+        LinearLayoutManager layoutManage = new LinearLayoutManager(mContext);
+        layoutManage.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerview_completed.setLayoutManager(layoutManage);
+    }
     @SuppressLint("WrongViewCast")
     public void initview() {
-        setTitleView(R.drawable.backimage, true);
+        setTitleView(R.drawable.backimage,true);
         mTitleLefeBackImg.setOnClickListener(this);
         //上下刷新
         swipeToLoadLayout = (SwipeToLoadLayout) findViewById(R.id.swipeToLoadLayout);
         swipeToLoadLayout.setOnRefreshListener(this);
         swipeToLoadLayout.setOnLoadMoreListener(this);
-        //搜索框
-//        mTitleCenterSearchView = findViewById(R.id.search_view);
-        mTitleCenterSearchView.setHint("搜索商品");
-        mTitleCenterSearchView.setSuggestions(getResources().getStringArray(R.array.query_suggestions));
-        mTitleCenterSearchView.showSuggestions();
-//        search_icon = findViewById(R.id.search_icon);
         mTitleCenterSearchImg.setOnClickListener(this);
-        mTitleCenterSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
+        //主界面LinearLayout
 
-                return false;
-            }
-
+        //搜索框
+        searchLinerLayout=findViewById(R.id.search_LinearLayout);
+        order_search_edit=findViewById(R.id.order_search_edit);
+        order_search_edit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i== EditorInfo.IME_ACTION_SEARCH){
+                    if (order_search_edit.getText().toString().length()<=0){
+                      //  Toast.makeText(AtActivity.this,"请输入用户昵称",Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            search();
+                        }
+                    }).start();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    // 隐藏软键盘
+                    imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);                }
+                return true;
             }
         });
-        mTitleCenterSearchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
-            @Override
-            public void onSearchViewShown() {
 
-            }
-
-            @Override
-            public void onSearchViewClosed() {
-                mTitleCenterSearchImg.setVisibility(View.VISIBLE);
-            }
-        });
+        title_layout=findViewById(R.id.title_layout);
 
 
         //选择订单，选择时间
@@ -128,7 +145,11 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
         autoRefresh();
     }
 
+    private void search() {
+    }
 
+
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -137,8 +158,8 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
                 break;
 
             case R.id.title_center_search_img:
-                mTitleCenterSearchView.showSearch();
-                mTitleCenterSearchImg.setVisibility(View.GONE);
+                searchLinerLayout.setVisibility(View.VISIBLE);
+                title_layout.setVisibility(View.GONE);
                 break;
             case R.id.select_time_icon:
                 if (TimeIcon) {

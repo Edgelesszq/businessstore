@@ -7,26 +7,17 @@
     android:clipToPadding="true"
     android:background="@color/white"
     >
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/actionBarSize"
         android:orientation="horizontal"
         android:layout_marginBottom="10dp"
         android:gravity="bottom">
-        <!--<SearchView
-            android:id="@+id/searchView"
-            android:layout_width="280dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="15dp"
-            android:orientation="horizontal"
-            android:iconifiedByDefault="false"
-            android:queryHint="请输入搜索内容"
-            android:searchHintIcon="@color/line"
-            android:searchIcon="@drawable/search"
-            >
 
-        </SearchView>-->
         <LinearLayout
+
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="35dp"
@@ -66,7 +57,6 @@
         </LinearLayout>
 
 
-
         <TextView
             android:id="@+id/mainsearchacvivity_cancle"
             android:layout_width="wrap_content"
@@ -77,6 +67,7 @@
             android:textSize="16sp"
             android:textColor="@color/nav_fontcolor"
             android:text="取消"/>
+
 
     </LinearLayout>
     <View
