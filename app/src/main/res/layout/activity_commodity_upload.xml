@@ -123,12 +123,17 @@
                     android:textColor="@color/nav_fontcolor"
                     android:textSize="15sp" />
 
-                <TextView
+                <EditText
+                    android:id="@+id/edit_price"
+                    android:imeOptions="actionDone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:singleLine="true"
                     android:layout_alignParentRight="true"
-                    android:text="$185"
+                    android:text="185"
                     android:layout_marginRight="10dp"
+                    style="@android:style/Widget.TextView"
+                    android:background="@null"
                     android:textColor="@color/red"
                     android:textSize="15sp" />
             </RelativeLayout>
