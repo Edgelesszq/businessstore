@@ -54,6 +54,7 @@
                 />
 
             <EditText
+                android:id="@+id/edit_commodity_content"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_marginTop="10dp"
@@ -188,6 +189,7 @@
                     android:orientation="horizontal"
                     android:layout_alignParentRight="true">
                     <ImageView
+                        android:id="@+id/img_number_minus"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:padding="8dp"
@@ -195,6 +197,7 @@
                         android:src="@mipmap/commodity_upload_number_reduce"
                         />
                     <TextView
+                        android:id="@+id/text_number"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_marginLeft="2dp"
@@ -204,6 +207,7 @@
                         android:background="@mipmap/commodity_upload_number_bg"
                         />
                     <ImageView
+                        android:id="@+id/img_number_add"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_marginLeft="2dp"

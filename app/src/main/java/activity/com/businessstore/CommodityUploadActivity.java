@@ -8,9 +8,14 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 public class CommodityUploadActivity extends BaseActivity implements View.OnClickListener {
-    private EditText editTitle;
+    private EditText editTitle,editContent;
+    private ImageView numberMinus,numberAdd;
+    private TextView number;
+    private int intNumber;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,8 +27,6 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
         setTitleView(R.drawable.backimage,R.string.commodity_upload,R.string.save);
         mTitleLefeBackImg.setOnClickListener(this);
         editTitle = findViewById(R.id.edit_commodity_title);
-//        final String editContext = editTitle.getText().toString();
-        final Editable editContext = editTitle.getText();
         editTitle.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -37,16 +40,32 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s == editContext){
                     mTitleRightText.setTextColor(Color.parseColor("#FDBA43"));
-                    Log.d("lllll","同");
-                }else {
-                    mTitleRightText.setTextColor(Color.parseColor("#000000"));
-                    Log.d("lllll","不同");
-                }
-
             }
         });
+        editContent = findViewById(R.id.edit_commodity_content);
+        editContent.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mTitleRightText.setTextColor(Color.parseColor("#FDBA43"));
+            }
+        });
+        numberMinus = findViewById(R.id.img_number_minus);
+        numberAdd = findViewById(R.id.img_number_add);
+        numberMinus.setOnClickListener(this);
+        numberAdd.setOnClickListener(this);
+        number = findViewById(R.id.text_number);
+
     }
 
     @Override
@@ -55,9 +74,30 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
             case R.id.title_left_back_img:
                 this.finish();
                 break;
+            case R.id.img_number_minus:
+                addNumber();
+                break;
+            case R.id.img_number_add:
+                minusNumber();
+                break;
+
+                default:
+                    break;
         }
 
     }
 
+    public void addNumber(){
+        intNumber = Integer.parseInt(number.getText().toString().trim());
+        if (intNumber > 0){
+            number.setText(String.valueOf(intNumber-1));
+        }else {
+            number.setText("0");
+        }
+    }
 
+    public void minusNumber(){
+        intNumber = Integer.parseInt(number.getText().toString().trim());
+        number.setText(String.valueOf(intNumber+1));
+    }
 }
