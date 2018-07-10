@@ -28,6 +28,7 @@ import com.businessstore.util.DpConversion;
 import java.util.List;
 
 import adapter.com.businessstore.AdapterMainActivity;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
@@ -40,7 +41,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private AdapterMainActivity mAdapterMainActivity;
     private RecyclerView mRecyclerView;
     private List<String> mList;
-
+    private CircleImageView circleImageView;
 
     private ImageView nav_personal_btn, mMainSearchImgview;
     private Button main_loginbtn;
@@ -125,6 +126,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //        third_party_domian = navHeaderView.findViewById(R.id.third_party_domian);
         third_party_domian = findViewById(R.id.third_party_domian);
         third_party_domian.setOnClickListener(this);//从第三方导入域
+
+        circleImageView = findViewById(R.id.image_head);
+        circleImageView.setOnClickListener(this);//头像
     }
 
     @Override
@@ -157,6 +161,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.main_loginbtn:
                 Intent intentlogin = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intentlogin);
+                break;
+            case R.id.image_head:
+                Intent circleImageView = new Intent(MainActivity.this, AccountMainActivity.class);
+                startActivity(circleImageView);
                 break;
             //我的账号
             case R.id.myaccount_icon:
