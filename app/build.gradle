@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
+    aaptOptions.cruncherEnabled = false
+    aaptOptions.useNewCruncher = false
     defaultConfig {
         applicationId "activity.com.businessstore"
         minSdkVersion 19
@@ -43,8 +45,11 @@ dependencies {
     compile 'com.afollestad.material-dialogs:commons:0.9.1.0'
     compile 'com.github.chrisbanes.photoview:library:+'
     compile 'com.github.bumptech.glide:glide:3.7.0'
-
-
-
-
+    compile('com.desmond:CityPicker:0.4.6') {
+    }
+    //城市选择器
+    compile 'pub.devrel:easypermissions:1.0.1'
+    //权限管理
+    implementation files('libs/pinyin4j-2.5.0.jar')
+    implementation files('libs/pinyin4android1.0.jar')
 }

@@ -26,6 +26,7 @@
     <string name="setting">Setting</string>
     <string name="Feedback">意见反馈</string>
     <string name="update_version">版本更新</string>
+    <string name="login_out">退出登录</string>
     <string name="orders">订单</string>
     <string name="Unprocessed_orders">未处理订单</string>
     <string name="Processed_orders">已处理订单</string>

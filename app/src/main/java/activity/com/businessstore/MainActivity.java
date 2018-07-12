@@ -4,16 +4,13 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -22,16 +19,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.businessstore.util.CustomPopWindow;
-import com.businessstore.util.CustomPopWindow1;
 import com.businessstore.util.DpConversion;
 
 import java.util.List;
 
 import adapter.com.businessstore.AdapterMainActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
+import pub.devrel.easypermissions.EasyPermissions;
 
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener,EasyPermissions.PermissionCallbacks{
     private Context mContext;
     private TextView upload_btn;
     //    private NavigationView navView;
@@ -45,13 +42,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private ImageView nav_personal_btn, mMainSearchImgview;
     private Button main_loginbtn;
-    private FrameLayout myaccount_icon, myorder_icon, setting_icon, third_party_domian;
+    private FrameLayout myaccount_icon, myorder_icon, setting_icon, third_party_domian,store_address;
     //自定义popwindow对象
     private CustomPopWindow popWindow;
     private boolean mPopwindowIsShow;
 
-    public MainActivity() {
-    }
+
+
+
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -129,6 +127,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         circleImageView = findViewById(R.id.image_head);
         circleImageView.setOnClickListener(this);//头像
+
+        store_address=findViewById(R.id.store_address);
+        store_address.setOnClickListener(this);
     }
 
     @Override
@@ -170,6 +171,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.myaccount_icon:
                 Intent myaccount_intent = new Intent(MainActivity.this, AccountMainActivity.class);
                 startActivity(myaccount_intent);
+                break;
+            case R.id.store_address:
+                Intent test_intent = new Intent(MainActivity.this, StoreAdressActivity.class);
+                startActivity(test_intent);
                 break;
             //我的订单
             case R.id.myorder_icon:
@@ -264,5 +269,48 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         //在该生命周期的时候调用该方法，
         mAdapterMainActivity.onDestroy();
         super.onDestroy();
+    }
+
+    //easypermission 权限申请
+    private void requestPermissions() {
+        String[] perms = {};
+        //判断有没有权限
+        if (EasyPermissions.hasPermissions(this, perms))
+        {
+            // 如果有权限了, 就做你该做的事情
+             }
+            else {
+            // 如果没有权限, 就去申请权限
+            // this: 上下文 /
+            // Dialog显示的正文
+            // RC_CAMERA_AND_RECORD_AUDIO请求码, 用于回调的时候判断是哪次申请
+            // perms 就是你要申请的权限
+         //   EasyPermissions.requestPermissions(this, "写上你需要用权限的理由, 是给用户看的", RC_CAMERA_AND_RECORD_AUDIO, perms);
+            }
+    }
+
+
+
+
+
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        // Forward results to EasyPermissions
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+    //权限请求成功
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+
+    }
+
+    //权限请求失败
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+
     }
 }

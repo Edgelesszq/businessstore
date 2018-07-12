@@ -26,6 +26,7 @@
     <string name="setting">Setting</string>
     <string name="Feedback">意见反馈</string>
     <string name="update_version">版本更新</string>
+    <string name="login_out">退出登录</string>
     <string name="orders">订单</string>
     <string name="Unprocessed_orders">未处理订单</string>
     <string name="Processed_orders">已处理订单</string>
@@ -45,6 +46,8 @@
     <string name="detailed_address">详细地址</string>
     <string name="register_completed">Register completed</string>
     <string name="storename">店名</string>
+    <string name="my_address">店铺位置</string>
+    <string name="location_fail">定位失败，请重新尝试!</string>
     <string name="third_party_Instructions">Please note that we will only port in existing domain that you own if you need a domain,please purchase a domain from a third party provider then return to this step,Sorry for the inconvenience</string>
     <string name="third_party_two_Instructions">Please go to your existing domain provider using the following information to add new host records.return to this page to vertify your information.Otherwise your domain will not be imported</string>
     <string name="third_party_two_Instructions2">insert direction and info.users need to add new host records</string>

@@ -80,6 +80,7 @@
                 android:verticalSpacing="10dp" />
 
             <LinearLayout
+                android:id="@+id/location_upload"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -92,11 +93,12 @@
                     android:background="@mipmap/commodity_upload_location" />
 
                 <TextView
+                    android:id="@+id/current_location"
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
                     android:layout_marginLeft="10dp"
                     android:gravity="center_vertical"
-                    android:text="四川 成都 青羊区"
+                    android:text="我的位置"
                     android:textColorHighlight="@color/nav_fontcolor"
                     android:textSize="11sp" />
             </LinearLayout>
