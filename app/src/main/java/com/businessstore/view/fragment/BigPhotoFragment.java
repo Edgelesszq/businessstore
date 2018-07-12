@@ -62,10 +62,10 @@ public class BigPhotoFragment extends Fragment {
         });
         Glide.with(getContext())
                 .load(url)
-                .placeholder(R.mipmap.ic_launcher_round)//加载过程中图片未显示时显示的本地图片
-                .error(R.mipmap.ic_launcher_round)//加载异常时显示的图片
+//                .placeholder(R.mipmap.ic_launcher_round)//加载过程中图片未显示时显示的本地图片
+//                .error(R.mipmap.ic_launcher_round)//加载异常时显示的图片
 //                .centerCrop()//图片图填充ImageView设置的大小
-                .fitCenter()//缩放图像测量出来等于或小于ImageView的边界范围,该图像将会完全显示
+//                .fitCenter()//缩放图像测量出来等于或小于ImageView的边界范围,该图像将会完全显示
                 .into(mPhotoView);
         return view;
     }

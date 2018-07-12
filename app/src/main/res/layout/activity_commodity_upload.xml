@@ -54,6 +54,7 @@
                 />
 
             <EditText
+                android:id="@+id/edit_commodity_content"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_marginTop="10dp"
@@ -67,9 +68,9 @@
                 android:textSize="14sp" />
 
             <GridView
+                android:id="@+id/grid_pic"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:background="#8afafa"
                 android:cacheColorHint="#00000000"
                 android:columnWidth="60dp"
                 android:fadeScrollbars="true"
@@ -124,12 +125,17 @@
                     android:textColor="@color/nav_fontcolor"
                     android:textSize="15sp" />
 
-                <TextView
+                <EditText
+                    android:id="@+id/edit_price"
+                    android:imeOptions="actionDone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:singleLine="true"
                     android:layout_alignParentRight="true"
-                    android:text="$185"
+                    android:text="185"
                     android:layout_marginRight="10dp"
+                    style="@android:style/Widget.TextView"
+                    android:background="@null"
                     android:textColor="@color/red"
                     android:textSize="15sp" />
             </RelativeLayout>
@@ -190,6 +196,7 @@
                     android:orientation="horizontal"
                     android:layout_alignParentRight="true">
                     <ImageView
+                        android:id="@+id/img_number_minus"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:padding="8dp"
@@ -197,6 +204,7 @@
                         android:src="@mipmap/commodity_upload_number_reduce"
                         />
                     <TextView
+                        android:id="@+id/text_number"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_marginLeft="2dp"
@@ -206,6 +214,7 @@
                         android:background="@mipmap/commodity_upload_number_bg"
                         />
                     <ImageView
+                        android:id="@+id/img_number_add"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_marginLeft="2dp"

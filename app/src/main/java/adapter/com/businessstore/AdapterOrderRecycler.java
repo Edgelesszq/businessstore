@@ -69,13 +69,13 @@ public class AdapterOrderRecycler extends RecyclerView.Adapter implements View.O
                 public void onClick(View v) {
                     Toast.makeText(mcontext,"shanchu",Toast.LENGTH_SHORT).show();
                     final DialogStyleOne dialogStyleOne=new DialogStyleOne(mcontext);
-                    dialogStyleOne.setYesOnclickListener("取消", new DialogStyleOne.onYesOnclickListener() {
+                    dialogStyleOne.setYesOnclickListener("是", new DialogStyleOne.onYesOnclickListener() {
                         @Override
                         public void onYesClick() {
                             dialogStyleOne.dismiss();
                         }
                     });
-                    dialogStyleOne.setNoOnclickListener("是", new DialogStyleOne.onNoOnclickListener() {
+                    dialogStyleOne.setNoOnclickListener("否", new DialogStyleOne.onNoOnclickListener() {
                         @Override
                         public void onNoClick() {
                             dialogStyleOne.dismiss();
