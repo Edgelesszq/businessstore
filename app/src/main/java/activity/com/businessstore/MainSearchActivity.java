@@ -31,6 +31,7 @@ import com.businessstore.util.ACache;
 import com.businessstore.util.CustomPopWindow;
 import com.businessstore.util.DpConversion;
 import com.businessstore.util.GsonUtil;
+import com.businessstore.view.dialog.DialogStyleOne;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
@@ -50,22 +51,20 @@ import adapter.com.businessstore.AdapterSearchResultActivity;
 public class MainSearchActivity extends BaseActivity implements View.OnClickListener {
     private Context mContext;
     private SearchView searchView;
-    private TextView cancle;    //返回
     private List<String> searchHistories = new ArrayList<>();
     private ACache mCache;
     private EditText mEt_string_input;      //搜索框
     private ImageView search_clear;         //清除搜索框内容
-    private TextView clear_history,history;         //清除历史记录，历史记录
-    private RecyclerView recyclerView;      //历史记录显示
+    private TextView clear_history,history,cancle;         //清除历史记录，历史记录,返回
+    private RecyclerView recyclerView,mRecyclerView;      //历史记录显示
     private LinearLayoutManager layoutManager;
-    private AdapterSearchActivity adapterSearchActivity;
+    private AdapterSearchActivity adapterSearchActivity;    //适配器
     private ScrollView scrollView;
-    private AdapterSearchResultActivity mAdapterMainActivity;
-    private RecyclerView mRecyclerView;
+    private AdapterSearchResultActivity mAdapterMainActivity;   //搜索结果适配器
     private List<String> mList;
     private LinearLayout linearLayout;
     private List<String> arrayset = new ArrayList<>();
-    private CustomPopWindow popWindow;
+    private CustomPopWindow popWindow;      //三个点更多操作
     private boolean mPopwindowIsShow;
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
@@ -177,7 +176,21 @@ public class MainSearchActivity extends BaseActivity implements View.OnClickList
                 mPopwindowIsShow = true;
                 break;
             case R.id.main_recyclerview_item_more_pop_delete:
-                Toast.makeText(mContext, "删除", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, "删除", Toast.LENGTH_SHORT).show();
+                final DialogStyleOne dialogStyleOne=new DialogStyleOne(this);
+                dialogStyleOne.setYesOnclickListener("是", new DialogStyleOne.onYesOnclickListener() {
+                    @Override
+                    public void onYesClick() {
+                        dialogStyleOne.dismiss();
+                    }
+                });
+                dialogStyleOne.setNoOnclickListener("否", new DialogStyleOne.onNoOnclickListener() {
+                    @Override
+                    public void onNoClick() {
+                        dialogStyleOne.dismiss();
+                    }
+                });
+                dialogStyleOne.show();
                 popWindow.dismiss();
                 mPopwindowIsShow = true;
                 break;

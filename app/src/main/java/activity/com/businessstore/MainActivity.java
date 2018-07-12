@@ -12,7 +12,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -24,6 +26,9 @@ import android.widget.Toast;
 import com.businessstore.util.CustomPopWindow;
 import com.businessstore.util.CustomPopWindow1;
 import com.businessstore.util.DpConversion;
+import com.businessstore.view.dialog.DialogStyleOne;
+import com.businessstore.view.popwindow.CommonPopupWindow;
+import com.businessstore.view.popwindow.CommonUtil;
 
 import java.util.List;
 
@@ -31,7 +36,7 @@ import adapter.com.businessstore.AdapterMainActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener, CommonPopupWindow.ViewInterface {
     private Context mContext;
     private TextView upload_btn;
     //    private NavigationView navView;
@@ -42,7 +47,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private RecyclerView mRecyclerView;
     private List<String> mList;
     private CircleImageView circleImageView;
-
+    private CommonPopupWindow popupWindow;
     private ImageView nav_personal_btn, mMainSearchImgview;
     private Button main_loginbtn;
     private FrameLayout myaccount_icon, myorder_icon, setting_icon, third_party_domian;
@@ -193,12 +198,27 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 mPopwindowIsShow = true;
                 break;
             case R.id.main_recyclerview_item_more_pop_delete:
-                Toast.makeText(mContext, "删除", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, "删除", Toast.LENGTH_SHORT).show();
+                final DialogStyleOne dialogStyleOne=new DialogStyleOne(this);
+                dialogStyleOne.setYesOnclickListener("是", new DialogStyleOne.onYesOnclickListener() {
+                    @Override
+                    public void onYesClick() {
+                        dialogStyleOne.dismiss();
+                    }
+                });
+                dialogStyleOne.setNoOnclickListener("否", new DialogStyleOne.onNoOnclickListener() {
+                    @Override
+                    public void onNoClick() {
+                        dialogStyleOne.dismiss();
+                    }
+                });
+                dialogStyleOne.show();
                 popWindow.dismiss();
                 mPopwindowIsShow = true;
                 break;
             case R.id.main_recyclerview_item_more_pop_share:
-                Toast.makeText(mContext, "分享", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, "分享", Toast.LENGTH_SHORT).show();
+                showPopWindowUpdate_HeadPortrait(view);
                 popWindow.dismiss();
                 mPopwindowIsShow = true;
                 break;
@@ -264,5 +284,28 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         //在该生命周期的时候调用该方法，
         mAdapterMainActivity.onDestroy();
         super.onDestroy();
+    }
+
+    public void showPopWindowUpdate_HeadPortrait(View view) {
+        if (popupWindow != null && popupWindow.isShowing()) return;
+        View upView = LayoutInflater.from(this).inflate(R.layout.popwindow_share, null);
+        //测量View的宽高
+        CommonUtil.measureWidthAndHeight(upView);
+        popupWindow = new CommonPopupWindow.Builder(this)
+                .setView(R.layout.popwindow_share)
+                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, upView.getMeasuredHeight())
+                .setBackGroundLevel(0.8f)//取值范围0.0f-1.0f 值越小越暗
+                // .setAnimationStyle(R.style.AnimUp)
+                .setViewOnclickListener(this)
+                .create();
+        popupWindow.showAtLocation(findViewById(android.R.id.content), Gravity.BOTTOM, 0, 0);
+    }
+
+    @Override
+    public void getChildView(View view, int layoutResId) {
+        switch (layoutResId){
+            case R.layout.popwindow_share:
+                break;
+        }
     }
 }
