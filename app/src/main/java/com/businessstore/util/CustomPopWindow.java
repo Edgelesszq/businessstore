@@ -303,15 +303,26 @@ public class CustomPopWindow extends PopupWindow {
     private View.OnClickListener mOnClickListener;
     //PopupWindow布局文件中的Button
     private Button alarm_pop_btn;
+    private int position;
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
     /**
      * @description 构造方法
      * @author ldm
      * @param
      */
-    public CustomPopWindow(Context mContext, View.OnClickListener listener) {
+    public CustomPopWindow(Context mContext, View.OnClickListener listener,int position) {
         super(mContext);
         this.mContext = mContext;
         this.mOnClickListener = listener;
+        setPosition(position);
         //获取布局文件
         View mContentView = LayoutInflater.from(mContext).inflate(R.layout.main_recyclerview_item_pop_layout, null);
         //设置布局

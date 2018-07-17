@@ -67,10 +67,10 @@
                 android:textCursorDrawable="@drawable/shape_et_cursor"
                 android:textSize="14sp" />
 
-            <GridView
+            <com.businessstore.view.customize.CustomGridView
                 android:id="@+id/grid_pic"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="wrap_content"
                 android:cacheColorHint="#00000000"
                 android:columnWidth="60dp"
                 android:fadeScrollbars="true"
@@ -163,6 +163,7 @@
                     android:textSize="15sp" />
 
                 <Switch
+                    android:id="@+id/switch_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -249,6 +250,7 @@
                     android:textSize="15sp" />
 
                 <Switch
+                    android:id="@+id/switch_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"

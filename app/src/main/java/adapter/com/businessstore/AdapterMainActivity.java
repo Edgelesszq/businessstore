@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.businessstore.model.Goods;
 import com.businessstore.view.roundImageView.RoundImageView;
 import com.businessstore.view.roundImageView.RoundImageView1;
 
@@ -19,7 +20,7 @@ import activity.com.businessstore.R;
 public class AdapterMainActivity extends RecyclerView.Adapter<AdapterMainActivity.MyViewHolder>
         implements View.OnClickListener{
     private Context mContext;
-    private List<String> mList;
+    private List<Goods> mList;
     private OnItemClickListener mOnItemClickListener = null;
     private List<MyViewHolder> mListHolder ;
 
@@ -40,7 +41,7 @@ public class AdapterMainActivity extends RecyclerView.Adapter<AdapterMainActivit
     }
 
 
-    public AdapterMainActivity(Context mContext, List<String> mList) {
+    public AdapterMainActivity(Context mContext, List<Goods> mList) {
         this.mContext = mContext;
         this.mList = mList;
     }
@@ -53,13 +54,13 @@ public class AdapterMainActivity extends RecyclerView.Adapter<AdapterMainActivit
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
         //一定要设置这个。要不在回调方法里面获得不到当前点击的是第几个item;注意tag是object类型的；
         holder.itemView.setTag(position+"");
         holder.itemMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)mContext).showPopWindow(holder.itemMore);
+                ((MainActivity)mContext).showPopWindow(holder.itemMore,position);
             }
         });
     }

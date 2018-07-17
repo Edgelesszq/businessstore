@@ -1,6 +1,7 @@
 package activity.com.businessstore;
 
 import android.annotation.SuppressLint;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,12 +25,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.businessstore.model.Goods;
 import com.businessstore.util.CustomPopWindow;
 import com.businessstore.util.DpConversion;
 import com.businessstore.view.dialog.DialogStyleOne;
 import com.businessstore.view.popwindow.CommonPopupWindow;
 import com.businessstore.view.popwindow.CommonUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import adapter.com.businessstore.AdapterMainActivity;
@@ -36,28 +40,29 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import pub.devrel.easypermissions.EasyPermissions;
 
 
-public class MainActivity extends BaseActivity implements View.OnClickListener, CommonPopupWindow.ViewInterface{
+public class MainActivity extends BaseActivity implements View.OnClickListener, CommonPopupWindow.ViewInterface {
 
     private Context mContext;
     private TextView upload_btn;
     //    private NavigationView navView;
+    private String edt_title, edt_content;
+    private int edt_price,edt_number;
+    private boolean pubPrice,pubNumber;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     //适配器
     private AdapterMainActivity mAdapterMainActivity;
     private RecyclerView mRecyclerView;
-    private List<String> mList;
+    private List<Goods> mList;
     private CircleImageView circleImageView;
     private CommonPopupWindow popupWindow;
     private ImageView nav_personal_btn, mMainSearchImgview,qrcode;
     private Button main_loginbtn;
     private FrameLayout myaccount_icon, myorder_icon, setting_icon, third_party_domian,store_address,mystore;
+
     //自定义popwindow对象
     private CustomPopWindow popWindow;
     private boolean mPopwindowIsShow;
-
-
-
 
 
     @SuppressLint("ResourceAsColor")
@@ -91,9 +96,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             @Override
             public void onClick(View v, int position) {
                 // RecyclerView Item 的点击事件回调
-                    Intent intent = new Intent(MainActivity.this,MainCommodityDetailsActivity.class);
-                    startActivity(intent);
-                    Toast.makeText(mContext, "Item 的点击事件", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, MainCommodityDetailsActivity.class);
+                startActivity(intent);
+                Toast.makeText(mContext, "Item 的点击事件", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -102,6 +107,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     public void initview() {
+        mList = new ArrayList<>();
+        Goods goods = new Goods("朵拉薇拉2","大码女装2",199,99,true,false);
+        for (int i = 0;i<5;i++){
+            mList.add(goods);
+        }
         mRecyclerView = findViewById(R.id.main_recyclerview);
 
         qrcode=findViewById(R.id.qrcode);//二维码
@@ -139,8 +149,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         circleImageView = findViewById(R.id.image_head);
         circleImageView.setOnClickListener(this);//头像
 
-        store_address=findViewById(R.id.store_address);
+        store_address = findViewById(R.id.store_address);
         store_address.setOnClickListener(this);
+
+//        goods_title = findViewById(R.id.main_recyclerview_item_title);
+//        goods_content = findViewById(R.id.main_recyclerview_item_describe);
+//        goods_price = findViewById(R.id.main_recyclerview_item_price);
     }
 
     @Override
@@ -204,13 +218,30 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             //popwindow Item 的点击事件
             case R.id.main_recyclerview_item_more_pop_editer:
-                Toast.makeText(mContext, "编辑", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, "编辑", Toast.LENGTH_SHORT).show();
+                int position = popWindow.getPosition();
+                mList.get(position);
+                edt_title = mList.get(position).getTitle();
+                edt_content = mList.get(position).getContent();
+                edt_price = mList.get(position).getPrice();
+                edt_number = mList.get(position).getNumber();
+                pubPrice = mList.get(position).isPubPrice();
+                pubNumber = mList.get(position).isPubNumber();
+
+                Intent editor = new Intent(MainActivity.this, CommodityUploadActivity.class);
+                editor.putExtra("editor_title", edt_title);
+                editor.putExtra("editor_content", edt_content);
+                editor.putExtra("editor_price", edt_price);
+                editor.putExtra("editor_number", edt_number);
+                editor.putExtra("pub_price", pubPrice);
+                editor.putExtra("pub_number", pubNumber);
+                startActivity(editor);
                 popWindow.dismiss();
                 mPopwindowIsShow = true;
                 break;
             case R.id.main_recyclerview_item_more_pop_delete:
 //                Toast.makeText(mContext, "删除", Toast.LENGTH_SHORT).show();
-                final DialogStyleOne dialogStyleOne=new DialogStyleOne(this);
+                final DialogStyleOne dialogStyleOne = new DialogStyleOne(this);
                 dialogStyleOne.setYesOnclickListener("是", new DialogStyleOne.onYesOnclickListener() {
                     @Override
                     public void onYesClick() {
@@ -243,7 +274,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
 
-    public void showPopWindow(final View mButton1) {
+    public void showPopWindow(final View mButton1,int position) {
 
         //三个点的绝对坐标
         int[] location = new int[2];
@@ -262,7 +293,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         int showHeight = screenHeight - moreheight - y;
 
 
-        popWindow = new CustomPopWindow(mContext, this);
+        popWindow = new CustomPopWindow(mContext, this, position);
         //popwindow
         final View view = popWindow.getContentView().findViewById(R.id.main_recyclerview_item_more_layout);
         //pop上面的尖角
@@ -318,7 +349,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void getChildView(View view, int layoutResId) {
-        switch (layoutResId){
+        switch (layoutResId) {
             case R.layout.popwindow_share:
                 break;
         }

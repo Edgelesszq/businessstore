@@ -26,6 +26,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.businessstore.model.Goods;
 import com.businessstore.model.SearchHistory;
 import com.businessstore.util.ACache;
 import com.businessstore.util.CustomPopWindow;
@@ -53,6 +54,9 @@ public class MainSearchActivity extends BaseActivity implements View.OnClickList
     private SearchView searchView;
     private List<String> searchHistories = new ArrayList<>();
     private ACache mCache;
+    private String edt_title, edt_content;
+    private int edt_price,edt_number;
+    private boolean pubPrice,pubNumber;
     private EditText mEt_string_input;      //搜索框
     private ImageView search_clear;         //清除搜索框内容
     private TextView clear_history,history,cancle;         //清除历史记录，历史记录,返回
@@ -61,7 +65,7 @@ public class MainSearchActivity extends BaseActivity implements View.OnClickList
     private AdapterSearchActivity adapterSearchActivity;    //适配器
     private ScrollView scrollView;
     private AdapterSearchResultActivity mAdapterMainActivity;   //搜索结果适配器
-    private List<String> mList;
+    private List<Goods> mList;
     private LinearLayout linearLayout;
     private List<String> arrayset = new ArrayList<>();
     private CustomPopWindow popWindow;      //三个点更多操作
@@ -128,6 +132,12 @@ public class MainSearchActivity extends BaseActivity implements View.OnClickList
     private void initView() {
         cancle = findViewById(R.id.mainsearchacvivity_cancle);
         cancle.setOnClickListener(this);
+
+        mList = new ArrayList<>();
+        Goods goods = new Goods("朵拉薇拉","大码女装",199,99,true,false);
+        for (int i = 0;i<5;i++){
+            mList.add(goods);
+        }
         mEt_string_input = findViewById(R.id.edit_search);
         recyclerView = findViewById(R.id.recycler_searchhistory);
         search_clear = findViewById(R.id.img_searchclear);
@@ -144,7 +154,7 @@ public class MainSearchActivity extends BaseActivity implements View.OnClickList
     private void initAdapter() {
         mAdapterMainActivity = new AdapterSearchResultActivity(mContext, mList);
         mRecyclerView.setAdapter(mAdapterMainActivity);
-        mAdapterMainActivity.setOnItemClickListener(new AdapterMainActivity.OnItemClickListener() {
+        mAdapterMainActivity.setOnItemClickListener(new AdapterSearchResultActivity.OnItemClickListener() {
             @Override
             public void onClick(View v, int position) {
                 // RecyclerView Item 的点击事件回调
@@ -171,7 +181,24 @@ public class MainSearchActivity extends BaseActivity implements View.OnClickList
                 clear();
                 break;
             case R.id.main_recyclerview_item_more_pop_editer:
-                Toast.makeText(mContext, "编辑", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, "编辑", Toast.LENGTH_SHORT).show();
+                int position = popWindow.getPosition();
+                mList.get(position);
+                edt_title = mList.get(position).getTitle();
+                edt_content = mList.get(position).getContent();
+                edt_price = mList.get(position).getPrice();
+                edt_number = mList.get(position).getNumber();
+                pubPrice = mList.get(position).isPubPrice();
+                pubNumber = mList.get(position).isPubNumber();
+
+                Intent editor = new Intent(MainSearchActivity.this, CommodityUploadActivity.class);
+                editor.putExtra("editor_title", edt_title);
+                editor.putExtra("editor_content", edt_content);
+                editor.putExtra("editor_price", edt_price);
+                editor.putExtra("editor_number", edt_number);
+                editor.putExtra("pub_price", pubPrice);
+                editor.putExtra("pub_number", pubNumber);
+                startActivity(editor);
                 popWindow.dismiss();
                 mPopwindowIsShow = true;
                 break;
@@ -219,34 +246,12 @@ public class MainSearchActivity extends BaseActivity implements View.OnClickList
         mCache.put("key", flilistArray);
     }
 
-/*    private void saveDates(final Set<SearchHistory> searchHistories){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                String flilistArray = GsonUtil.getGson().toJson(searchHistories);
-                mCache.put("key", flilistArray);
-                Log.d("laze","存储");
-            }
-        }).start();
-
-    }*/
-
     /**
      *
      * 点击read事件
      *
      * @param
      */
-    public void read(){
-//        String testString = mCache.getAsString("testString");
-//        if (testString == null){
-//            Toast.makeText(this,"没有此记录",Toast.LENGTH_SHORT).show();
-//        }
-//        history = new SearchHistory("test");
-//        searchHistories.add(history);
-//        Log.d("laze","调用了读取");
-    }
 
     private void readDatas() {
 
@@ -279,7 +284,6 @@ public class MainSearchActivity extends BaseActivity implements View.OnClickList
     }
 
 
-
     /**
      *
      * 点击clear事件
@@ -305,7 +309,7 @@ public class MainSearchActivity extends BaseActivity implements View.OnClickList
 
     }
 
-    public void showPopWindow(final View mButton1) {
+    public void showPopWindow(final View mButton1,int position) {
 
         //三个点的绝对坐标
         int[] location = new int[2];
@@ -324,7 +328,7 @@ public class MainSearchActivity extends BaseActivity implements View.OnClickList
         int showHeight = screenHeight - moreheight - y;
 
 
-        popWindow = new CustomPopWindow(mContext, this);
+        popWindow = new CustomPopWindow(mContext, this,position);
         //popwindow
         final View view = popWindow.getContentView().findViewById(R.id.main_recyclerview_item_more_layout);
         //pop上面的尖角

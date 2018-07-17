@@ -10,20 +10,21 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.businessstore.model.Goods;
 import com.businessstore.view.roundImageView.RoundImageView;
+import com.businessstore.view.roundImageView.RoundImageView1;
 
 import java.util.List;
 
-import activity.com.businessstore.MainActivity;
 import activity.com.businessstore.MainSearchActivity;
 import activity.com.businessstore.R;
 
-public class AdapterSearchResultActivity extends RecyclerView.Adapter<AdapterMainActivity.MyViewHolder>
+public class AdapterSearchResultActivity extends RecyclerView.Adapter<AdapterSearchResultActivity.MyViewHolder>
         implements View.OnClickListener {
     private Context mContext;
-    private List<String> mList;
-    private AdapterMainActivity.OnItemClickListener mOnItemClickListener = null;
-    private List<AdapterMainActivity.MyViewHolder> mListHolder;
+    private List<Goods> mList;
+    private OnItemClickListener mOnItemClickListener = null;
+    private List<MyViewHolder> mListHolder;
 
     public void onDestroy() {
         if (mList != null) {
@@ -42,28 +43,28 @@ public class AdapterSearchResultActivity extends RecyclerView.Adapter<AdapterMai
     }
 
 
-    public AdapterSearchResultActivity(Context mContext, List<String> mList) {
+    public AdapterSearchResultActivity(Context mContext, List<Goods> mList) {
         this.mContext = mContext;
         this.mList = mList;
     }
 
     @Override
-    public AdapterMainActivity.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.main_recyclerview_item, parent, false);
         //为每个item设置点击事件；
         view.setOnClickListener(this);
-        return new AdapterMainActivity.MyViewHolder(view);
+        return new MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final AdapterMainActivity.MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
         //一定要设置这个。要不在回调方法里面获得不到当前点击的是第几个item;注意tag是object类型的；
         holder.itemView.setTag(position + "");
         holder.itemMore.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
-                ((MainSearchActivity) mContext).showPopWindow(holder.itemMore);
+                ((MainSearchActivity) mContext).showPopWindow(holder.itemMore,position);
             }
         });
 
@@ -98,14 +99,14 @@ public class AdapterSearchResultActivity extends RecyclerView.Adapter<AdapterMai
      *
      * @param listener
      */
-    public void setOnItemClickListener(AdapterMainActivity.OnItemClickListener listener) {
+    public void setOnItemClickListener(OnItemClickListener listener) {
         this.mOnItemClickListener = listener;
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
         View itemView;
         //item展示图
-        RoundImageView itrmDisplayDiagram;
+        RoundImageView1 itrmDisplayDiagram;
         //item标题、描述、价格、剩余件数
         TextView itemTitle, itemDescribe, itemPrice, itemNumber;
         //item三个点

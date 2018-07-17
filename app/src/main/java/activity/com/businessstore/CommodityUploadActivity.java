@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,20 +46,19 @@ import adapter.com.businessstore.GridViewAdapter;
 
 public class CommodityUploadActivity extends BaseActivity implements View.OnClickListener {
     private LinearLayout location_upload;
-
+    private List<String> permissionlist = new ArrayList<>(); //权限
+    private LocationClient mLocationClient;
     private TextView current_location;//当前定位Textview
-
-    private EditText editTitle,editContent;
-    private ImageView numberMinus,numberAdd;
+    private EditText editTitle, editContent, editPrice,editnumber;
+    private ImageView numberMinus, numberAdd;
+//    private boolean pubprice,pubnumber;
+    private Switch sPrice,sNumber;
     private TextView number;
     private int intNumber;
     private Context mContext;
     private GridView gridView;
     private ArrayList<String> mPiclist = new ArrayList<>();//上传的图片凭证的数据源
     private GridViewAdapter mGridViewAddImgAdapter;//展示上传的图片的适配器
-
-
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,15 +70,37 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
     }
 
     private void initView() {
-        setTitleView(R.drawable.backimage,R.string.commodity_upload,R.string.save);
+        setTitleView(R.drawable.backimage, R.string.commodity_upload, R.string.save);
         mTitleLefeBackImg.setOnClickListener(this);
 
         editTitle = findViewById(R.id.edit_commodity_title);
-        current_location=findViewById(R.id.current_location);
-//        final String editContext = editTitle.getText().toString();
+        editContent = findViewById(R.id.edit_commodity_content);
+        editPrice = findViewById(R.id.edit_price);
+        number = findViewById(R.id.text_number);
+        sPrice = findViewById(R.id.switch_price);
+        sNumber = findViewById(R.id.switch_number);
+
+        if (getIntent().getStringExtra("editor_title") != null) {
+            String edt_title = getIntent().getStringExtra("editor_title");
+            String edt_content = getIntent().getStringExtra("editor_content");
+            int edt_price = getIntent().getIntExtra("editor_price",0);
+            int edt_number = getIntent().getIntExtra("editor_number",0);
+            boolean spubprice = getIntent().getBooleanExtra("pub_price",false);
+            boolean spubnum = getIntent().getBooleanExtra("pub_number",false);
+
+            editTitle.setText(edt_title);
+            editContent.setText(edt_content);
+            editPrice.setText(edt_price+"");
+            number.setText(edt_number+"");
+            sPrice.setChecked(spubprice);
+            sNumber.setChecked(spubnum);
+        }
+
+        current_location = findViewById(R.id.current_location);
         final Editable editContext = editTitle.getText();
-        location_upload=findViewById(R.id.location_upload);
+        location_upload = findViewById(R.id.location_upload);
         location_upload.setOnClickListener(this);
+
         editTitle.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -92,10 +114,9 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
 
             @Override
             public void afterTextChanged(Editable s) {
-                    mTitleRightText.setTextColor(Color.parseColor("#FDBA43"));
+                mTitleRightText.setTextColor(Color.parseColor("#FDBA43"));
             }
         });
-        editContent = findViewById(R.id.edit_commodity_content);
         editContent.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -117,15 +138,15 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
         numberAdd = findViewById(R.id.img_number_add);
         numberMinus.setOnClickListener(this);
         numberAdd.setOnClickListener(this);
-        number = findViewById(R.id.text_number);
+
 
         gridView = findViewById(R.id.grid_pic);
-        mGridViewAddImgAdapter = new GridViewAdapter(mContext,mPiclist);
+        mGridViewAddImgAdapter = new GridViewAdapter(mContext, mPiclist);
         gridView.setAdapter(mGridViewAddImgAdapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position == parent.getChildCount() - 1){
+                if (position == parent.getChildCount() - 1) {
                     //如果“增加按钮形状的”图片的位置是最后一张，且添加了的图片的数量不超过9张，才能点击
                     if (mPiclist.size() == MainConstant.MAX_SELECT_PIC_NUM) {
                         //最多添加5张图片
@@ -134,7 +155,7 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
                         //添加凭证图片
                         selectPic(MainConstant.MAX_SELECT_PIC_NUM - mPiclist.size());
                     }
-                }else {
+                } else {
                     viewPluImg(position);
                 }
             }
@@ -145,7 +166,7 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.title_left_back_img:
                 this.finish();
                 break;
@@ -161,26 +182,24 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
                 minusNumber();
                 break;
 
-                default:
-                    break;
+            default:
+                break;
         }
 
     }
 
-
-
-    public void addNumber(){
+    public void addNumber() {
         intNumber = Integer.parseInt(number.getText().toString().trim());
-        if (intNumber > 0){
-            number.setText(String.valueOf(intNumber-1));
-        }else {
+        if (intNumber > 0) {
+            number.setText(String.valueOf(intNumber - 1));
+        } else {
             number.setText("0");
         }
     }
 
     public void minusNumber(){
         intNumber = Integer.parseInt(number.getText().toString().trim());
-        number.setText(String.valueOf(intNumber+1));
+        number.setText(String.valueOf(intNumber + 1));
     }
 
     //查看大图
