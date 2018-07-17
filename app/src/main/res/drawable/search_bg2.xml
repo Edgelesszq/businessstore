@@ -9,9 +9,9 @@
     <solid android:color="@color/white" />
 
     <!-- Shape的描边，下面指定了描边的宽度和描边的颜色 -->
-    <stroke
+    <!--<stroke
         android:width="0.5dp"
-        android:color="@color/q_gray" />
+        android:color="@color/q_gray" />-->
 
 
 </shape>

@@ -1,18 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <FrameLayout
         android:background="@drawable/login_logo"
         android:layout_width="match_parent"
         android:layout_height="180dp">
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/backimage"
+            android:id="@+id/left_back"
+            android:layout_width="30dp"
+            android:layout_height="20dp"
+
+
 
             />
 
-    </LinearLayout>
+    </FrameLayout>
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"

@@ -52,4 +52,5 @@
     <string name="third_party_two_Instructions">Please go to your existing domain provider using the following information to add new host records.return to this page to vertify your information.Otherwise your domain will not be imported</string>
     <string name="third_party_two_Instructions2">insert direction and info.users need to add new host records</string>
     <string name="third_party_three_Instruction">Your information has been received and is being processed.it takes up to 48 hours to verify.We will notify you bu email once processing is completed.</string>
+    <string name="select_address">选择地址</string>
 </resources>

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -11,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.businessstore.Config;
 import com.businessstore.util.DpConversion;
 
 import java.util.ArrayList;
@@ -31,6 +33,7 @@ public class OrderCommodityDetailsActivity extends BaseActivity implements View.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.order_main_commodity_details);
         mContext = this;
+        getDeviceDensity();
         initView();
         initAdapter();
     }
@@ -45,6 +48,15 @@ public class OrderCommodityDetailsActivity extends BaseActivity implements View.
         adapterCommodityDetailsActivityListView = new AdapterCommodityDetailsActivityListView(mDatas,mContext);
         mListView.setAdapter(adapterCommodityDetailsActivityListView);
 
+    }
+    /**
+     * 获取当前设备的屏幕密度等基本参数
+     */
+    protected void getDeviceDensity() {
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        Config.EXACT_SCREEN_HEIGHT = metrics.heightPixels;
+        Config.EXACT_SCREEN_WIDTH = metrics.widthPixels;
     }
 
     private void initView() {
@@ -86,6 +98,7 @@ public class OrderCommodityDetailsActivity extends BaseActivity implements View.
                     @Override
                     public void onClick(View v) {
                         Toast.makeText(mContext,"图片点击事件",Toast.LENGTH_SHORT).show();
+
                     }
                 });
             }

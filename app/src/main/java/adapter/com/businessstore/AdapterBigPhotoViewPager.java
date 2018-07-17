@@ -23,18 +23,17 @@ public class AdapterBigPhotoViewPager extends FragmentPagerAdapter {
 
 
    private final ArrayList<String> urlList;
-   private int posi;
 
-    public AdapterBigPhotoViewPager(FragmentManager fm, ArrayList<String> urlList,int posi) {
+    public AdapterBigPhotoViewPager(FragmentManager fm, ArrayList<String> urlList) {
         super(fm);
         this.urlList=urlList;
-        this.posi=posi;
+
     }
 
     @Override
     public Fragment getItem(int position) {
 
-        return BigPhotoFragment.newInstance(urlList.get(posi));
+        return BigPhotoFragment.newInstance(urlList.get(position));
     }
 
     @Override

@@ -4,9 +4,9 @@
 <!-- 背景色 -->
 <solid android:color="@color/white" />
 <!-- 边框色 -->
-<stroke
+<!--<stroke
     android:width="0.5dp"
-    android:color="@color/q_gray" />
+    android:color="@color/q_gray" />-->
 <!-- 圆角 -->
 <corners android:radius="50dp" />
 <!-- padding -->

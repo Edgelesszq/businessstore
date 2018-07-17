@@ -1,18 +1,28 @@
 package activity.com.businessstore;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.businessstore.Config;
+import com.businessstore.ShowImagesDialog;
 import com.businessstore.util.DpConversion;
 import com.businessstore.util.NoScrollListview;
+import com.businessstore.view.scrollview.ObservableScrollView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,14 +37,31 @@ public class MainCommodityDetailsActivity extends BaseActivity implements View.O
     private AdapterCommodityDetailsActivityListView adapterCommodityDetailsActivityListView;
     private List<String> mDatas;
     static int position=0;
+    private List<String> urlList;
+    private ObservableScrollView details_scrollview;
+    private TextView price,symbol;
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_commodity_details);
         mContext = this;
+        getDeviceDensity();
+        initdata();
         initView();
         initAdapter();
+
+
+    }
+
+    private void initdata() {
+        urlList=new ArrayList<>();
+        urlList.add("http://a.hiphotos.baidu.com/image/pic/item/00e93901213fb80e3b0a611d3fd12f2eb8389424.jpg");
+        urlList.add("http://a.hiphotos.baidu.com/image/pic/item/00e93901213fb80e3b0a611d3fd12f2eb8389424.jpg");
+        urlList.add("http://a.hiphotos.baidu.com/image/pic/item/00e93901213fb80e3b0a611d3fd12f2eb8389424.jpg");
+        urlList.add("http://a.hiphotos.baidu.com/image/pic/item/00e93901213fb80e3b0a611d3fd12f2eb8389424.jpg");
     }
 
     private void initAdapter() {
@@ -48,17 +75,49 @@ public class MainCommodityDetailsActivity extends BaseActivity implements View.O
         mListView.setAdapter(adapterCommodityDetailsActivityListView);
 
     }
+    /**
+     * 获取当前设备的屏幕密度等基本参数
+     */
+    protected void getDeviceDensity() {
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        Config.EXACT_SCREEN_HEIGHT = metrics.heightPixels;
+        Config.EXACT_SCREEN_WIDTH = metrics.widthPixels;
+    }
 
     private void initView() {
+        setTitleViewdetail(R.drawable.backimage, " ", R.mipmap.mian_commodity_details_share);
+
+        price=findViewById(R.id.price);
+        symbol=findViewById(R.id.symbol);
+
+
+        details_scrollview=findViewById(R.id.details_scrollview);
+        details_scrollview.setScrollViewListener(new ObservableScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
+                if(y>90){
+                    price.setVisibility(View.GONE);
+                    symbol.setVisibility(View.GONE);
+                    setTitleViewdetail(R.drawable.backimage,symbol.getText().toString()+"  "+price.getText().toString(),R.mipmap.mian_commodity_details_share);
+                }
+                else if(y<=90) {
+                    price.setVisibility(View.VISIBLE);
+                    symbol.setVisibility(View.VISIBLE);
+                    setTitleViewdetail(R.drawable.backimage, " ", R.mipmap.mian_commodity_details_share);
+
+                }
+
+            }
+        });
         //获取屏幕宽
         WindowManager wm = (WindowManager) this
                 .getSystemService(Context.WINDOW_SERVICE);
         int screenWidth = wm.getDefaultDisplay().getWidth();
 //        int screenHeight = wm.getDefaultDisplay().getHeight();
 
-        setTitleViewRightImg(R.drawable.backimage, 0, R.mipmap.mian_commodity_details_share);
         mTitleLefeBackImg.setOnClickListener(this);
-        mTitleRightImg.setOnClickListener(this);
+        mTitleRightSearchImg.setOnClickListener(this);
         //循环画九张展示图
         mImgViewLinearLayout = findViewById(R.id.commodity_details_linearlayout);
         int frishFornumber = 1;
@@ -93,6 +152,7 @@ public class MainCommodityDetailsActivity extends BaseActivity implements View.O
                         Intent intent=new Intent(MainCommodityDetailsActivity.this,BigPhotoActivity.class);
                         intent.putExtra("posi",finalI);
                         startActivity(intent);
+                      // new ShowImagesDialog(mContext,urlList,finalI).show();
                     }
                 });
                 position++;

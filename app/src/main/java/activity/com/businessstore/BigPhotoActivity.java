@@ -24,13 +24,14 @@ public class BigPhotoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bigphoto_item);
+
         initParam();
         initView();
 
     }
 
     private void initView() {
-        LogUtil.d("test",""+1);
+
         try {
             posi=getIntent().getIntExtra("posi",0);
 
@@ -40,17 +41,23 @@ public class BigPhotoActivity extends AppCompatActivity {
         LogUtil.d("test",""+posi);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         tvNum = (TextView) findViewById(R.id.text_num);
-        AdapterBigPhotoViewPager viewPagerAdapter = new AdapterBigPhotoViewPager(getSupportFragmentManager(),urlList,posi);
+        AdapterBigPhotoViewPager viewPagerAdapter = new AdapterBigPhotoViewPager(getSupportFragmentManager(),urlList);
+
         viewPager.setAdapter(viewPagerAdapter);
+        viewPager.setCurrentItem(posi);
+       // tvNum.setText(String.valueOf(position + 1+posi) + "/" + urlList.size());
+        tvNum.setText(posi+1+"/" + urlList.size());
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-                tvNum.setText(String.valueOf(position + 1) + "/" + urlList.size());
             }
 
             @Override
             public void onPageSelected(int position) {
+
+
+                tvNum.setText(position + 1 + "/" + urlList.size());
             }
 
             @Override

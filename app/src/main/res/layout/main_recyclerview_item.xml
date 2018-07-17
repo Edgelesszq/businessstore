@@ -14,7 +14,7 @@
         android:background="@drawable/main_recyclerview_item_bg"
         android:orientation="vertical">
 
-        <com.businessstore.view.roundImageView.RoundImageView
+        <com.businessstore.view.roundImageView.RoundImageView1
             android:id="@+id/main_recyclerview_item_display_diagram"
             android:layout_width="match_parent"
             android:layout_height="190dp"
@@ -24,7 +24,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="95dp"
+            android:layout_height="100dp"
             android:orientation="vertical"
             android:paddingLeft="5dp"
             android:paddingTop="5dp"

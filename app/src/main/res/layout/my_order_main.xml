@@ -68,6 +68,8 @@
                     android:textSize="16sp"
                     />
                 <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/clean_iv"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:src="@mipmap/main_search_clean"
@@ -76,6 +78,7 @@
 
 
             <TextView
+                android:id="@+id/cancel_tv"
                 android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"

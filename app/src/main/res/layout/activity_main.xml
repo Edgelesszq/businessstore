@@ -89,7 +89,7 @@
                 android:layout_height="50dp"
                 android:alpha="250"
                 android:transitionGroup="true"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <TextView
                     android:layout_width="wrap_content"

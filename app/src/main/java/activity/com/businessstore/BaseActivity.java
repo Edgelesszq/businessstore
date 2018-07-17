@@ -50,6 +50,20 @@ public class BaseActivity extends AppCompatActivity{
         mTitleCenterText.setText(cecterTextId);
         mTitleRightText.setText(rightTextId);
     }
+    protected void setTitleViewdetail(int leftImgId, String centerText, int rightImgId){
+        mTitleLefeBackImg = findViewById(R.id.title_left_back_img);
+        mTitleCenterText = findViewById(R.id.title_center_red_text);
+        mTitleRightSearchImg = findViewById(R.id.title_right_img);
+
+
+        mTitleLefeBackImg.setVisibility(View.VISIBLE);
+        mTitleCenterText.setVisibility(View.VISIBLE);
+        mTitleRightSearchImg.setVisibility(View.VISIBLE);
+
+        mTitleLefeBackImg.setImageResource(leftImgId);
+        mTitleCenterText.setText(centerText);
+        mTitleRightSearchImg.setImageResource(rightImgId);
+    }
     protected void setTitleView(int leftImgId, int cecterTextId, int rightSearchImgId, int rightMesageImgId){
         mTitleLefeBackImg = findViewById(R.id.title_left_back_img);
         mTitleCenterText = findViewById(R.id.title_center_text);

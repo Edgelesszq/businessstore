@@ -673,8 +673,9 @@ public class StoreAdressActivity extends BaseActivity implements OnScrollListene
 				TextView recentHint = (TextView) convertView
 						.findViewById(R.id.recentHint);
 				recentHint.setText("最近访问的城市");
-			} else if (viewType == 2) {
-				convertView = inflater.inflate(R.layout.address_recent_city, null);
+			}
+			else if (viewType == 2) {
+				convertView = inflater.inflate(R.layout.address_hot_city, null);
 				GridView hotCity = (GridView) convertView
 						.findViewById(R.id.recent_city);
 				hotCity.setOnItemClickListener(new OnItemClickListener() {

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+
+    >
+
+    <include layout="@layout/title_layout"/>
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:background="@color/title"
+
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+            <ImageView
+                android:layout_toLeftOf="@+id/location_btn"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/address_icon"
+                android:layout_width="20dp"
+                android:layout_height="30dp" />
+            <TextView
+                android:layout_centerInParent="true"
+                android:id="@+id/location_btn"
+                android:textSize="16sp"
+                android:text="正在定位"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:background="@color/title"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+            <ImageView
+                android:id="@+id/location_icon"
+                android:visibility="gone"
+                android:layout_toLeftOf="@+id/select_other"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/address_icon"
+                android:layout_width="20dp"
+                android:layout_height="30dp" />
+            <TextView
+                android:layout_centerInParent="true"
+
+                android:id="@+id/select_other"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:text="选择其它位置"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

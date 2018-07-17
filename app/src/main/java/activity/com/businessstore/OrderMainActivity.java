@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -46,6 +48,8 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
     TimeSelector timeSelector;
     //定单完成的recyclerView 适配器
     private EditText order_search_edit;//搜索输入框
+    private ImageView clean_iv;//清空图标
+    private TextView cancel_tv;//取消按钮
 
     private RecyclerView recyclerview_completed;
     private AdapterOrderRecycler adapterOrderRecyclerCompleted;
@@ -97,6 +101,33 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
         //搜索框
         searchLinerLayout=findViewById(R.id.search_LinearLayout);
         order_search_edit=findViewById(R.id.order_search_edit);
+        clean_iv=findViewById(R.id.clean_iv);
+        cancel_tv=findViewById(R.id.cancel_tv);
+        clean_iv.setOnClickListener(this);
+        cancel_tv.setOnClickListener(this);
+        TextWatcher watcher=new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length()>0){
+                    clean_iv.setVisibility(View.VISIBLE);
+                }
+                else {
+                    clean_iv.setVisibility(View.GONE);
+                }
+            }
+        };
+        order_search_edit.addTextChangedListener(watcher);
+
         order_search_edit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
@@ -104,6 +135,8 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
                     if (order_search_edit.getText().toString().length()<=0){
                       //  Toast.makeText(AtActivity.this,"请输入用户昵称",Toast.LENGTH_SHORT).show();
                         return true;
+                    }
+                    else {
                     }
                     new Thread(new Runnable() {
                         @Override
@@ -135,6 +168,8 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
         unprocessed_orders = findViewById(R.id.unprocessed_orders);
 
 
+
+
         timeSelector = new TimeSelector(this, new TimeSelector.ResultHandler() {
             @Override
             public void handle(String time) {
@@ -142,7 +177,7 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
             }
         }, "1970-1-1 00:00", "2030-12-1 12:00", "00:00", "12:00");
         timeSelector.setMode(TimeSelector.MODE.YMD);
-        autoRefresh();
+       // autoRefresh();
     }
 
     private void search() {
@@ -161,6 +196,14 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
                 searchLinerLayout.setVisibility(View.VISIBLE);
                 title_layout.setVisibility(View.GONE);
                 break;
+            case R.id.cancel_tv:
+                searchLinerLayout.setVisibility(View.GONE);
+                title_layout.setVisibility(View.VISIBLE);
+                break;
+            case R.id.clean_iv:
+                order_search_edit.setText("");
+                break;
+
             case R.id.select_time_icon:
                 if (TimeIcon) {
 

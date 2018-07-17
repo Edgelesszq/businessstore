@@ -49,9 +49,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private List<String> mList;
     private CircleImageView circleImageView;
     private CommonPopupWindow popupWindow;
-    private ImageView nav_personal_btn, mMainSearchImgview;
+    private ImageView nav_personal_btn, mMainSearchImgview,qrcode;
     private Button main_loginbtn;
-    private FrameLayout myaccount_icon, myorder_icon, setting_icon, third_party_domian,store_address;
+    private FrameLayout myaccount_icon, myorder_icon, setting_icon, third_party_domian,store_address,mystore;
     //自定义popwindow对象
     private CustomPopWindow popWindow;
     private boolean mPopwindowIsShow;
@@ -104,6 +104,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public void initview() {
         mRecyclerView = findViewById(R.id.main_recyclerview);
 
+        qrcode=findViewById(R.id.qrcode);//二维码
+        qrcode.setOnClickListener(this);
         //主界面搜索按钮
         mMainSearchImgview = findViewById(R.id.main_search_imgview);
         mMainSearchImgview.setOnClickListener(this);
@@ -230,6 +232,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 showPopWindowUpdate_HeadPortrait(view);
                 popWindow.dismiss();
                 mPopwindowIsShow = true;
+                break;
+            case R.id.qrcode:
+                Toast.makeText(this,"二维码",Toast.LENGTH_SHORT).show();
                 break;
 
             default:

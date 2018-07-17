@@ -5,7 +5,6 @@
     android:orientation="vertical" >
 
     <TextView
-        android:visibility="gone"
         android:id="@+id/recentHint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,7 +15,7 @@
         android:textSize="16sp" />
 
     <com.businessstore.view.customize.MyGridView
-        android:visibility="gone"
+
         android:id="@+id/recent_city"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,7 +28,7 @@
         android:verticalSpacing="10dp" />
 
     <View
-        android:visibility="gone"
+
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginLeft="10dp"

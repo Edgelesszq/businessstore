@@ -17,7 +17,8 @@
             android:id="@+id/title_layout"
             layout="@layout/title_layout" />
 
-        <ScrollView
+        <com.businessstore.view.scrollview.ObservableScrollView
+            android:id="@+id/details_scrollview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -53,19 +54,21 @@
                             android:layout_marginLeft="5dp"
                             android:text="卖家呢称"
                             android:textColor="@color/nav_fontcolor"
-                            android:textSize="13sp" />
+                            android:textSize="15sp" />
 
                         <View
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1" />
                         <TextView
+                            android:id="@+id/symbol"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="$"
                             android:textColor="@color/red"
                             android:textSize="14sp" />
                         <TextView
+                            android:id="@+id/price"
                             android:layout_marginLeft="3dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -190,6 +193,6 @@
 
 
             </LinearLayout>
-        </ScrollView>
+        </com.businessstore.view.scrollview.ObservableScrollView>
     </LinearLayout>
 </LinearLayout>

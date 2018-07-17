@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.businessstore.view.roundImageView.RoundImageView;
+import com.businessstore.view.roundImageView.RoundImageView1;
 
 import java.util.List;
 
@@ -98,7 +99,7 @@ public class AdapterMainActivity extends RecyclerView.Adapter<AdapterMainActivit
     static class MyViewHolder extends RecyclerView.ViewHolder{
         View itemView;
         //item展示图
-        RoundImageView itrmDisplayDiagram;
+        RoundImageView1 itrmDisplayDiagram;
         //item标题、描述、价格、剩余件数
         TextView itemTitle,itemDescribe,itemPrice,itemNumber;
         //item三个点
