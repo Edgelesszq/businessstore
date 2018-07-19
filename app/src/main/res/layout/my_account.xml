@@ -48,6 +48,7 @@
             android:layout_gravity="center_horizontal"
             android:src="@drawable/qidong"/>
         <TextView
+            android:id="@+id/name_tv"
             android:layout_marginTop="130dp"
             android:layout_gravity="top|center_horizontal"
             android:text="\@\世上再无张居正"

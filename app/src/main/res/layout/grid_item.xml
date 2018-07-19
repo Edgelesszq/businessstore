@@ -1,8 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/pic_iv"
-    android:layout_width="60dp"
-    android:layout_height="60dp"
-    android:scaleType="centerCrop">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="80dp"
+    android:layout_height="80dp"
 
-</ImageView>
+    >
+
+
+<ImageView
+
+    android:layout_centerInParent="true"
+    android:id="@+id/pic_iv"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scaleType="centerCrop"/>
+    <ImageView
+
+        android:id="@+id/close_img"
+        android:src="@drawable/close_icon"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_width="18dp"
+        android:layout_height="18dp" />
+
+
+</RelativeLayout>

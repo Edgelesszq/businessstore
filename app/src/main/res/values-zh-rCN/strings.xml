@@ -19,7 +19,7 @@
     <string name="update_phonenum">修改号码</string>
     <string name="save">保存</string>
     <string name="phone_num">电话号码:</string>
-    <string name="please_insert_into_your_phonenum">请输入您的电话号码</string>
+    <string name="please_insert_into_your_phonenum">请输入电话号码</string>
     <string name="nickname">昵称</string>
     <string name="Please_enter_a_storename">请输入店名</string>
     <string name="After_setting_other_people_will_see_your_storename">设置后,其他人将看到您的店名</string>
@@ -33,14 +33,14 @@
     <string name="open_store">开店</string>
     <string name="get_verification_code">获取验证码</string>
     <string name="mystore_name">店         名</string>
-    <string name="Please_enter_your_shop_name">请输入您的店铺名称</string>
+    <string name="Please_enter_your_shop_name">请输入店铺名称</string>
     <string name="p_num">电话号码</string>
     <string name="Business_hours">营业时间</string>
     <string name="Please_fill_in_the_store_business_hours">请填写店铺营业时间</string>
     <string name="Store_location">店铺位置</string>
     <string name="Please_enter_the_store_location">请输入店铺位置</string>
     <string name="create_store_link">创建店铺链接</string>
-    <string name="create_your_store_address">创建您的店铺地址</string>
+    <string name="create_your_store_address">创建店铺地址</string>
     <string name="register_Instructions">Please note that is default URL,if you wish to import an exising domain,you may do so in the Mine > My store tab once you are done setting up your store</string>
     <string name="detailed_address">详细地址</string>
     <string name="register_completed">注册完成</string>
