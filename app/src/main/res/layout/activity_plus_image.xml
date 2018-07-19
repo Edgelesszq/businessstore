@@ -4,7 +4,9 @@
     android:id="@+id/activity_image"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:background="#373b3e">
 
 
     <android.support.v7.widget.Toolbar
@@ -18,12 +20,12 @@
 
             <ImageView
                 android:id="@+id/back_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="13dp"
+                android:layout_height="15dp"
                 android:layout_centerVertical="true"
                 android:contentDescription="@null"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/back" />
+                android:src="@drawable/backimg_white" />
 
             <!--图片位置-->
             <TextView
@@ -31,16 +33,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
                 android:layout_marginStart="15dp"
-                android:layout_toEndOf="@id/back_iv"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 tools:text="1/1" />
 
             <ImageView
                 android:id="@+id/delete_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="16dp"

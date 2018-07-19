@@ -11,7 +11,7 @@
         <ImageView
             android:layout_marginTop="25dp"
             android:layout_marginLeft="5dp"
-            android:src="@drawable/backimage"
+            android:src="@drawable/backimg_white"
             android:id="@+id/left_back"
             android:layout_width="30dp"
             android:layout_height="20dp"
@@ -33,20 +33,16 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="50dp">
-            <TextView
-                android:layout_marginLeft="50dp"
-                android:gravity="center"
-                android:text="邮箱"
-                android:textSize="14sp"
-                android:textColor="@color/mgray"
-                android:layout_width="40dp"
-                android:layout_height="49dp" />
+
             <EditText
                 android:inputType="textEmailAddress"
                 android:layout_gravity="center_vertical"
                 android:background="@null"
-                android:layout_marginLeft="100dp"
-                android:layout_width="200dp"
+                android:hint="请输入邮箱或手机号"
+                android:textColorHint="@color/q_gray"
+                android:textSize="16sp"
+                android:layout_marginLeft="50dp"
+                android:layout_width="300dp"
                 android:layout_height="49dp" />
             <View
                 android:layout_gravity="bottom"
@@ -61,23 +57,17 @@
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="50dp">
-            <TextView
-
-                android:layout_marginLeft="50dp"
-                android:gravity="center"
-                android:text="密码"
-                android:textSize="14sp"
-                android:textColor="@color/mgray"
-                android:layout_width="40dp"
-                android:layout_height="49dp" />
-
             <EditText
-                android:inputType="textPassword"
-                android:gravity="center_vertical"
-                android:layout_width="200dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="100dp"
-                android:background="@null" />
+                android:inputType="textEmailAddress"
+                android:layout_gravity="center_vertical"
+                android:background="@null"
+                android:hint="请输入密码"
+                android:textSize="16sp"
+
+                android:textColorHint="@color/q_gray"
+                android:layout_marginLeft="50dp"
+                android:layout_width="300dp"
+                android:layout_height="49dp" />
             <View
                 android:layout_gravity="bottom"
                 android:layout_marginLeft="50dp"

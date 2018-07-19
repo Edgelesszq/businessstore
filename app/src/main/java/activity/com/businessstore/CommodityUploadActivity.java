@@ -101,7 +101,7 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
         location_upload = findViewById(R.id.location_upload);
         location_upload.setOnClickListener(this);
 
-        editTitle.addTextChangedListener(new TextWatcher() {
+        TextWatcher textWatcher=new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -114,25 +114,23 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
 
             @Override
             public void afterTextChanged(Editable s) {
-                mTitleRightText.setTextColor(Color.parseColor("#FDBA43"));
-            }
-        });
-        editContent.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                if(s.length()>0){
+                    mTitleRightText.setClickable(true);
 
-            }
+                    mTitleRightText.setTextColor(getBaseContext().getResources().getColor(R.color.nav_color));
+                }
+                else {
+                    mTitleRightText.setClickable(false);
+                    mTitleRightText.setTextColor(getBaseContext().getResources().getColor(R.color.nav_fontcolor));
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                }
             }
+        };
+        editTitle.addTextChangedListener(textWatcher);
+       /* editContent.addTextChangedListener(textWatcher);
+        editnumber.addTextChangedListener(textWatcher);
+        editPrice.addTextChangedListener(textWatcher);*/
 
-            @Override
-            public void afterTextChanged(Editable s) {
-                mTitleRightText.setTextColor(Color.parseColor("#FDBA43"));
-            }
-        });
 
         numberMinus = findViewById(R.id.img_number_minus);
         numberAdd = findViewById(R.id.img_number_add);
@@ -143,6 +141,19 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
         gridView = findViewById(R.id.grid_pic);
         mGridViewAddImgAdapter = new GridViewAdapter(mContext, mPiclist);
         gridView.setAdapter(mGridViewAddImgAdapter);
+        mGridViewAddImgAdapter.setOnItemClickListener(new GridViewAdapter.OnMyItemClickListener() {
+            @Override
+            public void myclick(View v, int position) {
+                mPiclist.remove(position);
+                mGridViewAddImgAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void myOnlongclick(View v, int position) {
+
+            }
+        });
+
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

@@ -42,8 +42,8 @@
     <FrameLayout
 
         android:layout_marginTop="20dp"
-        android:layout_marginRight="30dp"
-        android:layout_gravity="center_vertical|right"
+        android:layout_marginLeft="50dp"
+        android:layout_gravity="center_vertical"
         android:layout_width="200dp"
         android:layout_height="wrap_content">
         <TextView
@@ -58,24 +58,17 @@
        android:layout_marginTop="0dp"
         android:layout_width="match_parent"
         android:layout_height="50dp">
-        <TextView
-            android:layout_marginLeft="50dp"
-            android:gravity="center"
-            android:text="@string/mystore_name"
-            android:textSize="14sp"
-            android:textColor="@color/nav_fontcolor"
-            android:layout_width="70dp"
-            android:layout_height="49dp" />
+
         <EditText
-            android:textColor="@color/mgray"
+            android:layout_width="200dp"
+            android:layout_height="49dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="50dp"
+            android:background="@null"
             android:hint="@string/Please_enter_your_shop_name"
             android:inputType="textEmailAddress"
-            android:layout_gravity="center_vertical|right"
-            android:background="@null"
-            android:textSize="14sp"
-            android:layout_marginRight="30dp"
-            android:layout_width="200dp"
-            android:layout_height="49dp" />
+            android:textColor="@color/mgray"
+            android:textSize="16sp" />
         <View
             android:layout_gravity="bottom"
             android:layout_marginLeft="50dp"
@@ -88,8 +81,8 @@
     <FrameLayout
 
         android:layout_marginTop="5dp"
-        android:layout_marginRight="30dp"
-        android:layout_gravity="center_vertical|right"
+        android:layout_marginLeft="50dp"
+        android:layout_gravity="center_vertical"
         android:layout_width="200dp"
         android:layout_height="wrap_content">
         <TextView
@@ -104,15 +97,7 @@
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="50dp">
-        <TextView
 
-            android:layout_marginLeft="50dp"
-            android:gravity="center"
-            android:text="@string/p_num"
-            android:textSize="14sp"
-            android:textColor="@color/nav_fontcolor"
-            android:layout_width="70dp"
-            android:layout_height="49dp" />
 
         <View
             android:layout_gravity="bottom"
@@ -126,19 +111,19 @@
         <EditText
             android:layout_width="200dp"
             android:layout_height="49dp"
-            android:layout_gravity="center_vertical|right"
-            android:layout_marginRight="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="50dp"
             android:background="@null"
             android:hint="@string/please_insert_into_your_phonenum"
             android:inputType="textEmailAddress"
             android:textColor="@color/mgray"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
     </FrameLayout>
     <FrameLayout
 
         android:layout_marginTop="5dp"
-        android:layout_marginRight="30dp"
-        android:layout_gravity="center_vertical|right"
+        android:layout_marginLeft="50dp"
+        android:layout_gravity="center_vertical"
         android:layout_width="200dp"
         android:layout_height="wrap_content">
         <TextView
@@ -153,23 +138,15 @@
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="50dp">
-        <TextView
 
-            android:layout_marginLeft="50dp"
-            android:gravity="center"
-            android:text="@string/Business_hours"
-            android:textSize="14sp"
-            android:textColor="@color/nav_fontcolor"
-            android:layout_width="70dp"
-            android:layout_height="49dp" />
         <EditText
             android:textColor="@color/mgray"
             android:hint="@string/Please_fill_in_the_store_business_hours"
             android:inputType="textEmailAddress"
-            android:layout_gravity="center_vertical|right"
+            android:layout_gravity="center_vertical"
             android:background="@null"
-            android:textSize="14sp"
-            android:layout_marginRight="30dp"
+            android:textSize="16sp"
+            android:layout_marginLeft="50dp"
             android:layout_width="200dp"
             android:layout_height="49dp" />
         <View
@@ -184,8 +161,8 @@
     <FrameLayout
 
         android:layout_marginTop="5dp"
-        android:layout_marginRight="30dp"
-        android:layout_gravity="center_vertical|right"
+        android:layout_marginLeft="50dp"
+        android:layout_gravity="center_vertical"
         android:layout_width="200dp"
         android:layout_height="wrap_content">
         <TextView
@@ -200,31 +177,23 @@
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="50dp">
-        <TextView
 
-            android:layout_marginLeft="50dp"
-            android:gravity="center"
-            android:text="@string/Store_location"
-            android:textSize="14sp"
-            android:textColor="@color/nav_fontcolor"
-            android:layout_width="70dp"
-            android:layout_height="49dp" />
         <TextView
             android:id="@+id/address_textView"
             android:textColor="@color/mgray"
             android:hint="@string/Please_enter_the_store_location"
             android:gravity="center|left"
-            android:layout_gravity="center_vertical|right"
+            android:layout_gravity="center_vertical"
             android:background="@null"
-            android:textSize="14sp"
-            android:layout_marginRight="70dp"
-            android:layout_width="160dp"
+            android:textSize="16sp"
+            android:layout_marginLeft="50dp"
+            android:layout_width="200dp"
             android:layout_height="49dp" />
         <ImageView
             android:id="@+id/img_btn"
             android:src="@drawable/nav_arrow"
-            android:layout_gravity="right|center_vertical"
-            android:layout_marginRight="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="280dp"
             android:layout_width="40dp"
             android:layout_height="wrap_content" />
         <View
@@ -240,8 +209,8 @@
     <FrameLayout
 
         android:layout_marginTop="5dp"
-        android:layout_marginRight="30dp"
-        android:layout_gravity="center_vertical|right"
+        android:layout_marginLeft="50dp"
+        android:layout_gravity="center_vertical"
         android:layout_width="200dp"
         android:layout_height="wrap_content">
         <TextView
@@ -257,23 +226,15 @@
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="50dp">
-        <TextView
 
-            android:layout_marginLeft="50dp"
-            android:gravity="center"
-            android:text="@string/detailed_address"
-            android:textSize="14sp"
-            android:textColor="@color/mgray"
-            android:layout_width="70dp"
-            android:layout_height="49dp" />
         <EditText
             android:textColor="@color/mgray"
             android:hint="@string/Please_fill_in_the_store_business_hours"
             android:inputType="textEmailAddress"
-            android:layout_gravity="center_vertical|right"
+            android:layout_gravity="center_vertical"
             android:background="@null"
-            android:textSize="14sp"
-            android:layout_marginRight="30dp"
+            android:textSize="16sp"
+            android:layout_marginLeft="50dp"
             android:layout_width="200dp"
             android:layout_height="49dp" />
         <View
@@ -288,8 +249,8 @@
     <FrameLayout
 
         android:layout_marginTop="5dp"
-        android:layout_marginRight="30dp"
-        android:layout_gravity="center_vertical|right"
+        android:layout_marginLeft="50dp"
+        android:layout_gravity="center_vertical"
         android:layout_width="200dp"
         android:layout_height="wrap_content">
         <TextView

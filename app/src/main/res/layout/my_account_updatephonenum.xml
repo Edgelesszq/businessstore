@@ -53,14 +53,16 @@
         android:layout_height="50dp">
 
         <EditText
+            android:id="@+id/phonenum_et"
             android:textSize="14sp"
-            android:textColor="@color/q_gray"
-            android:text="@string/please_insert_into_your_phonenum"
+            android:textColor="@color/nav_fontcolor"
+            android:textColorHint="@color/q_gray"
+            android:hint="@string/please_insert_into_your_phonenum"
             android:inputType="number"
             android:gravity="center_vertical"
-            android:layout_width="200dp"
+            android:layout_width="250dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="100dp"
+            android:layout_marginLeft="20dp"
             android:background="@null" />
         <View
             android:layout_gravity="bottom"
@@ -71,15 +73,9 @@
             android:background="@color/line"
             />
 
-        <TextView
-            android:layout_gravity="center_vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="@string/phone_num"
-            android:textColor="@color/nav_fontcolor"
-            android:textSize="16sp" />
+
         <ImageView
+            android:id="@+id/clean_iv"
             android:layout_marginRight="20dp"
             android:layout_gravity="right|center_vertical"
             android:src="@drawable/x"

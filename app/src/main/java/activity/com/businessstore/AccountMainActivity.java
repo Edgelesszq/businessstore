@@ -18,7 +18,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AccountMainActivity extends BaseActivity implements View.OnClickListener,CommonPopupWindow.ViewInterface {
     private Context mContext;
-    private TextView update_password,update_phonenum;
+    private TextView update_password,update_phonenum,name_tv;
     private CommonPopupWindow popupWindow;
     private CircleImageView HeadPortrait_update;
     @Override
@@ -35,6 +35,8 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
         update_phonenum=findViewById(R.id.update_phoneNum_text);
         update_password.setOnClickListener(this);
         update_phonenum.setOnClickListener(this);
+        name_tv=findViewById(R.id.name_tv);
+        name_tv.setOnClickListener(this);
 
         HeadPortrait_update=findViewById(R.id.HeadPortrait_update);//修改头像
         HeadPortrait_update.setOnClickListener(this);
@@ -52,12 +54,21 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
                 startActivity(intent);
                 break;
             case R.id.update_phoneNum_text:
+                String phonenum=update_phonenum.getText().toString().trim();
                 Intent intent2=new Intent(AccountMainActivity.this,AccountUpadatePhoneNumActivity.class);
-                startActivity(intent2);
+               intent2.putExtra("phoneNum",phonenum);
+                startActivityForResult(intent2,2334);
+
+                // startActivity(intent2);
                 break;
             case R.id.HeadPortrait_update:
                 showPopWindowUpdate_HeadPortrait(view);
                 break;
+            case R.id.name_tv:
+                String namestr=name_tv.getText().toString().trim();
+                Intent updateName=new Intent(this,AccountUpadateNameActivity.class);
+                updateName.putExtra("Name",namestr);
+                startActivityForResult(updateName,2335);
         }
 
     }
@@ -82,5 +93,18 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
             case R.layout.popwindow_choose_photo_item:
                 break;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+       if(resultCode==RESULT_OK){
+           switch (requestCode){
+               case 2334:
+               {
+                   update_phonenum.setText(data.getStringExtra("phoneNum"));
+               }
+           }
+       }
     }
 }
