@@ -49,7 +49,6 @@ dependencies {
     compile 'com.afollestad.material-dialogs:commons:0.9.1.0'
     compile 'com.github.chrisbanes.photoview:library:+'
     compile 'com.github.bumptech.glide:glide:3.7.0'
-
     compile('com.desmond:CityPicker:0.4.6') {
     }
     //城市选择器
@@ -57,5 +56,18 @@ dependencies {
     //权限管理
     implementation files('libs/pinyin4j-2.5.0.jar')
     implementation files('libs/pinyin4android1.0.jar')
-
+    implementation files('libs/SDKWrapper-2018.0201.1609.jar')
+    implementation files('libs/ShareSDK-Core-3.2.0.jar')
+    implementation files('libs/ShareSDK-Facebook-3.2.0.jar')
+    implementation files('libs/ShareSDK-Instagram-3.2.0.jar')
+    implementation files('libs/ShareSDK-QQ-3.2.0.jar')
+    implementation files('libs/ShareSDK-QZone-3.2.0.jar')
+    implementation files('libs/ShareSDK-SinaWeibo-3.2.0.jar')
+    implementation files('libs/ShareSDK-Twitter-3.2.0.jar')
+    implementation files('libs/ShareSDK-Wechat-3.2.0.jar')
+    implementation files('libs/ShareSDK-Wechat-Core-3.2.0.jar')
+    implementation files('libs/ShareSDK-Wechat-Favorite-3.2.0.jar')
+    implementation files('libs/ShareSDK-Wechat-Moments-3.2.0.jar')
+    implementation files('libs/MobTools-2018.0704.1157.jar')
+    implementation files('libs/MobCommons-2018.0704.1311.jar')
 }
