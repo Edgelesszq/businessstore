@@ -227,7 +227,6 @@ public class MainSearchActivity extends BaseActivity implements View.OnClickList
                 OnekeyShare oks = new OnekeyShare();
                 //关闭sso授权
                 oks.disableSSOWhenAuthorize();
-
                 // title标题，微信、QQ和QQ空间等平台使用
                 oks.setTitle("分享测试标题");
                 // titleUrl QQ和QQ空间跳转链接
@@ -238,8 +237,6 @@ public class MainSearchActivity extends BaseActivity implements View.OnClickList
                 oks.setImagePath("http://img5.imgtn.bdimg.com/it/u=471547240,4067919551&fm=27&gp=0.jpg");//确保SDcard下面存在此张图片
                 // url在微信、微博，Facebook等平台中使用
                 oks.setUrl("http://sharesdk.cn");
-                // comment是我对这条分享的评论，仅在人人网使用
-//                oks.setComment("我是测试评论文本");
                 // 启动分享GUI
                 oks.show(this);
                 popWindow.dismiss();

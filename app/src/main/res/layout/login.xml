@@ -4,23 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-    <FrameLayout
-        android:background="@drawable/login_logo"
-        android:layout_width="match_parent"
-        android:layout_height="180dp">
-        <ImageView
-            android:layout_marginTop="25dp"
-            android:layout_marginLeft="5dp"
-            android:src="@drawable/backimg_white"
-            android:id="@+id/left_back"
-            android:layout_width="30dp"
-            android:layout_height="20dp"
 
-
-
-            />
-
-    </FrameLayout>
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -28,6 +12,40 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="50dp">
+            <ImageView
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/backimage"
+                android:id="@+id/left_back"
+                android:layout_width="30dp"
+                android:layout_height="20dp"
+
+                />
+        </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
+
+            <TextView
+                android:id="@+id/text_login_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="40dp"
+                android:textSize="36sp"
+                android:textColor="#333333"
+                android:text="Hello!"/>
+
+            <TextView
+                android:id="@+id/text_login_content"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="5dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="100dp"
+                android:textSize="16sp"
+                android:textColor="#c4c4c4"
+                android:text="Welcome back! Kindly enter you login details."/>
 
         </FrameLayout>
         <FrameLayout
