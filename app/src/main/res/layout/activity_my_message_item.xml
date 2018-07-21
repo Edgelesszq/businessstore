@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/qidong"
+                android:id="@+id/circleImg"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
+
+            <LinearLayout
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/circleImg"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/nickname"
+                    android:text="买卖一家"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp" />
+                <TextView
+                    android:id="@+id/message_date"
+                    android:gravity="center"
+                    android:text="2013.5"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp" />
+
+            </LinearLayout>
+            <TextView
+                android:id="@+id/reply"
+                android:textSize="16sp"
+                android:text="回复"
+                android:layout_marginRight="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/tips"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"
+            android:layout_marginLeft="20dp"
+            android:text="您好，欢迎光临本店！"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <RelativeLayout
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+            <com.businessstore.view.roundImageView.RoundImageView1
+                android:src="@drawable/qidong"
+
+                android:id="@+id/roundImag_2"
+                android:layout_width="60dp"
+                android:layout_height="60dp" />
+            <LinearLayout
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/roundImag_2"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:gravity="center_vertical"
+                    android:text="全新的衣服现在很漂亮，5折出售哦"
+                    android:singleLine="true"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp" />
+                <TextView
+                    android:gravity="center_vertical"
+
+                    android:text="还是很不错的哦，还是很不错的哦"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp" />
+                <RelativeLayout
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp">
+                    <TextView
+                        android:id="@+id/dollar_symbol"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/red"
+                        android:text="$"
+                        android:textSize="18sp"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" />
+                    <TextView
+                        android:layout_toRightOf="@+id/dollar_symbol"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/red"
+                        android:text="126"
+                        android:textSize="18sp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" />
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/comment_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <!--<RelativeLayout
+        android:id="@+id/comment_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textSize="16sp"
+            android:id="@+id/comment_username"
+            android:text="maajsjd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textSize="16sp"
+
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_toRightOf="@+id/comment_username"
+            android:id="@+id/colon"
+            android:text=":"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textSize="16sp"
+
+            android:layout_toRightOf="@+id/colon"
+            android:id="@+id/comment"
+            android:text="sadasdasdsad?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </RelativeLayout>-->
+
+
+    </LinearLayout>
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/load_more"
+        android:textColor="@color/green"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        android:text="加载更多"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/retract_more"
+        android:textColor="@color/green"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        android:text="收起更多"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+    <View
+            android:layout_marginTop="5dp"
+            android:background="@color/my_account_number_line"
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            ></View>
+
+
+
+
+</LinearLayout>

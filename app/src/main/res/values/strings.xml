@@ -7,6 +7,7 @@
     <string name="reset_password">Reset password</string>
     <string name="forget_the_password">Forget the password</string>
     <string name="my_account">My Account</string>
+    <string name="my_message">我的消息</string>
     <string name="app_name">Business store</string>
     <string name="store_name">Business store</string>
     <string name="no_goods_tips">还没有商品，请尽快上传！</string>
@@ -19,7 +20,7 @@
     <string name="update_phonenum">修改号码</string>
     <string name="update_name">修改昵称</string>
     <string name="please_insert_into_your_name">请输入新的名字</string>
-
+    <string name="comment_details">留言详情</string>
     <string name="phone_num">电话号码:</string>
     <string name="please_insert_into_your_phonenum">请输入电话号码</string>
     <string name="nickname">昵称</string>

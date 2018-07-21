@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:background="@color/title"
+    >
+    <LinearLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/title_layout"
+            layout="@layout/title_layout"
+            />
+    <!--<FrameLayout
+        android:background="@drawable/login_logo"
+        android:layout_width="match_parent"
+        android:layout_height="75dp">
+        <com.businessstore.view.customize.BackImageView
+            android:layout_marginBottom="15dp"
+            android:layout_gravity="bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </com.businessstore.view.customize.BackImageView>
+        <TextView
+            android:layout_marginBottom="12dp"
+            android:layout_gravity="center_horizontal|bottom"
+            android:text="@string/create_store_link"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </FrameLayout>-->
+    <FrameLayout
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textSize="16sp"
+            android:text="@string/create_your_store_address"
+            android:textColor="@color/nav_fontcolor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <EditText
+            android:gravity="center"
+            android:hint="您输入的地址已被使用，请重新输入！"
+            android:textSize="14sp"
+            android:textColorHint="@color/red"
+            android:textColor="@color/mgray"
+            android:inputType="textEmailAddress"
+            android:layout_gravity="center"
+            android:background="@null"
+
+            android:layout_width="250dp"
+            android:layout_height="49dp" />
+        <View
+            android:layout_gravity="bottom"
+
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/line"
+            />
+    </FrameLayout>
+    <FrameLayout
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textSize="14sp"
+            android:text=".Edgeless.com"
+            android:textColor="@color/nav_fontcolor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
+    <FrameLayout
+
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:gravity="center"
+            android:textSize="14sp"
+            android:text="@string/register_Instructions"
+            android:textColor="@color/mgray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
+    <FrameLayout
+        android:layout_marginTop="80dp"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+        <TextView
+            android:id="@+id/register_three_ensure"
+            android:text="@string/accomplish"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:background="@drawable/login_btn"
+            android:layout_gravity="center"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content" />
+
+    </FrameLayout>
+    </LinearLayout>
+</LinearLayout>

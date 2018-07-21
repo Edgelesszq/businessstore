@@ -56,7 +56,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private List<Goods> mList;
     private CircleImageView circleImageView;
     private CommonPopupWindow popupWindow;
-    private ImageView nav_personal_btn, mMainSearchImgview,qrcode;
+    private ImageView nav_personal_btn, mMainSearchImgview,qrcode,message_imgview;
     private Button main_loginbtn;
     private FrameLayout myaccount_icon, myorder_icon, setting_icon, third_party_domian,store_address,mystore;
 
@@ -112,6 +112,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         for (int i = 0;i<5;i++){
             mList.add(goods);
         }
+        message_imgview=findViewById(R.id.message_imgview);//我的消息界面
+        message_imgview.setOnClickListener(this);
         mRecyclerView = findViewById(R.id.main_recyclerview);
 
         qrcode=findViewById(R.id.qrcode);//二维码
@@ -267,6 +269,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             case R.id.qrcode:
                 Toast.makeText(this,"二维码",Toast.LENGTH_SHORT).show();
                 break;
+
+            case R.id.message_imgview:
+                Intent mymessageIntent=new Intent(MainActivity.this,MyMessageActivity.class);
+                startActivity(mymessageIntent);
 
             default:
                 break;

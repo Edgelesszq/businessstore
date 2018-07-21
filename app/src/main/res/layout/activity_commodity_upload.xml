@@ -5,6 +5,8 @@
     android:background="@color/title"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
 
     <LinearLayout
@@ -19,11 +21,13 @@
     </LinearLayout>
 
     <ScrollView
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white">
 
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
@@ -61,6 +65,7 @@
                 android:background="@null"
                 android:gravity="top"
                 android:hint="描述一下自己的商品"
+
                 android:textColor="@color/nav_fontcolor"
                 android:textColorHighlight="#587fff"
                 android:textColorHint="@color/q_gray"
@@ -137,6 +142,8 @@
                     android:text="185"
                     android:layout_marginRight="10dp"
                     style="@android:style/Widget.TextView"
+                    android:textCursorDrawable="@drawable/shape_et_cursor"
+
                     android:background="@null"
                     android:textColor="@color/red"
                     android:textSize="15sp" />
@@ -206,7 +213,11 @@
                         android:background="@mipmap/commodity_upload_number_bg"
                         android:src="@mipmap/commodity_upload_number_reduce"
                         />
-                    <TextView
+                    <EditText
+                        android:textCursorDrawable="@drawable/shape_et_cursor"
+
+                        android:maxLength="3"
+                        android:inputType="number"
                         android:id="@+id/text_number"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
@@ -217,6 +228,7 @@
                         android:background="@mipmap/commodity_upload_number_bg"
                         />
                     <ImageView
+
                         android:id="@+id/img_number_add"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
