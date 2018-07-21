@@ -50,13 +50,13 @@
         <activity android:name=".RegisterUserActivityOne">
 
         </activity>
-        <activity android:name=".RegisterUserActivityThree">
+        <activity android:name=".RegisterUserActivityFour">
 
         </activity>
-        <activity android:name=".RegisterUserActivityTwo">
+        <activity android:name=".RegisterUserActivitythree">
 
      </activity>
-        <activity android:name=".RegisterUserActivityFour">
+        <activity android:name=".RegisterUserActivityTwo">
 
         </activity>
         <activity android:name=".RegisterUserActivitySuccess">
@@ -140,6 +140,9 @@
         <activity android:name=".AddressItemActivity">
 
         </activity>
+        <activity android:name=".MyMessageActivity">
+
+        </activity>
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
@@ -152,6 +155,12 @@
             android:value="1PWgYgTnCQGHOcmL9ZSV2GdNzDpu4pfA" />
 
         <activity android:name=".PlusImageActivity">
+
+        </activity>
+        <activity android:name=".ReplyActivity"
+            android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustResize"
+            >
 
         </activity>
 

@@ -1,6 +1,7 @@
 package activity.com.businessstore;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +13,9 @@ import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 
@@ -53,7 +56,7 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
     private ImageView numberMinus, numberAdd;
 //    private boolean pubprice,pubnumber;
     private Switch sPrice,sNumber;
-    private TextView number;
+    private EditText number;
     private int intNumber;
     private Context mContext;
     private GridView gridView;
@@ -69,14 +72,29 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
         initView();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void initView() {
         setTitleView(R.drawable.backimage, R.string.commodity_upload, R.string.save);
         mTitleLefeBackImg.setOnClickListener(this);
 
         editTitle = findViewById(R.id.edit_commodity_title);
+
         editContent = findViewById(R.id.edit_commodity_content);
         editPrice = findViewById(R.id.edit_price);
         number = findViewById(R.id.text_number);
+
+        number.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction()==MotionEvent.ACTION_UP){
+                    number.setFocusable(true);
+                }
+
+                return false;
+            }
+        });
+
+
         sPrice = findViewById(R.id.switch_price);
         sNumber = findViewById(R.id.switch_number);
 
@@ -127,9 +145,7 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
             }
         };
         editTitle.addTextChangedListener(textWatcher);
-       /* editContent.addTextChangedListener(textWatcher);
-        editnumber.addTextChangedListener(textWatcher);
-        editPrice.addTextChangedListener(textWatcher);*/
+
 
 
         numberMinus = findViewById(R.id.img_number_minus);
@@ -187,9 +203,13 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
                 startActivityForResult(locationIntent,2333);
                 break;
             case R.id.img_number_minus:
+                number.setSelection(number.getText().length());
+
                 addNumber();
                 break;
             case R.id.img_number_add:
+                number.setSelection(number.getText().length());
+
                 minusNumber();
                 break;
 
@@ -200,15 +220,21 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
     }
 
     public void addNumber() {
+
+
         intNumber = Integer.parseInt(number.getText().toString().trim());
+
         if (intNumber > 0) {
             number.setText(String.valueOf(intNumber - 1));
+
         } else {
             number.setText("0");
         }
     }
 
     public void minusNumber(){
+
+
         intNumber = Integer.parseInt(number.getText().toString().trim());
         number.setText(String.valueOf(intNumber + 1));
     }

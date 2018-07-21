@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+    <include layout="@layout/title_layout"/>
+
+
+
+    <ScrollView
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_marginLeft="5dp"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <com.businessstore.util.RoundImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@mipmap/default_head_image" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="小白"
+            android:textColor="@color/mgray"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="5dp"
+        android:text="这个鞋子怎么卖啊？"
+        android:textColor="@color/nav_fontcolor"
+        android:textSize="15sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="刚刚"
+            android:textColor="@color/mgray"
+            android:textSize="11sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="回复"
+            android:textColor="@color/color5B92E1"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/comment_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:background="@color/colorf5f8fa"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp">
+
+    </LinearLayout>
+    <LinearLayout
+        android:visibility="gone"
+    android:id="@+id/total_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="50dp"
+    android:background="@color/colorf5f8fa"
+    android:orientation="vertical"
+    android:layout_marginTop="10dp"
+    android:paddingBottom="10dp"
+    android:paddingLeft="10dp"
+    android:paddingTop="5dp">
+    <TextView
+        android:id="@+id/total_recovery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="共10条回复 >"
+        android:textColor="@color/color5B92E1"
+        android:textSize="11sp" />
+
+</LinearLayout>
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/retract_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:background="@color/colorf5f8fa"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp">
+        <TextView
+            android:id="@+id/retract_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="共10条回复 >"
+            android:textColor="@color/color5B92E1"
+            android:textSize="11sp" />
+
+    </LinearLayout>
+
+    </LinearLayout>
+
+
+    </ScrollView>
+
+
+        <RelativeLayout
+
+            android:background="@color/my_account_number_line"
+            android:orientation="horizontal"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:textCursorDrawable="@drawable/shape_et_cursor"
+                android:paddingLeft="10dp"
+                android:id="@+id/reply_et"
+                android:layout_marginLeft="20dp"
+                android:textSize="16sp"
+
+                android:textColorHint="@color/q_gray"
+                android:hint="回复：阿三"
+                android:background="@drawable/insert_ev_bg"
+                android:layout_width="260dp"
+                android:layout_height="40dp" />
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:layout_toRightOf="@+id/reply_et"
+                android:text="发送"
+                android:background="@drawable/reply_border"
+                android:layout_width="60dp"
+                android:layout_height="30dp" />
+
+        </RelativeLayout>
+
+
+
+
+</LinearLayout>
