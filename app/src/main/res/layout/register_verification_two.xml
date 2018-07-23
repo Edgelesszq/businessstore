@@ -65,9 +65,11 @@
             android:layout_width="match_parent"
             android:layout_height="50dp">
             <EditText
+                android:theme="@style/edittextstyle"
+
                 android:hint="请输入您的验证码"
                 android:layout_gravity="top"
-
+                android:paddingLeft="5dp"
                 android:inputType="text"
 
                 android:textSize="16sp"

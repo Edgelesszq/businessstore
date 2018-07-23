@@ -4,11 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.businessstore.view.popwindow.CommonPopupWindow;
 import com.businessstore.view.popwindow.CommonUtil;
@@ -21,6 +25,7 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
     private TextView update_password,update_phonenum,name_tv;
     private CommonPopupWindow popupWindow;
     private CircleImageView HeadPortrait_update;
+    private ToggleButton btn_switch;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +45,21 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
 
         HeadPortrait_update=findViewById(R.id.HeadPortrait_update);//修改头像
         HeadPortrait_update.setOnClickListener(this);
+
+        btn_switch=findViewById(R.id.switch_btn);
+        btn_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    //如果选中，显示密码
+
+
+                } else {
+                    //否则隐藏密码
+
+                }
+            }
+        });
     }
 
 

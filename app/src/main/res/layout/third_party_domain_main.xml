@@ -44,6 +44,8 @@
         android:layout_height="50dp">
 
         <EditText
+            android:theme="@style/edittextstyle"
+
             android:gravity="left|center_vertical"
             android:hint="Enter your domain"
             android:textSize="14sp"

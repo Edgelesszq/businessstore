@@ -69,6 +69,9 @@
         <item name="android:background">@color/transparent</item>
         <item name="android:windowNoTitle">true</item>
     </style>
+    <style name="edittextstyle" parent="AppTheme">
+        <item name="android:textCursorDrawable">@drawable/shape_et_cursor</item>
+    </style>
 
 
 </resources>

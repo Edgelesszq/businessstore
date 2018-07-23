@@ -2,6 +2,7 @@ package activity.com.businessstore;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
@@ -94,10 +95,13 @@ public class OrderCommodityDetailsActivity extends BaseActivity implements View.
                 imageView.setBackgroundColor(0xffF08080);
                 imgParams.setMargins(DpConversion.dp2px(mContext, 3), DpConversion.dp2px(mContext, 3), DpConversion.dp2px(mContext, 3), DpConversion.dp2px(mContext, 3));
                 linearLayout.addView(imageView);
+                final int finalI = i*3+j;
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(mContext,"图片点击事件",Toast.LENGTH_SHORT).show();
+                        Intent intent=new Intent(OrderCommodityDetailsActivity.this,BigPhotoActivity.class);
+                        intent.putExtra("posi",finalI);
+                        startActivity(intent);
 
                     }
                 });

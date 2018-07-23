@@ -23,6 +23,7 @@
             android:layout_margin="20dp"
             android:background="@drawable/thrid_party_border">
             <EditText
+                android:theme="@style/edittextstyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
@@ -32,7 +33,6 @@
                 android:textColor="@color/nav_fontcolor"
                 android:textColorHighlight="#587fff"
                 android:textColorHint="@color/q_gray"
-                android:textCursorDrawable="@drawable/shape_et_cursor"
                 android:textSize="16sp" />
 
         </LinearLayout>

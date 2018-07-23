@@ -53,11 +53,12 @@
                     android:padding="10dp"
                     android:src="@mipmap/main_search_icon"/>
                 <EditText
+                    android:theme="@style/edittextstyle"
+
                     android:id="@+id/order_search_edit"
                     android:imeOptions="actionSearch"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:textCursorDrawable="@drawable/shape_et_cursor"
                     android:layout_weight="1"
                     android:singleLine="true"
                     android:textColorHighlight="#587fff"

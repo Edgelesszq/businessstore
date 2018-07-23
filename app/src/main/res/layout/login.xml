@@ -53,6 +53,7 @@
             android:layout_height="50dp">
 
             <EditText
+                android:theme="@style/edittextstyle"
                 android:inputType="textEmailAddress"
                 android:layout_gravity="center_vertical"
                 android:background="@null"
@@ -71,23 +72,36 @@
                 android:background="@color/line"
                 />
         </FrameLayout>
-        <FrameLayout
+        <RelativeLayout
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="50dp">
             <EditText
-                android:inputType="textEmailAddress"
+                android:theme="@style/edittextstyle"
+                android:id="@+id/login_password"
+                android:inputType="textPassword"
                 android:layout_gravity="center_vertical"
                 android:background="@null"
                 android:hint="请输入密码"
                 android:textSize="16sp"
-
                 android:textColorHint="@color/q_gray"
                 android:layout_marginLeft="50dp"
-                android:layout_width="300dp"
+                android:layout_width="230dp"
                 android:layout_height="49dp" />
+
+            <ToggleButton
+                android:visibility="gone"
+                android:id="@+id/togglePwd"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_toRightOf="@+id/login_password"
+                android:layout_centerVertical="true"
+                android:background="@drawable/toggle_pwd_selector"
+                android:textOff=""
+                android:textOn="" />
+
             <View
-                android:layout_gravity="bottom"
+                android:layout_alignParentBottom="true"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
                 android:layout_width="match_parent"
@@ -95,7 +109,7 @@
                 android:background="@color/line"
                 />
 
-        </FrameLayout>
+        </RelativeLayout>
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="30dp">

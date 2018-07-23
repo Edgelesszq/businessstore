@@ -53,6 +53,8 @@
         android:layout_height="50dp">
 
         <EditText
+            android:theme="@style/edittextstyle"
+
             android:id="@+id/phonenum_et"
             android:textSize="14sp"
             android:textColor="@color/nav_fontcolor"

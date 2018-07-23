@@ -192,12 +192,15 @@
             android:theme="@style/myaccount_style"
             android:layout_width="wrap_content"
             android:layout_height="49dp" />
-        <Switch
-
+        <ToggleButton
+            android:id="@+id/switch_btn"
+            android:background="@drawable/switch_selector"
             android:layout_marginRight="30px"
             android:layout_gravity="right|center_vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="25dp"
+            android:textOff=" "
+            android:textOn=" "
 
           />
 
