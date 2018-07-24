@@ -39,70 +39,61 @@
             android:layout_height="wrap_content" />
 
     </FrameLayout>-->
-    <FrameLayout
 
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="50dp"
-        android:layout_gravity="center_vertical"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content">
-        <TextView
+    <RelativeLayout
 
-            android:textColor="@color/red"
-            android:text="请输入您的店铺名称"
-            android:textSize="13sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </FrameLayout>
-    <FrameLayout
-       android:layout_marginTop="0dp"
+       android:layout_marginTop="60dp"
         android:layout_width="match_parent"
         android:layout_height="50dp">
+        <TextView
+            android:textSize="16sp"
+            android:gravity="center_vertical"
+            android:id="@+id/storename"
+            android:text="店        名:"
+            android:textColor="@color/nav_fontcolor"
+            android:layout_marginLeft="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="49dp" />
 
         <EditText
+            android:id="@+id/storename_et"
             android:theme="@style/edittextstyle"
-
             android:layout_width="200dp"
             android:layout_height="49dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="130dp"
             android:background="@null"
             android:hint="@string/Please_enter_your_shop_name"
-            android:inputType="textEmailAddress"
+            android:inputType="text"
             android:textColor="@color/mgray"
             android:textSize="16sp" />
         <View
-            android:layout_gravity="bottom"
+            android:layout_alignParentBottom="true"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/line"
             />
-    </FrameLayout>
-    <FrameLayout
+    </RelativeLayout>
 
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="50dp"
-        android:layout_gravity="center_vertical"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content">
-        <TextView
-
-            android:textColor="@color/red"
-            android:text="请输入您的店铺名称"
-            android:textSize="13sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </FrameLayout>
-    <FrameLayout
-        android:layout_marginTop="5dp"
+    <RelativeLayout
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="50dp">
+        <TextView
+            android:textSize="16sp"
 
+            android:gravity="center_vertical"
+            android:id="@+id/phonenum"
+            android:text="电话号码:"
+            android:textColor="@color/nav_fontcolor"
+            android:layout_marginLeft="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="49dp" />
 
         <View
-            android:layout_gravity="bottom"
+            android:layout_alignParentBottom="true"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
             android:layout_width="match_parent"
@@ -111,80 +102,72 @@
             />
 
         <EditText
+            android:id="@+id/phonenum_et"
             android:theme="@style/edittextstyle"
-
             android:layout_width="200dp"
             android:layout_height="49dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="130dp"
             android:background="@null"
             android:hint="@string/please_insert_into_your_phonenum"
             android:inputType="textEmailAddress"
             android:textColor="@color/mgray"
             android:textSize="16sp" />
-    </FrameLayout>
-    <FrameLayout
+    </RelativeLayout>
 
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="50dp"
-        android:layout_gravity="center_vertical"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content">
-        <TextView
 
-            android:textColor="@color/red"
-            android:text="请输入您的店铺名称"
-            android:textSize="13sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </FrameLayout>
-    <FrameLayout
-        android:layout_marginTop="5dp"
+    <RelativeLayout
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="50dp">
+        <TextView
+            android:textSize="16sp"
 
+            android:gravity="center_vertical"
+            android:id="@+id/work_time"
+            android:text="营业时间:"
+            android:textColor="@color/nav_fontcolor"
+            android:layout_marginLeft="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="49dp" />
         <EditText
+            android:id="@+id/worktime_et"
             android:theme="@style/edittextstyle"
-
             android:textColor="@color/mgray"
             android:hint="@string/Please_fill_in_the_store_business_hours"
-            android:inputType="textEmailAddress"
+            android:inputType="text|datetime"
             android:layout_gravity="center_vertical"
             android:background="@null"
             android:textSize="16sp"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="130dp"
             android:layout_width="200dp"
             android:layout_height="49dp" />
         <View
-            android:layout_gravity="bottom"
+            android:layout_alignParentBottom="true"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/line"
             />
-    </FrameLayout>
-    <FrameLayout
+    </RelativeLayout>
 
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="50dp"
-        android:layout_gravity="center_vertical"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content">
-        <TextView
-
-            android:textColor="@color/red"
-            android:text="请输入您的店铺名称"
-            android:textSize="13sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </FrameLayout>
-    <FrameLayout
-        android:layout_marginTop="5dp"
+    <RelativeLayout
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="50dp">
-
         <TextView
+            android:textSize="16sp"
+
+            android:gravity="center_vertical"
+            android:id="@+id/store_address"
+            android:text="营业时间:"
+            android:textColor="@color/nav_fontcolor"
+            android:layout_marginLeft="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="49dp" />
+        <TextView
+
             android:id="@+id/address_textView"
             android:textColor="@color/mgray"
             android:hint="@string/Please_enter_the_store_location"
@@ -192,86 +175,66 @@
             android:layout_gravity="center_vertical"
             android:background="@null"
             android:textSize="16sp"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="130dp"
             android:layout_width="200dp"
             android:layout_height="49dp" />
         <ImageView
+            android:layout_centerVertical="true"
             android:id="@+id/img_btn"
             android:src="@drawable/nav_arrow"
-            android:layout_gravity="center_vertical"
             android:layout_marginLeft="280dp"
             android:layout_width="40dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="15dp" />
         <View
-
-            android:layout_gravity="bottom"
+            android:layout_alignParentBottom="true"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/line"
             />
-    </FrameLayout>
-    <FrameLayout
+    </RelativeLayout>
 
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="50dp"
-        android:layout_gravity="center_vertical"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content">
-        <TextView
 
-            android:textColor="@color/red"
-            android:text="请输入您的店铺名称"
-            android:textSize="13sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </FrameLayout>
-
-    <FrameLayout
-        android:layout_marginTop="5dp"
+    <RelativeLayout
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="50dp">
+        <TextView
+            android:textSize="16sp"
 
+            android:gravity="center_vertical"
+            android:id="@+id/address_detial"
+            android:text="详细地址:"
+            android:textColor="@color/nav_fontcolor"
+            android:layout_marginLeft="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="49dp" />
         <EditText
+            android:id="@+id/detailsaddress_et"
             android:theme="@style/edittextstyle"
-
             android:textColor="@color/mgray"
             android:hint="@string/Please_fill_in_the_store_business_hours"
             android:inputType="textEmailAddress"
             android:layout_gravity="center_vertical"
             android:background="@null"
             android:textSize="16sp"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="130dp"
             android:layout_width="200dp"
             android:layout_height="49dp" />
         <View
-            android:layout_gravity="bottom"
+            android:layout_alignParentBottom="true"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/line"
             />
-    </FrameLayout>
-    <FrameLayout
+    </RelativeLayout>
 
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="50dp"
-        android:layout_gravity="center_vertical"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content">
-        <TextView
-
-            android:textColor="@color/red"
-            android:text="请输入您的店铺名称"
-            android:textSize="13sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </FrameLayout>
 
     <FrameLayout
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="60dp">
         <TextView

@@ -86,7 +86,7 @@ public class MainCommodityDetailsActivity extends BaseActivity implements View.O
     }
 
     private void initView() {
-        setTitleViewdetail(R.drawable.backimage, " ", R.mipmap.mian_commodity_details_share);
+        setTitleViewdetail(R.drawable.backimage, " "," ", R.mipmap.mian_commodity_details_share);
 
         price=findViewById(R.id.price);
         symbol=findViewById(R.id.symbol);
@@ -99,12 +99,12 @@ public class MainCommodityDetailsActivity extends BaseActivity implements View.O
                 if(y>90){
                     price.setVisibility(View.GONE);
                     symbol.setVisibility(View.GONE);
-                    setTitleViewdetail(R.drawable.backimage,symbol.getText().toString()+"  "+price.getText().toString(),R.mipmap.mian_commodity_details_share);
+                    setTitleViewdetail(R.drawable.backimage,symbol.getText().toString(),price.getText().toString(),R.mipmap.mian_commodity_details_share);
                 }
                 else if(y<=90) {
                     price.setVisibility(View.VISIBLE);
                     symbol.setVisibility(View.VISIBLE);
-                    setTitleViewdetail(R.drawable.backimage, " ", R.mipmap.mian_commodity_details_share);
+                    setTitleViewdetail(R.drawable.backimage, " "," ", R.mipmap.mian_commodity_details_share);
 
                 }
 
