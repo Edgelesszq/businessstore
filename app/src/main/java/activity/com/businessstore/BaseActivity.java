@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.businessstore.util.StatusBarUtil;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 /**
@@ -25,9 +26,12 @@ public class BaseActivity extends AppCompatActivity{
         protected RelativeLayout title_center_two_textview;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        StatusBarUtil.transparencyBar(this); //设置状态栏全透明
+        StatusBarUtil.StatusBarLightMode(this); //设置白底黑字
     }
+
     protected void setTitleView(int leftImgId, int cecterTextId){
         mTitleLefeBackImg = findViewById(R.id.title_left_back_img);
         mTitleCenterText = findViewById(R.id.title_center_text);

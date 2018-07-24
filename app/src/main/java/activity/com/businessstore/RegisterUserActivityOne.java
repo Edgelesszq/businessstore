@@ -31,8 +31,7 @@ public class RegisterUserActivityOne extends BaseActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_one);
-        StatusBarUtil.transparencyBar(this); //设置状态栏全透明
-        StatusBarUtil.StatusBarLightMode(this); //设置白底黑字
+
         mContext = this;
         initview();
     }

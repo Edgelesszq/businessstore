@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.businessstore.model.Goods;
 import com.businessstore.util.CustomPopWindow;
 import com.businessstore.util.DpConversion;
+import com.businessstore.util.StatusBarUtil;
 import com.businessstore.view.dialog.DialogStyleOne;
 import com.businessstore.view.popwindow.CommonPopupWindow;
 import com.businessstore.view.popwindow.CommonUtil;
@@ -73,7 +74,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         setContentView(R.layout.activity_main);
         mContext = this;
 //        navView=findViewById(R.id.nav_view);
-
+        StatusBarUtil.StatusBarLightMode_white(this);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);

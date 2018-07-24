@@ -65,8 +65,7 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
 
         setContentView(R.layout.my_order_main);
         mContext = this;
-        StatusBarUtil.transparencyBar(this); //设置状态栏全透明
-        StatusBarUtil.StatusBarLightMode(this); //设置白底黑字
+
 //        toolbar=findViewById(R.id.toolbar2);
 //        setSupportActionBar(toolbar);
         initview();

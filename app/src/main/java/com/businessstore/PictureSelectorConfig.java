@@ -1,4 +1,4 @@
-package activity.com.businessstore;
+package com.businessstore;
 
 import android.app.Activity;
 

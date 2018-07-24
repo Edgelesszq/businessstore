@@ -14,8 +14,7 @@ public class ForgetPasswordFourActivity extends BaseActivity  implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.common_successandfail_modify);
-        StatusBarUtil.transparencyBar(this); //设置状态栏全透明
-        StatusBarUtil.StatusBarLightMode(this); //设置白底黑字
+
         mContext = this;
         initview();
     }

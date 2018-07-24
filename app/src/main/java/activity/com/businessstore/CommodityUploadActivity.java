@@ -1,52 +1,36 @@
 package activity.com.businessstore;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.pm.PackageManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import android.widget.LinearLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.baidu.location.BDAbstractLocationListener;
-import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
-import com.businessstore.util.LogUtil;
-import com.businessstore.util.StatusBarUtil;
-import com.businessstore.util.ToastUtils;
+import com.businessstore.MainConstant;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.businessstore.PictureSelectorConfig;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.entity.LocalMedia;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import adapter.com.businessstore.GridViewAdapter;
 
@@ -72,8 +56,7 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_commodity_upload);
         mContext = this;
-        StatusBarUtil.transparencyBar(this); //设置状态栏全透明
-        StatusBarUtil.StatusBarLightMode(this); //设置白底黑字
+
         initView();
     }
 

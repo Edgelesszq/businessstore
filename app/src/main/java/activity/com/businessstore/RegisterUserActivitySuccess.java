@@ -33,8 +33,7 @@ public class RegisterUserActivitySuccess extends BaseActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.common_successandfail_register);
         mContext = this;
-        StatusBarUtil.transparencyBar(this); //设置状态栏全透明
-        StatusBarUtil.StatusBarLightMode(this); //设置白底黑字
+
         initview();
     }
     public void initview(){

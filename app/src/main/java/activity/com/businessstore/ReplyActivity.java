@@ -23,7 +23,6 @@ public class ReplyActivity extends BaseActivity implements View.OnClickListener{
     private LinearLayout comment_layout,total_layout,retract_layout;
     private Context mcontext;
     private TextView total_recovery,retract_more;
-    private static  int LINNErLAYOUT=0,LINNErLAYOUT_1=4,LINNErLAYOUT_2=5, CIRCLEIMAGE=1,USERNAME=2,CONTENT=3;
     int j,i=8;
     private LayoutInflater inflater;
 

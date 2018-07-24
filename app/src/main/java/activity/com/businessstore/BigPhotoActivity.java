@@ -14,7 +14,7 @@ import java.util.Collections;
 
 import adapter.com.businessstore.AdapterBigPhotoViewPager;
 
-public class BigPhotoActivity extends AppCompatActivity {
+public class BigPhotoActivity extends BaseActivity {
     private ViewPager viewPager;
     private TextView tvNum;
     private ArrayList<String> urlList;

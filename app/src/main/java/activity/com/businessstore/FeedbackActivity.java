@@ -14,8 +14,7 @@ public class FeedbackActivity extends BaseActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         mContext = this;
         setContentView(R.layout.activity_feedback);
-        StatusBarUtil.transparencyBar(this); //设置状态栏全透明
-        StatusBarUtil.StatusBarLightMode(this); //设置白底黑字
+
         initView();
     }
 

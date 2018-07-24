@@ -99,8 +99,7 @@ public class StoreAdressActivity extends BaseActivity implements OnScrollListene
 		requestpermissions();
 
 		setContentView(R.layout.address_main);
-		StatusBarUtil.transparencyBar(this); //设置状态栏全透明
-		StatusBarUtil.StatusBarLightMode(this); //设置白底黑字
+
 		initView();
 		//requestLocation();
 

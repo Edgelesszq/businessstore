@@ -38,8 +38,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
         initview();
     }
     public void initview(){
-        StatusBarUtil.transparencyBar(this); //设置状态栏全透明
-        StatusBarUtil.StatusBarLightMode(this); //设置白底黑字
+
         AssetManager mgr=getAssets();//得到AssetManager
         Typeface tf=Typeface.createFromAsset(mgr, "fonts/Roboto-Regular.ttf");//根据路径得到Typeface
 

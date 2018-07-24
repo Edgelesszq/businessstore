@@ -1,9 +1,11 @@
-package activity.com.businessstore;
+package com.businessstore.view.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
+
+import activity.com.businessstore.R;
 
 /**
  * 取消或者确认类型的Dialog

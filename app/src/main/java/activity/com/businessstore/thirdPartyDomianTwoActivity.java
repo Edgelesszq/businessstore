@@ -19,8 +19,7 @@ public class thirdPartyDomianTwoActivity extends BaseActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.third_party_domain_two);
         mContext = this;
-        StatusBarUtil.transparencyBar(this); //设置状态栏全透明
-        StatusBarUtil.StatusBarLightMode(this); //设置白底黑字
+
         initview();
     }
 

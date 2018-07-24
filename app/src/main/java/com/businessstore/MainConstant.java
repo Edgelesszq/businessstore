@@ -1,4 +1,4 @@
-package activity.com.businessstore;
+package com.businessstore;
 
 /**
  * 作者： 周旭 on 2017/6/22/0022.
