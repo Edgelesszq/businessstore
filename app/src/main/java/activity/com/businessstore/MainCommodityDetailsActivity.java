@@ -20,6 +20,7 @@ import com.businessstore.Config;
 import com.businessstore.ShowImagesDialog;
 import com.businessstore.util.DpConversion;
 import com.businessstore.util.NoScrollListview;
+import com.businessstore.util.StatusBarUtil;
 import com.businessstore.view.scrollview.ObservableScrollView;
 
 import org.w3c.dom.Text;
@@ -48,6 +49,8 @@ public class MainCommodityDetailsActivity extends BaseActivity implements View.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_commodity_details);
         mContext = this;
+        StatusBarUtil.transparencyBar(this); //设置状态栏全透明
+        StatusBarUtil.StatusBarLightMode(this); //设置白底黑字
         getDeviceDensity();
         initdata();
         initView();

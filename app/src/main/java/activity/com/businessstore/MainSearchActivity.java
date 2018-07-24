@@ -32,6 +32,7 @@ import com.businessstore.util.ACache;
 import com.businessstore.util.CustomPopWindow;
 import com.businessstore.util.DpConversion;
 import com.businessstore.util.GsonUtil;
+import com.businessstore.util.StatusBarUtil;
 import com.businessstore.view.dialog.DialogStyleOne;
 import com.google.gson.reflect.TypeToken;
 
@@ -76,7 +77,8 @@ public class MainSearchActivity extends BaseActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_search);
         mContext = this;
-
+        StatusBarUtil.transparencyBar(this); //设置状态栏全透明
+        StatusBarUtil.StatusBarLightMode(this); //设置白底黑字
         mCache = ACache.get(this);
         initView();
 

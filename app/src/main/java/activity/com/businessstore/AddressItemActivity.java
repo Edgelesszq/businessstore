@@ -30,6 +30,7 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.businessstore.util.LogUtil;
+import com.businessstore.util.StatusBarUtil;
 import com.businessstore.util.ToastUtils;
 
 import org.feezu.liuli.timeselector.TimeSelector;
@@ -68,7 +69,8 @@ public class AddressItemActivity extends BaseActivity implements View.OnClickLis
 
         setContentView(R.layout.address_selector_item);
         mContext = this;
-
+        StatusBarUtil.transparencyBar(this); //设置状态栏全透明
+        StatusBarUtil.StatusBarLightMode(this); //设置白底黑字
 
         initview();
         requestpermissions();

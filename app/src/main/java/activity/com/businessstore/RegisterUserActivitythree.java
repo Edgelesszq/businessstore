@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.businessstore.util.StatusBarUtil;
+
 import java.util.Collections;
 
 import chihane.jdaddressselector.AddressProvider;
@@ -37,7 +39,8 @@ public class RegisterUserActivitythree extends BaseActivity implements OnAddress
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_three);
         mContext = this;
-
+        StatusBarUtil.transparencyBar(this); //设置状态栏全透明
+        StatusBarUtil.StatusBarLightMode(this); //设置白底黑字
         initview();
     }
     public void initview(){

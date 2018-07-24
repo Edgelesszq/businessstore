@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import adapter.com.businessstore.ViewPagerAdapter;
+
 public class PlusImageActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, View.OnClickListener {
 
     private ViewPager viewPager; //展示图片的ViewPager

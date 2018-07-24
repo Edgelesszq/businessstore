@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.businessstore.util.StatusBarUtil;
+
 
 public class SettingMainActivity extends BaseActivity implements View.OnClickListener {
     private Context mContext;
@@ -16,6 +18,8 @@ public class SettingMainActivity extends BaseActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting_main);
         mContext = this;
+        StatusBarUtil.transparencyBar(this); //设置状态栏全透明
+        StatusBarUtil.StatusBarLightMode(this); //设置白底黑字
         initview();
     }
 

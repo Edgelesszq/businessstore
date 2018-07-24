@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.aspsine.swipetoloadlayout.OnLoadMoreListener;
 import com.aspsine.swipetoloadlayout.OnRefreshListener;
 import com.aspsine.swipetoloadlayout.SwipeToLoadLayout;
+import com.businessstore.util.StatusBarUtil;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import org.feezu.liuli.timeselector.TimeSelector;
@@ -64,7 +65,8 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
 
         setContentView(R.layout.my_order_main);
         mContext = this;
-
+        StatusBarUtil.transparencyBar(this); //设置状态栏全透明
+        StatusBarUtil.StatusBarLightMode(this); //设置白底黑字
 //        toolbar=findViewById(R.id.toolbar2);
 //        setSupportActionBar(toolbar);
         initview();

@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.businessstore.util.StatusBarUtil;
+
 public class thirdPartyDomianMianActivity extends BaseActivity implements View.OnClickListener {
     private Context mContext;
     private FrameLayout mNextDomainMain;
@@ -18,6 +20,8 @@ public class thirdPartyDomianMianActivity extends BaseActivity implements View.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.third_party_domain_main);
         mContext = this;
+        StatusBarUtil.transparencyBar(this); //设置状态栏全透明
+        StatusBarUtil.StatusBarLightMode(this); //设置白底黑字
         initview();
     }
 

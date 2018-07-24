@@ -1,4 +1,4 @@
-package activity.com.businessstore;
+package adapter.com.businessstore;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import activity.com.businessstore.R;
 import uk.co.senab.photoview.PhotoView;
 
 /**

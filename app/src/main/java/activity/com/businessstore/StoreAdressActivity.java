@@ -50,6 +50,7 @@ import com.businessstore.util.DBHelper;
 import com.businessstore.util.DatabaseHelper;
 import com.businessstore.util.LogUtil;
 import com.businessstore.util.PingYinUtil;
+import com.businessstore.util.StatusBarUtil;
 import com.businessstore.util.ToastUtils;
 import com.businessstore.view.customize.MyLetterListView;
 
@@ -98,6 +99,8 @@ public class StoreAdressActivity extends BaseActivity implements OnScrollListene
 		requestpermissions();
 
 		setContentView(R.layout.address_main);
+		StatusBarUtil.transparencyBar(this); //设置状态栏全透明
+		StatusBarUtil.StatusBarLightMode(this); //设置白底黑字
 		initView();
 		//requestLocation();
 

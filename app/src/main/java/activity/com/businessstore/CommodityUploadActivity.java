@@ -29,6 +29,7 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.businessstore.util.LogUtil;
+import com.businessstore.util.StatusBarUtil;
 import com.businessstore.util.ToastUtils;
 
 import java.util.ArrayList;
@@ -68,7 +69,8 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_commodity_upload);
         mContext = this;
-
+        StatusBarUtil.transparencyBar(this); //设置状态栏全透明
+        StatusBarUtil.StatusBarLightMode(this); //设置白底黑字
         initView();
     }
 

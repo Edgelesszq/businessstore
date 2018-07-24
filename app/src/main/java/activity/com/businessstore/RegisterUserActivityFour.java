@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.businessstore.util.StatusBarUtil;
+
 
 public class RegisterUserActivityFour extends BaseActivity implements View.OnClickListener{
     private Context mContext;
@@ -15,6 +17,8 @@ public class RegisterUserActivityFour extends BaseActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_create_storelink_four);
         mContext = this;
+        StatusBarUtil.transparencyBar(this); //设置状态栏全透明
+        StatusBarUtil.StatusBarLightMode(this); //设置白底黑字
         initview();
     }
     public void initview(){

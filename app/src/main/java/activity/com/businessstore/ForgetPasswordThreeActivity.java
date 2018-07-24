@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.businessstore.util.StatusBarUtil;
+
 
 public class ForgetPasswordThreeActivity extends BaseActivity implements View.OnClickListener{
     private TextView forget_one_tips;
@@ -16,6 +18,8 @@ public class ForgetPasswordThreeActivity extends BaseActivity implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.forget_password_three);
+        StatusBarUtil.transparencyBar(this); //设置状态栏全透明
+        StatusBarUtil.StatusBarLightMode(this); //设置白底黑字
         mContext = this;
         initview();
     }
