@@ -1,35 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <FrameLayout
-        android:background="@drawable/login_logo"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    >
+   <include layout="@layout/title_layout">
+
+   </include>
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="180dp">
-        <ImageView
-            android:layout_marginTop="25dp"
-            android:layout_marginLeft="5dp"
-            android:src="@drawable/backimg_white"
-            android:id="@+id/left_back"
-            android:layout_width="30dp"
-            android:layout_height="20dp"/>
-    </FrameLayout>
+        android:layout_height="160dp">
+        <TextView
+            android:textColor="@color/nav_fontcolor"
+            android:id="@+id/title_tips"
+            android:textSize="25sp"
+            android:text="请输入注册信息"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp">
 
-        </FrameLayout>
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="50dp">
 
             <EditText
+                android:id="@+id/register_email"
                 android:theme="@style/edittextstyle"
-
                 android:inputType="textEmailAddress"
                 android:layout_gravity="center_vertical"
                 android:background="@null"
@@ -49,14 +51,14 @@
                 android:background="@color/line"
                 />
         </FrameLayout>
-        <FrameLayout
+        <RelativeLayout
             android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="50dp">
             <EditText
                 android:theme="@style/edittextstyle"
-
-                android:inputType="textEmailAddress"
+                android:id="@+id/register_password"
+                android:inputType="textPassword"
                 android:layout_gravity="center_vertical"
                 android:background="@null"
                 android:hint="请输入密码"
@@ -64,11 +66,21 @@
                 android:textColorHint="@color/q_gray"
 
                 android:layout_marginLeft="50dp"
-                android:layout_width="300dp"
+                android:layout_width="230dp"
                 android:layout_height="49dp" />
+            <ToggleButton
+                android:visibility="gone"
+                android:id="@+id/togglePwd"
+                android:layout_width="25dp"
+                android:layout_height="19dp"
+                android:layout_toRightOf="@+id/register_password"
+                android:layout_centerVertical="true"
+                android:background="@drawable/toggle_pwd_selector"
+                android:textOff=""
+                android:textOn="" />
             <View
-                android:layout_gravity="bottom"
-                android:layout_marginLeft="50dp"
+                android:layout_alignParentBottom="true"
+              android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
 
                 android:layout_width="match_parent"
@@ -76,12 +88,13 @@
                 android:background="@color/line"
                 />
 
-        </FrameLayout>
+        </RelativeLayout>
         <FrameLayout
             android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="50dp">
             <EditText
+                android:id="@+id/register_country"
                 android:theme="@style/edittextstyle"
 
                 android:inputType="textEmailAddress"

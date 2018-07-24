@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
@@ -18,9 +19,10 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 public class BaseActivity extends AppCompatActivity{
 //        private ImageView back;
         protected ImageView mTitleLefeBackImg, mTitleRightSearchImg, mTitleRightMessageImg,mTitleRightImg;
-        protected TextView mTitleCenterText, mTitleRightText;
+        protected TextView mTitleCenterText, mTitleRightText,mTitlecenterRedText,mTitlecenterSymbolText;
         protected FrameLayout mTitleCenterSearchImg;
         protected MaterialSearchView mTitleCenterSearchView;
+        protected RelativeLayout title_center_two_textview;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
@@ -50,18 +52,21 @@ public class BaseActivity extends AppCompatActivity{
         mTitleCenterText.setText(cecterTextId);
         mTitleRightText.setText(rightTextId);
     }
-    protected void setTitleViewdetail(int leftImgId, String centerText, int rightImgId){
+    protected void setTitleViewdetail(int leftImgId, String symbolText,String redText, int rightImgId){
         mTitleLefeBackImg = findViewById(R.id.title_left_back_img);
-        mTitleCenterText = findViewById(R.id.title_center_red_text);
+        title_center_two_textview = findViewById(R.id.title_center_two_textview);
+        mTitlecenterSymbolText=findViewById(R.id.title_center_symbol_text);
+        mTitlecenterRedText=findViewById(R.id.title_center_red_text);
         mTitleRightSearchImg = findViewById(R.id.title_right_img);
 
 
         mTitleLefeBackImg.setVisibility(View.VISIBLE);
-        mTitleCenterText.setVisibility(View.VISIBLE);
+        title_center_two_textview.setVisibility(View.VISIBLE);
         mTitleRightSearchImg.setVisibility(View.VISIBLE);
 
         mTitleLefeBackImg.setImageResource(leftImgId);
-        mTitleCenterText.setText(centerText);
+        mTitlecenterSymbolText.setText(symbolText);
+        mTitlecenterRedText.setText(redText);
         mTitleRightSearchImg.setImageResource(rightImgId);
     }
     protected void setTitleView(int leftImgId, int cecterTextId, int rightSearchImgId, int rightMesageImgId){

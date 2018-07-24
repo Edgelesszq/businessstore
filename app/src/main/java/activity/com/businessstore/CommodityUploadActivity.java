@@ -17,6 +17,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import android.widget.LinearLayout;
@@ -38,6 +39,7 @@ import java.util.List;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -56,13 +58,14 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
     private EditText editTitle, editContent, editPrice,editnumber;
     private ImageView numberMinus, numberAdd;
 //    private boolean pubprice,pubnumber;
-    private Switch sPrice,sNumber;
     private EditText number;
     private int intNumber;
     private Context mContext;
     private GridView gridView;
     private ArrayList<String> mPiclist = new ArrayList<>();//上传的图片凭证的数据源
     private GridViewAdapter mGridViewAddImgAdapter;//展示上传的图片的适配器
+
+    private ToggleButton switch_btn_price,switch_btn_goods_num;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -97,8 +100,7 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
         });
 
 
-        sPrice = findViewById(R.id.switch_price);
-        sNumber = findViewById(R.id.switch_number);
+
 
         if (getIntent().getStringExtra("editor_title") != null) {
             String edt_title = getIntent().getStringExtra("editor_title");
@@ -112,8 +114,7 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
             editContent.setText(edt_content);
             editPrice.setText(edt_price+"");
             number.setText(edt_number+"");
-            sPrice.setChecked(spubprice);
-            sNumber.setChecked(spubnum);
+
         }
 
         current_location = findViewById(R.id.current_location);
@@ -190,6 +191,31 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
             }
         });
 
+        switch_btn_price=findViewById(R.id.switch_btn_price);//是否公开价格
+
+        switch_btn_price.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+
+
+                } else {
+
+                }
+            }
+        });
+        switch_btn_goods_num=findViewById(R.id.switch_btn_goods_num);//是否公开商品个数
+        switch_btn_goods_num.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+
+
+                } else {
+
+                }
+            }
+        });
     }
 
 

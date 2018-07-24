@@ -171,12 +171,15 @@
                     android:textColor="@color/nav_fontcolor"
                     android:textSize="15sp" />
 
-                <Switch
-                    android:id="@+id/switch_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <ToggleButton
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="0dp"
+                    android:id="@+id/switch_btn_price"
+                    android:layout_width="40dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/switch_selector"
+                    android:textOff=" "
+                    android:textOn=" "
+
                     />
             </RelativeLayout>
 
@@ -263,12 +266,15 @@
                     android:textColor="@color/nav_fontcolor"
                     android:textSize="15sp" />
 
-                <Switch
-                    android:id="@+id/switch_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <ToggleButton
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="0dp"
+                    android:id="@+id/switch_btn_goods_num"
+                    android:layout_width="40dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/switch_selector"
+                    android:textOff=" "
+                    android:textOn=" "
+
                     />
             </RelativeLayout>
 

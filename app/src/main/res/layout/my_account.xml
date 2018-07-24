@@ -28,192 +28,201 @@
             android:layout_height="wrap_content" />
     </FrameLayout>-->
     <LinearLayout
-        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:orientation="vertical">
-    <include
-        android:id="@+id/title_layout"
-        layout="@layout/title_layout"
-        />
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/HeadPortrait_update"
-            android:layout_marginTop="30dp"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/qidong"/>
-        <TextView
-            android:id="@+id/name_tv"
-            android:layout_marginTop="130dp"
-            android:layout_gravity="top|center_horizontal"
-            android:text="\@\世上再无张居正"
-            android:textColor="@color/nav_fontcolor"
-            android:textSize="16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
-        <View
-            android:layout_marginTop="160dp"
-            android:layout_gravity="top"
-            android:layout_marginLeft="100px"
-            android:layout_marginRight="100px"
+        <include
+            android:id="@+id/title_layout"
+            layout="@layout/title_layout" />
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/my_account_number_line"
-            />
-    </FrameLayout>
-    <FrameLayout
-        android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
-        <TextView
+            android:layout_height="wrap_content">
 
-            android:layout_marginLeft="30px"
-            android:gravity="center"
-            android:text="我的账号"
-            android:theme="@style/myaccount_style"
-            android:layout_width="wrap_content"
-            android:layout_height="49dp" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/HeadPortrait_update"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/qidong" />
 
-        <TextView
-            android:textSize="14sp"
-            android:gravity="center"
-            android:text="19958645@163.com"
-            android:layout_marginRight="40dp"
-            android:layout_gravity="right"
-            android:layout_width="wrap_content"
-            android:layout_height="49dp" />
-        <View
-            android:layout_gravity="bottom"
-            android:layout_marginLeft="30px"
-            android:layout_marginRight="30px"
+            <TextView
+                android:id="@+id/name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|center_horizontal"
+                android:layout_marginTop="130dp"
+                android:text="\@\世上再无张居正"
+                android:textColor="@color/nav_fontcolor"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_gravity="top"
+                android:layout_marginLeft="100px"
+                android:layout_marginRight="100px"
+                android:layout_marginTop="160dp"
+                android:background="@color/my_account_number_line" />
+        </FrameLayout>
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/my_account_number_line"
-            />
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp">
 
-    </FrameLayout>
+            <TextView
 
-    <FrameLayout
-        android:layout_marginTop="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
-        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="49dp"
+                android:layout_marginLeft="30px"
+                android:gravity="center"
+                android:text="我的账号"
+                android:theme="@style/myaccount_style" />
 
-            android:layout_marginLeft="30px"
-            android:gravity="center"
-            android:text="登录密码"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="49dp"
+                android:layout_gravity="right"
+                android:layout_marginRight="40dp"
+                android:gravity="center"
+                android:text="19958645@163.com"
+                android:textSize="14sp" />
 
-            android:theme="@style/myaccount_style"
-            android:layout_width="wrap_content"
-            android:layout_height="49dp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="30px"
+                android:layout_marginRight="30px"
+                android:background="@color/my_account_number_line" />
 
-        <TextView
-            android:id="@+id/update_password_textview"
-            android:textSize="14sp"
-            android:gravity="center_vertical|right"
+        </FrameLayout>
 
-            android:text="修改"
-            android:layout_marginRight="40dp"
-            android:layout_gravity="right"
-            android:layout_width="220dp"
-            android:layout_height="49dp" />
-        <ImageView
-            android:layout_marginRight="30px"
-            android:layout_gravity="right|center_vertical"
-            android:src="@drawable/nav_arrow"
-            android:layout_width="15dp"
-            android:layout_height="15dp" />
-        <View
-            android:layout_gravity="bottom"
-            android:layout_marginLeft="30px"
-            android:layout_marginRight="30px"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/my_account_number_line"
-            />
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp">
 
-    </FrameLayout>
-    <FrameLayout
-    android:layout_marginTop="5dp"
-    android:layout_width="match_parent"
-    android:layout_height="50dp">
+            <TextView
 
-        <TextView
-            android:id="@+id/update_phoneNum_text"
-        android:textSize="14sp"
-        android:gravity="right|center_vertical"
-        android:maxLength="11"
-        android:text="15682585448"
-        android:layout_marginRight="40dp"
-        android:layout_gravity="right"
-        android:layout_width="220dp"
-        android:layout_height="49dp" />
-        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="49dp"
+                android:layout_marginLeft="30px"
 
-            android:layout_marginRight="30px"
-            android:layout_gravity="right|center_vertical"
-            android:src="@drawable/nav_arrow"
-            android:layout_width="15dp"
-            android:layout_height="15dp" />
-    <View
-        android:layout_gravity="bottom"
-        android:layout_marginLeft="30px"
-        android:layout_marginRight="30px"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/my_account_number_line"
-        />
+                android:gravity="center"
+                android:text="登录密码"
+                android:theme="@style/myaccount_style" />
 
-        <TextView
+            <TextView
+                android:id="@+id/update_password_textview"
+                android:layout_width="220dp"
+                android:layout_height="49dp"
 
-            android:layout_width="wrap_content"
-            android:layout_height="49dp"
-            android:layout_marginLeft="30px"
-            android:gravity="center"
-            android:text="联系电话"
-            android:theme="@style/myaccount_style" />
+                android:layout_gravity="right"
+                android:layout_marginRight="40dp"
+                android:gravity="center_vertical|right"
+                android:text="修改"
+                android:textSize="14sp" />
 
-    </FrameLayout>
-    <FrameLayout
-        android:layout_marginTop="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
-        <TextView
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginRight="30px"
+                android:src="@drawable/nav_arrow" />
 
-            android:layout_marginLeft="30px"
-            android:gravity="center"
-            android:text="是否要公开电话号码"
-            android:theme="@style/myaccount_style"
-            android:layout_width="wrap_content"
-            android:layout_height="49dp" />
-        <ToggleButton
-            android:id="@+id/switch_btn"
-            android:background="@drawable/switch_selector"
-            android:layout_marginRight="30px"
-            android:layout_gravity="right|center_vertical"
-            android:layout_width="50dp"
-            android:layout_height="25dp"
-            android:textOff=" "
-            android:textOn=" "
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="30px"
+                android:layout_marginRight="30px"
+                android:background="@color/my_account_number_line" />
 
-          />
+        </FrameLayout>
 
-
-        <View
-            android:layout_gravity="bottom"
-            android:layout_marginLeft="30px"
-            android:layout_marginRight="30px"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/my_account_number_line"
-            />
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp">
 
-    </FrameLayout>
-</LinearLayout>
+            <TextView
+                android:id="@+id/update_phoneNum_text"
+                android:layout_width="220dp"
+                android:layout_height="49dp"
+                android:layout_gravity="right"
+                android:layout_marginRight="40dp"
+                android:gravity="right|center_vertical"
+                android:maxLength="11"
+                android:text="15682585448"
+                android:textSize="14sp" />
+
+            <ImageView
+
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginRight="30px"
+                android:src="@drawable/nav_arrow" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="30px"
+                android:layout_marginRight="30px"
+                android:background="@color/my_account_number_line" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="49dp"
+                android:layout_marginLeft="30px"
+                android:gravity="center"
+                android:text="联系电话"
+                android:theme="@style/myaccount_style" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp">
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="49dp"
+                android:layout_marginLeft="30px"
+                android:gravity="center"
+                android:text="是否要公开电话号码"
+                android:theme="@style/myaccount_style" />
+
+            <ToggleButton
+                android:id="@+id/switch_btn"
+                android:layout_width="40dp"
+                android:layout_height="20dp"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginRight="35px"
+                android:background="@drawable/switch_selector"
+                android:textOff=" "
+                android:textOn=" "
+
+                />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="30px"
+                android:layout_marginRight="30px"
+                android:background="@color/my_account_number_line" />
+
+        </FrameLayout>
+    </LinearLayout>
 </LinearLayout>
