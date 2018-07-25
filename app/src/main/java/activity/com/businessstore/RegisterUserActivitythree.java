@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.businessstore.util.StatusBarUtil;
+import com.businessstore.util.NoDoubleClickListener;
 import com.businessstore.util.ToastViewUtils;
 
 import java.util.Collections;
@@ -49,8 +49,7 @@ public class RegisterUserActivitythree extends BaseActivity implements OnAddress
         setTitleView(R.drawable.backimage,R.string.open_store);
         mTitleLefeBackImg.setOnClickListener(this);
 
-        register_one_ensure2=findViewById(R.id.register_one_ensure2);
-        register_one_ensure2.setOnClickListener(this);
+
 
         storename_et=findViewById(R.id.storename_et);//店名
 
@@ -103,17 +102,42 @@ public class RegisterUserActivitythree extends BaseActivity implements OnAddress
         address_textView=findViewById(R.id.address_textView);
         img_btn=findViewById(R.id.img_btn);
         img_btn.setOnClickListener(this);
+        register_one_ensure2=findViewById(R.id.register_one_ensure2);
+        register_one_ensure2.setOnClickListener(new NoDoubleClickListener() {
+            @Override
+            public void onNoDoubleClick(View v) {
+                String store_name=storename_et.getText().toString().trim();
+                String phone_num=phonenum_et.getText().toString().trim();
+                String work_time=worktime_et.getText().toString().trim();
+                String address_str=address_textView.getText().toString().trim();
+                String address_details=detailsaddress_et.getText().toString().trim();
+                LayoutInflater inflater=getLayoutInflater();
+                if(store_name.equals("")){
+                    ToastViewUtils.toastShowLoginMessage("请输入店名！",getApplicationContext(),inflater);
+                }
+                else if(phone_num.equals("")){
+                    ToastViewUtils.toastShowLoginMessage("请输入电话号码！",getApplicationContext(),inflater);
 
+                }else if(work_time.equals("")){
+                    ToastViewUtils.toastShowLoginMessage("请输入工作时间！",getApplicationContext(),inflater);
+
+                }else if(address_str.equals("")){
+                    ToastViewUtils.toastShowLoginMessage("请输入店铺位置！",getApplicationContext(),inflater);
+
+                }
+                else {
+
+                    Intent intent=new Intent(RegisterUserActivitythree.this,RegisterUserActivityFour.class);
+                    startActivity(intent);
+                }
+            }
+        });
 
     }
 
     @Override
     public void onClick(View view) {
-        String store_name=storename_et.getText().toString().trim();
-        String phone_num=phonenum_et.getText().toString().trim();
-        String work_time=worktime_et.getText().toString().trim();
-        String address_str=address_textView.getText().toString().trim();
-        String address_details=detailsaddress_et.getText().toString().trim();
+
 
         switch (view.getId()){
             case R.id.title_left_back_img:
@@ -130,32 +154,7 @@ public class RegisterUserActivitythree extends BaseActivity implements OnAddress
 
           }
           break;
-            case R.id.register_one_ensure2:
-            {
-                LayoutInflater inflater=getLayoutInflater();
-                if(store_name.equals("")){
-                    ToastViewUtils.toastShowLoginMessage("请输入店名！",getApplicationContext(),inflater);
-                    break;
-                }
-                else if(phone_num.equals("")){
-                    ToastViewUtils.toastShowLoginMessage("请输入电话号码！",getApplicationContext(),inflater);
-                    break;
 
-                }else if(work_time.equals("")){
-                    ToastViewUtils.toastShowLoginMessage("请输入工作时间！",getApplicationContext(),inflater);
-                    break;
-
-                }else if(address_str.equals("")){
-                    ToastViewUtils.toastShowLoginMessage("请输入店铺位置！",getApplicationContext(),inflater);
-                    break;
-                }
-                else {
-
-                Intent intent=new Intent(RegisterUserActivitythree.this,RegisterUserActivityFour.class);
-                startActivity(intent);
-                }
-            }
-            break;
       }
 
     }

@@ -1,14 +1,14 @@
 package activity.com.businessstore;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.text.Editable;
-import android.text.InputType;
+
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -20,10 +20,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import com.businessstore.util.StatusBarUtil;
+import com.businessstore.util.NoDoubleClickListener;
+import com.businessstore.util.StringUtil;
 import com.businessstore.util.ToastViewUtils;
-
-import java.util.zip.Inflater;
+import com.businessstore.view.dialog.DialogProgressbar;
 
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener{
@@ -31,10 +31,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
     private TextView forget_password_btn,login_btn;
     private ImageView left_back,see_password;
     private EditText login_password,login_account;//登录账号和密码
+    private Context mcontext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+        mcontext=this;
         initview();
     }
     public void initview(){
@@ -119,7 +121,33 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
 
 
         login_btn=findViewById(R.id.login_btn);//登录按钮
-        login_btn.setOnClickListener(this);
+
+        login_btn.setOnClickListener(new NoDoubleClickListener() {
+
+            @Override
+            public void onNoDoubleClick(View v) {
+                String account= login_account.getText().toString().trim();
+                String password= login_password.getText().toString().trim();
+                  LayoutInflater inflater=getLayoutInflater();
+                if(StringUtil.isBlank(account)){
+                    ToastViewUtils.toastShowLoginMessage("请输入账号！",getApplicationContext(),inflater);
+
+                }
+                else if(StringUtil.isBlank(password)){
+                    ToastViewUtils.toastShowLoginMessage("请输入密码！",getApplicationContext(),inflater);
+
+                }
+                else if(!(password.equals("123456")&&account.equals("123456"))){
+
+                    ToastViewUtils.toastShowLoginMessage("用户名或密码错误！",getApplicationContext(),inflater);
+
+                }
+                else {
+                    ToastViewUtils.toastShowLoginMessage("成功！",getApplicationContext(),inflater);
+
+                }
+            }
+        });
 
 
     }
@@ -127,8 +155,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
-       String account= login_account.getText().toString().trim();
-       String password= login_password.getText().toString().trim();
+
         switch (view.getId()){
             case R.id.register_btn:
                 Intent registerintent=new Intent(LoginActivity.this,RegisterUserActivityOne.class);
@@ -140,25 +167,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                 break;
             case R.id.left_back:
                 finish();
+//               DialogProgressbar dialogProgressbar=new DialogProgressbar(mcontext);
+////                dialogProgressbar.show();
                 break;
-            case R.id.login_btn:
-                LayoutInflater inflater=getLayoutInflater();
-                if(account.equals("")){
-                    ToastViewUtils.toastShowLoginMessage("请输入账号！",getApplicationContext(),inflater);
-                    break;
-                }
-                else if(password.equals("")){
-                    ToastViewUtils.toastShowLoginMessage("请输入密码！",getApplicationContext(),inflater);
-                    break;
-                }
-                else if(!(password.equals("123456")&&account.equals("123456"))){
-                ToastViewUtils.toastShowLoginMessage("用户名或密码错误！",getApplicationContext(),inflater);
-                break;
-                 }
-                 else {
-                    ToastViewUtils.toastShowLoginMessage("成功！",getApplicationContext(),inflater);
-                    break;
-                }
 
 
 

@@ -15,9 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.businessstore.util.NoDoubleClickListener;
 import com.businessstore.util.ToastViewUtils;
-
-import com.businessstore.util.StatusBarUtil;
 
 
 public class RegisterUserActivityOne extends BaseActivity implements View.OnClickListener {
@@ -43,8 +42,7 @@ public class RegisterUserActivityOne extends BaseActivity implements View.OnClic
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/msyh.ttf");//设置字体雅黑
         title_tips.setTypeface(typeface);
 
-        register_one_ensure=findViewById(R.id.register_one_ensure);
-        register_one_ensure.setOnClickListener(this);//下一步按钮
+
 
         register_email=findViewById(R.id.register_email);   // 邮箱输入框
 
@@ -93,40 +91,42 @@ public class RegisterUserActivityOne extends BaseActivity implements View.OnClic
                 }
             }
         });
+        register_one_ensure=findViewById(R.id.register_one_ensure);
+        register_one_ensure.setOnClickListener(new NoDoubleClickListener() {
+            @Override
+            public void onNoDoubleClick(View v) {
+                String email=register_email.getText().toString().trim();
+                String password=register_password.getText().toString().trim();
+                String country=register_country.getText().toString().trim();
+                LayoutInflater inflater=getLayoutInflater();
+                if(email.equals("")){
+                    ToastViewUtils.toastShowLoginMessage("请输入邮箱！",getApplicationContext(),inflater);
+
+                }
+                else if(password.equals("")){
+                    ToastViewUtils.toastShowLoginMessage("请输入密码！",getApplicationContext(),inflater);
+
+                }
+                else if(country.equals("")){
+                    ToastViewUtils.toastShowLoginMessage("请输入国家！",getApplicationContext(),inflater);
+                }
+                else{
+                    Intent intent=new Intent(RegisterUserActivityOne.this,RegisterUserActivityTwo.class);
+                    startActivity(intent);
+                }
+
+            }
+        });//下一步按钮
 
     }
 
 
     @Override
     public void onClick(View view) {
-        String email=register_email.getText().toString().trim();
-        String password=register_password.getText().toString().trim();
-        String country=register_country.getText().toString().trim();
+
 
 
         switch (view.getId()){
-
-            case R.id.register_one_ensure:
-                LayoutInflater inflater=getLayoutInflater();
-                if(email.equals("")){
-                    ToastViewUtils.toastShowLoginMessage("请输入邮箱！",getApplicationContext(),inflater);
-                    break;
-                }
-                else if(password.equals("")){
-                    ToastViewUtils.toastShowLoginMessage("请输入密码！",getApplicationContext(),inflater);
-                    break;
-
-                }
-                else if(country.equals("")){
-                    ToastViewUtils.toastShowLoginMessage("请输入国家！",getApplicationContext(),inflater);
-                    break;
-                }
-                else{
-                    Intent intent=new Intent(RegisterUserActivityOne.this,RegisterUserActivityTwo.class);
-                    startActivity(intent);
-                    break;
-                }
-
             case R.id.title_left_back_img:
                 finish();
         }

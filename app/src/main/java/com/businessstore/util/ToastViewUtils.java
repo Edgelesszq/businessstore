@@ -16,6 +16,7 @@ import com.businessstore.view.toast.ToastView;
 import activity.com.businessstore.R;
 
 public class ToastViewUtils{
+    static Toast toast;
     /**
      * 将Toast封装在一个方法中，在其它地方使用时直接输入要弹出的内容即可
      */
@@ -24,11 +25,17 @@ public class ToastViewUtils{
         View view = inflater.inflate(R.layout.toast_style, null); //加載layout下的布局
         TextView text = view.findViewById(R.id.tvTextToast);
         text.setText(messages); //toast内容
-        Toast toast = new Toast(mcontext);
-        toast.setGravity(Gravity.CENTER, 0, 0);//setGravity用来设置Toast显示的位置，相当于xml中的android:gravity或android:layout_gravity
-        toast.setDuration(Toast.LENGTH_LONG);//setDuration方法：设置持续时间，以毫秒为单位。该方法是设置补间动画时间长度的主要方法
-        toast.setView(view); //添加视图文件
-        //toast.setToastBackground(R.color.white,R.color.black);
+        if(toast==null){
+            toast = new Toast(mcontext);
+            toast.setGravity(Gravity.CENTER, 0, 0);//setGravity用来设置Toast显示的位置，相当于xml中的android:gravity或android:layout_gravity
+            toast.setDuration(Toast.LENGTH_SHORT);//setDuration方法：设置持续时间，以毫秒为单位。该方法是设置补间动画时间长度的主要方法
+
+            toast.setView(view); //添加视图文件
+            //toast.setToastBackground(R.color.white,R.color.black);
+
+        }
         toast.show();
+        toast=null;
+
     }
 }
