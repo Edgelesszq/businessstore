@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     android:orientation="horizontal"
-    >
+    android:layout_marginTop="1dp"
+    android:layout_marginBottom="1dp"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="wrap_content">
     <LinearLayout
         android:layout_weight="1.9"
         android:layout_width="0dp"
         android:layout_height="match_parent">
 
         <com.businessstore.view.roundImageView.RoundImageView1
-            android:id="@+id/goods_img"
+            android:id="@+id/main_recyclerview_item_display_diagram2"
             android:layout_width="125dp"
             android:layout_height="125dp"
             android:layout_marginBottom="5dp"
@@ -19,7 +21,9 @@
             android:layout_marginLeft="10dp"
             android:layout_gravity="bottom"
             android:scaleType="centerCrop"
-            android:src="@drawable/qidong" />
+            android:src="@mipmap/main_yifu3" />
+
+
 
 
     </LinearLayout>
@@ -30,7 +34,7 @@
         android:layout_marginLeft="8dp"
         android:layout_height="match_parent">
         <TextView
-            android:id="@+id/goods_title"
+            android:id="@+id/main_recyclerview_item_title2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
@@ -43,7 +47,7 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/goods_conment"
+            android:id="@+id/main_recyclerview_item_describe2"
             android:ellipsize="end"
             android:singleLine="true"
             android:layout_marginTop="5dp"
@@ -55,41 +59,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-            <LinearLayout
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
 
-                    android:text="$"
-                    android:textColor="@color/red"
-                    android:layout_gravity="bottom"
-                    android:textSize="14sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/goods_price"
-                    android:layout_marginLeft="3dp"
-                    android:text="120"
-                    android:textColor="@color/red"
-                    android:layout_gravity="bottom"
-                    android:textSize="18sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
+                android:text="$"
+                android:textColor="@color/red"
+                android:layout_gravity="bottom"
+                android:textSize="14sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/main_recyclerview_item_price2"
+                android:layout_marginLeft="3dp"
+                android:text="120"
+                android:textColor="@color/red"
+                android:layout_gravity="bottom"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-                    android:id="@+id/goods_date"
-                    android:foregroundGravity="center"
-                    android:layout_marginLeft="15dp"
-                    android:text="01-25:24-55"
-                    android:textColor="@color/mgray"
-                    android:layout_gravity="bottom"
-                    android:textSize="12sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
 
-            </LinearLayout>
+        </LinearLayout>
 
 
 
@@ -100,7 +94,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="下单1件"
+                android:id="@+id/main_recyclerview_item_number2"
+                android:text="剩余99件"
                 android:textColor="@color/mgray"
                 android:gravity="center"
                 android:layout_gravity="center"
@@ -112,13 +107,13 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"/>
             <FrameLayout
-                android:layout_width="100dp"
+                android:layout_width="50dp"
                 android:layout_height="match_parent">
                 <ImageView
                     android:layout_marginRight="20dp"
-                    android:id="@+id/delete_icon"
+                    android:id="@+id/main_recyclerview_item_more2"
                     android:layout_gravity="right|center"
-                    android:src="@drawable/delete_icon"
+                    android:src="@mipmap/main_recyclerview_item_more_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </FrameLayout>
@@ -126,12 +121,5 @@
         </LinearLayout>
 
 
-
-
-
-
-
-
     </LinearLayout>
-
 </LinearLayout>

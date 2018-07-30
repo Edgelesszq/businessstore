@@ -36,13 +36,15 @@ import com.businessstore.view.popwindow.CommonUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import adapter.com.businessstore.Adapter2MainActivity;
 import adapter.com.businessstore.AdapterMainActivity;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import de.hdodenhof.circleimageview.CircleImageView;
 import pub.devrel.easypermissions.EasyPermissions;
 
 
-public class MainActivity extends BaseActivity implements View.OnClickListener, CommonPopupWindow.ViewInterface {
+public class MainActivity extends BaseActivity implements View.OnClickListener,
+        CommonPopupWindow.ViewInterface {
 
     private Context mContext;
     private TextView upload_btn;
@@ -53,14 +55,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     //适配器
-    private AdapterMainActivity mAdapterMainActivity;
+    private AdapterMainActivity nAdapterMainActivity;
+    private Adapter2MainActivity mAdapterMainActivity;
     private RecyclerView mRecyclerView;
     private List<Goods> mList;
     private CircleImageView circleImageView;
     private CommonPopupWindow popupWindow;
     private ImageView nav_personal_btn, mMainSearchImgview,qrcode,message_imgview;
     private Button main_loginbtn;
-    private FrameLayout myaccount_icon, myorder_icon, setting_icon, third_party_domian,store_address,mystore;
+    private FrameLayout myaccount_icon, myorder_icon, setting_icon, third_party_domian,
+            store_address,mystore;
 
     //自定义popwindow对象
     private CustomPopWindow popWindow;
@@ -92,25 +96,27 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     private void initAdapter() {
-        mAdapterMainActivity = new AdapterMainActivity(mContext, mList);
+        mAdapterMainActivity = new Adapter2MainActivity(mContext, mList);
         mRecyclerView.setAdapter(mAdapterMainActivity);
         mAdapterMainActivity.setOnItemClickListener(new AdapterMainActivity.OnItemClickListener() {
             @Override
             public void onClick(View v, int position) {
                 // RecyclerView Item 的点击事件回调
-                Intent intent = new Intent(MainActivity.this, MainCommodityDetailsActivity.class);
+                Intent intent = new Intent(MainActivity.this,
+                        MainCommodityDetailsActivity.class);
                 startActivity(intent);
                 Toast.makeText(mContext, "Item 的点击事件", Toast.LENGTH_SHORT).show();
             }
         });
 
-        GridLayoutManager layoutManage = new GridLayoutManager(mContext, 2);
+        GridLayoutManager layoutManage = new GridLayoutManager(mContext, 1);
         mRecyclerView.setLayoutManager(layoutManage);
     }
 
     public void initview() {
         mList = new ArrayList<>();
-        Goods goods = new Goods("朵拉薇拉2","大码女装2",199,99,true,false);
+        Goods goods = new Goods("朵拉薇拉2","大码女装2",199,99,true,
+                false);
         for (int i = 0;i<5;i++){
             mList.add(goods);
         }
@@ -175,12 +181,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 //                break;
             //主界面搜索商品按钮
             case R.id.main_search_imgview:
-                Intent intentMainSearch = new Intent(MainActivity.this, MainSearchActivity.class);
+                Intent intentMainSearch = new Intent(MainActivity.this,
+                        MainSearchActivity.class);
                 startActivity(intentMainSearch);
                 break;
             //第三方导入域
             case R.id.third_party_domian:
-                Intent intentDomain = new Intent(MainActivity.this, thirdPartyDomianMianActivity.class);
+                Intent intentDomain = new Intent(MainActivity.this,
+                        thirdPartyDomianMianActivity.class);
                 startActivity(intentDomain);
                 break;
 
@@ -189,35 +197,42 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             //登录按钮
             case R.id.main_loginbtn:
-                Intent intentlogin = new Intent(MainActivity.this, LoginActivity.class);
+                Intent intentlogin = new Intent(MainActivity.this,
+                        LoginActivity.class);
                 startActivity(intentlogin);
                 break;
             case R.id.image_head:
-                Intent circleImageView = new Intent(MainActivity.this, AccountMainActivity.class);
+                Intent circleImageView = new Intent(MainActivity.this,
+                        AccountMainActivity.class);
                 startActivity(circleImageView);
                 break;
             //我的账号
             case R.id.myaccount_icon:
-                Intent myaccount_intent = new Intent(MainActivity.this, AccountMainActivity.class);
+                Intent myaccount_intent = new Intent(MainActivity.this,
+                        AccountMainActivity.class);
                 startActivity(myaccount_intent);
                 break;
             case R.id.store_address:
-                Intent test_intent = new Intent(MainActivity.this, StoreAdressActivity.class);
+                Intent test_intent = new Intent(MainActivity.this,
+                        StoreAdressActivity.class);
                 startActivity(test_intent);
                 break;
             //我的订单
             case R.id.myorder_icon:
-                Intent myorder_intent = new Intent(MainActivity.this, OrderMainActivity.class);
+                Intent myorder_intent = new Intent(MainActivity.this,
+                        OrderMainActivity.class);
                 startActivity(myorder_intent);
                 break;
             //设置按钮
             case R.id.setting_icon:
-                Intent setting_intent = new Intent(MainActivity.this, SettingMainActivity.class);
+                Intent setting_intent = new Intent(MainActivity.this,
+                        SettingMainActivity.class);
                 startActivity(setting_intent);
                 break;
             //上传商品
             case R.id.upload_btn:
-                Intent upload_btn_intent = new Intent(MainActivity.this, CommodityUploadActivity.class);
+                Intent upload_btn_intent = new Intent(MainActivity.this,
+                        CommodityUploadActivity.class);
                 startActivity(upload_btn_intent);
                 break;
             //popwindow Item 的点击事件
@@ -232,7 +247,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 pubPrice = mList.get(position).isPubPrice();
                 pubNumber = mList.get(position).isPubNumber();
 
-                Intent editor = new Intent(MainActivity.this, CommodityUploadActivity.class);
+                Intent editor = new Intent(MainActivity.this,
+                        CommodityUploadActivity.class);
                 editor.putExtra("editor_title", edt_title);
                 editor.putExtra("editor_content", edt_content);
                 editor.putExtra("editor_price", edt_price);
@@ -291,7 +307,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
 
             case R.id.message_imgview:
-                Intent mymessageIntent=new Intent(MainActivity.this,MyMessageActivity.class);
+                Intent mymessageIntent=new Intent(MainActivity.this,
+                        MyMessageActivity.class);
                 startActivity(mymessageIntent);
 
             default:
