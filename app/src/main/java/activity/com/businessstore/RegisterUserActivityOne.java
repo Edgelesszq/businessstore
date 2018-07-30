@@ -14,9 +14,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
-
 import com.businessstore.util.NoDoubleClickListener;
 import com.businessstore.util.ToastViewUtils;
+
+import java.util.regex.Pattern;
 
 
 public class RegisterUserActivityOne extends BaseActivity implements View.OnClickListener {
@@ -100,7 +101,7 @@ public class RegisterUserActivityOne extends BaseActivity implements View.OnClic
                 String country=register_country.getText().toString().trim();
                 LayoutInflater inflater=getLayoutInflater();
                 if(email.equals("")){
-                    ToastViewUtils.toastShowLoginMessage("请输入邮箱！",getApplicationContext(),inflater);
+                    ToastViewUtils.toastShowLoginMessage("请输入邮箱或手机号！",getApplicationContext(),inflater);
 
                 }
                 else if(password.equals("")){
@@ -111,8 +112,15 @@ public class RegisterUserActivityOne extends BaseActivity implements View.OnClic
                     ToastViewUtils.toastShowLoginMessage("请输入国家！",getApplicationContext(),inflater);
                 }
                 else{
-                    Intent intent=new Intent(RegisterUserActivityOne.this,RegisterUserActivityTwo.class);
-                    startActivity(intent);
+                    if (!isPhoneRegex(email)&&!isEmailRegex(email)){
+                        ToastViewUtils.toastShowLoginMessage("账号格式错误",getApplicationContext(),inflater);
+                    }
+                    else if (!isPasswordRegex(password)){
+                        ToastViewUtils.toastShowLoginMessage("密码格式错误！",getApplicationContext(),inflater);
+                    }else {
+                        Intent intent = new Intent(RegisterUserActivityOne.this, RegisterUserActivityTwo.class);
+                        startActivity(intent);
+                    }
                 }
 
             }
@@ -130,5 +138,38 @@ public class RegisterUserActivityOne extends BaseActivity implements View.OnClic
             case R.id.title_left_back_img:
                 finish();
         }
+    }
+
+    /**
+     * 判断是否是合法手机号码（手机号码段详见：http://baike.baidu.com/view/781667.htm#2）
+     *
+     * @param phone：手机号码
+     * @return boolean
+     */
+    private boolean isPhoneRegex(String phone) {
+        String phonePattern = "^1\\d{10}$";
+        return Pattern.matches(phonePattern, phone);
+    }
+
+    /**
+     * 判断是否是合法邮箱
+     *
+     * @param email：邮箱
+     * @return boolean
+     */
+    private boolean isEmailRegex(String email) {
+        String emailPattern = "^([a-z0-9_\\.-]+)@([\\da-z\\.-]+)\\.([a-z\\.]{2,6})$";
+        return Pattern.matches(emailPattern, email);
+    }
+
+    /**
+     * 判断是否是合法密码（以字母开头，允许6~18字节，允许字母数字下划线）
+     *
+     * @param password：密码
+     * @return boolean
+     */
+    private boolean isPasswordRegex(String password) {
+        String passwordPattern = "^[a-z0-9_-]{7,19}$";
+        return Pattern.matches(passwordPattern, password);
     }
 }
