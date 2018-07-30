@@ -23,6 +23,7 @@ android {
     }
     productFlavors {
     }
+    buildToolsVersion '27.0.2'
 }
 
 dependencies {
@@ -70,4 +71,6 @@ dependencies {
     implementation files('libs/ShareSDK-Wechat-Moments-3.2.0.jar')
     implementation files('libs/MobTools-2018.0704.1157.jar')
     implementation files('libs/MobCommons-2018.0704.1311.jar')
+    //网络请求框架
+    compile 'com.lzy.net:okgo:3.0.4'
 }
