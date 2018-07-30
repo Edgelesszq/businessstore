@@ -16,6 +16,9 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 import com.businessstore.util.NoDoubleClickListener;
 import com.businessstore.util.ToastViewUtils;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Response;
 
 import java.util.regex.Pattern;
 
@@ -118,8 +121,19 @@ public class RegisterUserActivityOne extends BaseActivity implements View.OnClic
                     else if (!isPasswordRegex(password)){
                         ToastViewUtils.toastShowLoginMessage("密码格式错误！",getApplicationContext(),inflater);
                     }else {
-                        Intent intent = new Intent(RegisterUserActivityOne.this, RegisterUserActivityTwo.class);
-                        startActivity(intent);
+                        OkGo.<String>post("http://192.168.0.140/wuji/api/user/register")
+                                .tag(this)
+                                .params("phone",email)
+                                .params("password",password)
+                                .params("countries",country)
+                                .execute(new StringCallback() {
+                                    @Override
+                                    public void onSuccess(Response<String> response) {
+                                        Intent intent = new Intent(RegisterUserActivityOne.this, RegisterUserActivityTwo.class);
+                                        startActivity(intent);
+                                    }
+                                });
+
                     }
                 }
 
