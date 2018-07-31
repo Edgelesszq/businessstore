@@ -114,8 +114,8 @@
                     android:id="@+id/main_recyclerview_item_more2"
                     android:layout_gravity="right|center"
                     android:src="@mipmap/main_recyclerview_item_more_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="25dp"
+                    android:layout_height="10dp" />
             </FrameLayout>
 
         </LinearLayout>

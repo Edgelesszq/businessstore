@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -131,6 +132,12 @@ public class RegisterUserActivityOne extends BaseActivity implements View.OnClic
                                     public void onSuccess(Response<String> response) {
                                         Intent intent = new Intent(RegisterUserActivityOne.this, RegisterUserActivityTwo.class);
                                         startActivity(intent);
+                                    }
+
+                                    @Override
+                                    public void onError(Response<String> response) {
+                                        super.onError(response);
+                                        Log.d("sadad","sadsadasd");
                                     }
                                 });
 

@@ -12,11 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.businessstore.view.header.RefreshHeaderView
-            android:id="@id/swipe_refresh_header"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:gravity="center" />
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/commodity_recyclerview"

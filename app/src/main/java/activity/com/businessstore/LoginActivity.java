@@ -38,7 +38,7 @@ import org.json.JSONObject;
 public class LoginActivity extends BaseActivity implements View.OnClickListener{
     private TextView register_btn,title,content;
     private TextView forget_password_btn,login_btn;
-    private ImageView left_back,see_password;
+    private ImageView see_password;
     private EditText login_password,login_account;//登录账号和密码
     private Context mcontext;
     @Override
@@ -61,8 +61,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
         register_btn.setOnClickListener(this);
         forget_password_btn=findViewById(R.id.forget_password_btn);
         forget_password_btn.setOnClickListener(this);
-        left_back=findViewById(R.id.left_back);
-        left_back.setOnClickListener(this);
+
 
         final ToggleButton togglePwd = findViewById(R.id.togglePwd);
         togglePwd.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -137,7 +136,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
             public void onNoDoubleClick(View v) {
                 String account= login_account.getText().toString().trim();
                 String password= login_password.getText().toString().trim();
-                LayoutInflater inflater=getLayoutInflater();
+                final LayoutInflater inflater=getLayoutInflater();
                 if(StringUtil.isBlank(account)){
                     ToastViewUtils.toastShowLoginMessage("请输入账号！",getApplicationContext(),inflater);
 
@@ -152,6 +151,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
 //
 //                }
                 else {
+                    ToastViewUtils.toastShowLoginMessage("成功！",getApplicationContext(),inflater);
+                    Intent activityIntent=new Intent(LoginActivity.this,MainActivity.class);
+                    startActivity(activityIntent);
                     OkGo.<String>post("http://192.168.0.140/wuji/api/user/login")
                          .tag(this)
                             .params("account",account)
@@ -174,7 +176,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
 
                                 }
                             });
-                             ToastViewUtils.toastShowLoginMessage("成功！",getApplicationContext(),inflater);
+
 
                 }
             }
@@ -196,11 +198,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                 Intent forget_password_intent=new Intent(LoginActivity.this,ForgetPasswordOneActivity.class);
                 startActivity(forget_password_intent);
                 break;
-            case R.id.left_back:
-                finish();
-//               DialogProgressbar dialogProgressbar=new DialogProgressbar(mcontext);
-////                dialogProgressbar.show();
-                break;
+
 
 
 
