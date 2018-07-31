@@ -8,8 +8,7 @@
     android:background="@color/white"
     android:layout_height="wrap_content">
     <LinearLayout
-        android:layout_weight="1.9"
-        android:layout_width="0dp"
+        android:layout_width="140dp"
         android:layout_height="match_parent">
 
         <com.businessstore.view.roundImageView.RoundImageView1
@@ -18,7 +17,7 @@
             android:layout_height="125dp"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="12dp"
             android:layout_gravity="bottom"
             android:scaleType="centerCrop"
             android:src="@mipmap/main_yifu3" />
@@ -31,7 +30,7 @@
         android:orientation="vertical"
         android:layout_weight="3"
         android:layout_width="0dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="10dp"
         android:layout_height="match_parent">
         <TextView
             android:id="@+id/main_recyclerview_item_title2"
@@ -42,7 +41,7 @@
             android:layout_marginTop="10dp"
             android:maxEms="20"
             android:maxLines="2"
-            android:text="测试文字，陈十三次撒大家舍不得把收不到那时候阿萨德节哀顺变的基本三百jshfjdshjfhjdshjfhjsdhfjdsj"
+            android:text="@string/goods_title"
             android:textColor="@color/nav_fontcolor"
             android:textSize="14sp" />
 
