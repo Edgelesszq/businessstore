@@ -12,6 +12,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -20,10 +21,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.businessstore.util.GsonUtil;
 import com.businessstore.util.NoDoubleClickListener;
 import com.businessstore.util.StringUtil;
 import com.businessstore.util.ToastViewUtils;
 import com.businessstore.view.dialog.DialogProgressbar;
+import com.google.gson.JsonObject;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Response;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener{
@@ -128,7 +137,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
             public void onNoDoubleClick(View v) {
                 String account= login_account.getText().toString().trim();
                 String password= login_password.getText().toString().trim();
-                  LayoutInflater inflater=getLayoutInflater();
+                LayoutInflater inflater=getLayoutInflater();
                 if(StringUtil.isBlank(account)){
                     ToastViewUtils.toastShowLoginMessage("请输入账号！",getApplicationContext(),inflater);
 
@@ -137,13 +146,35 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                     ToastViewUtils.toastShowLoginMessage("请输入密码！",getApplicationContext(),inflater);
 
                 }
-                else if(!(password.equals("123456")&&account.equals("123456"))){
-
-                    ToastViewUtils.toastShowLoginMessage("用户名或密码错误！",getApplicationContext(),inflater);
-
-                }
+//                else if(!(password.equals("123456")&&account.equals("123456"))){
+//
+//                    ToastViewUtils.toastShowLoginMessage("用户名或密码错误！",getApplicationContext(),inflater);
+//
+//                }
                 else {
-                    ToastViewUtils.toastShowLoginMessage("成功！",getApplicationContext(),inflater);
+                    OkGo.<String>post("http://192.168.0.140/wuji/api/user/login")
+                         .tag(this)
+                            .params("account",account)
+                            .params("password",password)
+                            .execute(new StringCallback() {
+                                @Override
+                                public void onSuccess(Response<String> response) {
+
+                                    Log.d("loglog",response.body());
+                                    try {
+                                        JSONObject responsedata=new JSONObject(response.body().toString());
+                                        String dataJSon=responsedata.getString("data");
+                                        JSONObject UserInfoJson=new JSONObject(dataJSon);
+                                        String u_id=UserInfoJson.getString("id");
+                                        String u_key=UserInfoJson.getString("ukey");
+                                        Log.d("loglog","uid"+u_id+"      "+"u_key"+u_key);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }
+                            });
+                             ToastViewUtils.toastShowLoginMessage("成功！",getApplicationContext(),inflater);
 
                 }
             }
