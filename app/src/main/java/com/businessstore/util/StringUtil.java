@@ -167,4 +167,43 @@ public class StringUtil {
 		return MD5.getMD5Str(str);
 	}
 
+
+
+
+
+
+
+	/**
+	 * 判断是否是合法手机号码（手机号码段详见：http://baike.baidu.com/view/781667.htm#2）
+	 *
+	 * @param phone：手机号码
+	 * @return boolean
+	 */
+	public static boolean isPhoneRegex(String phone) {
+		String phonePattern = "^1\\d{10}$";
+		return Pattern.matches(phonePattern, phone);
+	}
+
+	/**
+	 * 判断是否是合法邮箱
+	 *
+	 * @param email：邮箱
+	 * @return boolean
+	 */
+	public static boolean isEmailRegex(String email) {
+		String emailPattern = "^([a-z0-9_\\.-]+)@([\\da-z\\.-]+)\\.([a-z\\.]{2,6})$";
+		return Pattern.matches(emailPattern, email);
+	}
+
+	/**
+	 * 判断是否是合法密码（以字母开头，允许6~18字节，允许字母数字下划线）
+	 *
+	 * @param password：密码
+	 * @return boolean
+	 */
+	public static boolean isPasswordRegex(String password) {
+		String passwordPattern = "^[a-z0-9_-]{7,19}$";
+		return Pattern.matches(passwordPattern, password);
+	}
+
 }

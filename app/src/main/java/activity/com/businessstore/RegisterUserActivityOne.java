@@ -15,7 +15,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
+
+import com.businessstore.Config;
 import com.businessstore.util.NoDoubleClickListener;
+import com.businessstore.util.StringUtil;
 import com.businessstore.util.ToastViewUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
@@ -116,13 +119,13 @@ public class RegisterUserActivityOne extends BaseActivity implements View.OnClic
                     ToastViewUtils.toastShowLoginMessage("请输入国家！",getApplicationContext(),inflater);
                 }
                 else{
-                    if (!isPhoneRegex(email)&&!isEmailRegex(email)){
+                    if (!StringUtil.isPhoneRegex(email)&&!StringUtil.isEmailRegex(email)){
                         ToastViewUtils.toastShowLoginMessage("账号格式错误",getApplicationContext(),inflater);
                     }
-                    else if (!isPasswordRegex(password)){
+                    else if (!StringUtil.isPasswordRegex(password)){
                         ToastViewUtils.toastShowLoginMessage("密码格式错误！",getApplicationContext(),inflater);
                     }else {
-                        OkGo.<String>post("http://192.168.0.140/wuji/api/user/register")
+                        OkGo.<String>post(Config.URL+"api/user/register")
                                 .tag(this)
                                 .params("phone",email)
                                 .params("password",password)
@@ -161,36 +164,5 @@ public class RegisterUserActivityOne extends BaseActivity implements View.OnClic
         }
     }
 
-    /**
-     * 判断是否是合法手机号码（手机号码段详见：http://baike.baidu.com/view/781667.htm#2）
-     *
-     * @param phone：手机号码
-     * @return boolean
-     */
-    private boolean isPhoneRegex(String phone) {
-        String phonePattern = "^1\\d{10}$";
-        return Pattern.matches(phonePattern, phone);
-    }
 
-    /**
-     * 判断是否是合法邮箱
-     *
-     * @param email：邮箱
-     * @return boolean
-     */
-    private boolean isEmailRegex(String email) {
-        String emailPattern = "^([a-z0-9_\\.-]+)@([\\da-z\\.-]+)\\.([a-z\\.]{2,6})$";
-        return Pattern.matches(emailPattern, email);
-    }
-
-    /**
-     * 判断是否是合法密码（以字母开头，允许6~18字节，允许字母数字下划线）
-     *
-     * @param password：密码
-     * @return boolean
-     */
-    private boolean isPasswordRegex(String password) {
-        String passwordPattern = "^[a-z0-9_-]{7,19}$";
-        return Pattern.matches(passwordPattern, password);
-    }
 }
