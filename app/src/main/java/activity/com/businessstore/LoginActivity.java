@@ -21,18 +21,30 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.businessstore.model.DataInfo;
+import com.businessstore.model.JsonData;
+import com.businessstore.model.User;
 import com.businessstore.util.GsonUtil;
 import com.businessstore.util.NoDoubleClickListener;
 import com.businessstore.util.StringUtil;
 import com.businessstore.util.ToastViewUtils;
 import com.businessstore.view.dialog.DialogProgressbar;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.cookie.store.CookieStore;
 import com.lzy.okgo.model.Response;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.List;
+
+import okhttp3.Cookie;
+import okhttp3.HttpUrl;
 
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener{
@@ -156,24 +168,35 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                     startActivity(activityIntent);
                     OkGo.<String>post("http://192.168.0.140/wuji/api/user/login")
                          .tag(this)
-                            .params("account",account)
+                            .params("phone",account)
                             .params("password",password)
+
                             .execute(new StringCallback() {
                                 @Override
                                 public void onSuccess(Response<String> response) {
-
                                     Log.d("loglog",response.body());
-                                    try {
-                                        JSONObject responsedata=new JSONObject(response.body().toString());
-                                        String dataJSon=responsedata.getString("data");
-                                        JSONObject UserInfoJson=new JSONObject(dataJSon);
-                                        String u_id=UserInfoJson.getString("id");
-                                        String u_key=UserInfoJson.getString("ukey");
-                                        Log.d("loglog","uid"+u_id+"      "+"u_key"+u_key);
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
+                                    String responseData = response.body().toString().trim();
+                                    Gson gson = new Gson();
+                                    JsonData jsonData= gson.fromJson(responseData,JsonData.class);
+                                    String id = jsonData.getData().getUserInfo().getId();
+                                    String ukey = jsonData.getData().getUserInfo().getUkey();
+//                                    HashMap<String,String> map = new HashMap<>();
+//                                    map.put("id",id);
+//                                    map.put("Ukey",ukey);
+                                    Log.d("loglog",jsonData.getData().getCode());
+                                    Log.d("loglog",jsonData.getData().getUserInfo().getId());
+                                    Log.d("loglog",jsonData.getData().getUserInfo().getUkey());
+                                    HttpUrl httpUrl = HttpUrl.parse("http://192.168.0.140/wuji/api/user/login");
+                                    Cookie.Builder builder = new Cookie.Builder();
+                                    Cookie cookie_id = builder.name("id").value(id).domain(httpUrl.host()).build();
+                                    Cookie cookie_ukey = builder.name("Ukey").value(ukey).domain(httpUrl.host()).build();
+                                    CookieStore cookieStore = OkGo.getInstance().getCookieJar().getCookieStore();
+                                    cookieStore.saveCookie(httpUrl, cookie_id);
+                                    cookieStore.saveCookie(httpUrl, cookie_ukey);
 
+                                    cookieStore = OkGo.getInstance().getCookieJar().getCookieStore();
+                                    List<Cookie> allCookie = cookieStore.getAllCookie();
+                                    Log.d("loglog","所有cookie如下：" + allCookie.toString());
                                 }
                             });
 
