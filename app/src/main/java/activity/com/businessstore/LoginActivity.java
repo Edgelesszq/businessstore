@@ -26,6 +26,7 @@ import com.businessstore.model.JsonData;
 import com.businessstore.model.User;
 import com.businessstore.util.GsonUtil;
 import com.businessstore.util.NoDoubleClickListener;
+import com.businessstore.util.SharedPreferencesUtil;
 import com.businessstore.util.StringUtil;
 import com.businessstore.util.ToastViewUtils;
 import com.businessstore.view.dialog.DialogProgressbar;
@@ -163,9 +164,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
 //
 //                }
                 else {
-                    ToastViewUtils.toastShowLoginMessage("成功！",getApplicationContext(),inflater);
-                    Intent activityIntent=new Intent(LoginActivity.this,MainActivity.class);
-                    startActivity(activityIntent);
+
                     OkGo.<String>post("http://192.168.0.140/wuji/api/user/login")
                          .tag(this)
                             .params("phone",account)
@@ -183,20 +182,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
 //                                    HashMap<String,String> map = new HashMap<>();
 //                                    map.put("id",id);
 //                                    map.put("Ukey",ukey);
-                                    Log.d("loglog",jsonData.getData().getCode());
+                                   /* Log.d("loglog",jsonData.getData().getCode());
                                     Log.d("loglog",jsonData.getData().getUserInfo().getId());
-                                    Log.d("loglog",jsonData.getData().getUserInfo().getUkey());
-                                    HttpUrl httpUrl = HttpUrl.parse("http://192.168.0.140/wuji/api/user/login");
-                                    Cookie.Builder builder = new Cookie.Builder();
-                                    Cookie cookie_id = builder.name("id").value(id).domain(httpUrl.host()).build();
-                                    Cookie cookie_ukey = builder.name("Ukey").value(ukey).domain(httpUrl.host()).build();
-                                    CookieStore cookieStore = OkGo.getInstance().getCookieJar().getCookieStore();
-                                    cookieStore.saveCookie(httpUrl, cookie_id);
-                                    cookieStore.saveCookie(httpUrl, cookie_ukey);
+                                    Log.d("loglog",jsonData.getData().getUserInfo().getUkey());*/
+                                    SharedPreferencesUtil.setParam(mcontext,"id",id);
+                                    SharedPreferencesUtil.setParam(mcontext,"ukey",ukey);
+                                    ToastViewUtils.toastShowLoginMessage("成功！",getApplicationContext(),inflater);
+                                    Intent activityIntent=new Intent(LoginActivity.this,MainActivity.class);
+                                    startActivity(activityIntent);
 
-                                    cookieStore = OkGo.getInstance().getCookieJar().getCookieStore();
-                                    List<Cookie> allCookie = cookieStore.getAllCookie();
-                                    Log.d("loglog","所有cookie如下：" + allCookie.toString());
+
                                 }
                             });
 
