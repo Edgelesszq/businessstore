@@ -113,7 +113,7 @@
                android:textColor="@color/nav_fontcolor"
                android:layout_gravity="center_vertical"
                android:layout_marginLeft="120px"
-               android:text="从第三方导入域"
+               android:text="绑定域"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content" />
 

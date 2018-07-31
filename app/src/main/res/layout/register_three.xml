@@ -56,9 +56,10 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_gravity="bottom"
-                android:layout_marginLeft="130dp"
-                android:layout_marginRight="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@id/storename"
+                android:layout_marginRight="30dp"
                 android:background="@color/line" />
         </RelativeLayout>
 
@@ -79,8 +80,9 @@
 
         <View
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="130dp"
-            android:layout_marginRight="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="30dp"
+            android:layout_toRightOf="@id/phonenum"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/line"
@@ -133,8 +135,9 @@
             android:layout_height="49dp" />
         <View
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="130dp"
-            android:layout_marginRight="50dp"
+            android:layout_toRightOf="@+id/work_time"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="30dp"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/line"
@@ -177,9 +180,10 @@
             android:layout_width="40dp"
             android:layout_height="15dp" />
         <View
+            android:layout_toRightOf="@id/store_address"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="130dp"
-            android:layout_marginRight="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="30dp"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/line"
@@ -216,9 +220,10 @@
             android:layout_width="match_parent"
             android:layout_height="49dp" />
         <View
+            android:layout_toRightOf="@id/address_detial"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="130dp"
-            android:layout_marginRight="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="30dp"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/line"

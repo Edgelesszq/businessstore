@@ -29,7 +29,7 @@ import com.businessstore.view.dialog.DialogProgressbar;
 public class LoginActivity extends BaseActivity implements View.OnClickListener{
     private TextView register_btn,title,content;
     private TextView forget_password_btn,login_btn;
-    private ImageView left_back,see_password;
+    private ImageView see_password;
     private EditText login_password,login_account;//登录账号和密码
     private Context mcontext;
     @Override
@@ -52,8 +52,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
         register_btn.setOnClickListener(this);
         forget_password_btn=findViewById(R.id.forget_password_btn);
         forget_password_btn.setOnClickListener(this);
-        left_back=findViewById(R.id.left_back);
-        left_back.setOnClickListener(this);
+
 
         final ToggleButton togglePwd = findViewById(R.id.togglePwd);
         togglePwd.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -144,6 +143,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                 }
                 else {
                     ToastViewUtils.toastShowLoginMessage("成功！",getApplicationContext(),inflater);
+                    Intent activityIntent=new Intent(LoginActivity.this,MainActivity.class);
+                    startActivity(activityIntent);
 
                 }
             }
@@ -165,11 +166,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                 Intent forget_password_intent=new Intent(LoginActivity.this,ForgetPasswordOneActivity.class);
                 startActivity(forget_password_intent);
                 break;
-            case R.id.left_back:
-                finish();
-//               DialogProgressbar dialogProgressbar=new DialogProgressbar(mcontext);
-////                dialogProgressbar.show();
-                break;
+
 
 
 

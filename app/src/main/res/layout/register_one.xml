@@ -75,8 +75,8 @@
             <ToggleButton
                 android:visibility="gone"
                 android:id="@+id/togglePwd"
-                android:layout_width="25dp"
-                android:layout_height="19dp"
+                android:layout_width="20dp"
+                android:layout_height="15dp"
                 android:layout_toRightOf="@+id/register_password"
                 android:layout_centerVertical="true"
                 android:background="@drawable/toggle_pwd_selector"

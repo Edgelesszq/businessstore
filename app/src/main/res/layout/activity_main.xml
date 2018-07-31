@@ -89,7 +89,7 @@
                 android:layout_height="50dp"
                 android:alpha="250"
                 android:transitionGroup="true"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -160,6 +160,7 @@
                     android:layout_below="@id/toolbar">
 
                 </android.support.v7.widget.RecyclerView>
+
             </LinearLayout>
 
             <LinearLayout
