@@ -21,6 +21,8 @@ public class AccountUpadatePasswordActivity extends BaseActivity implements View
         setTitleView(R.drawable.backimage,R.string.update_password,R.string.accomplish);
         mTitleLefeBackImg.setOnClickListener(this);
 
+
+
     }
 
 

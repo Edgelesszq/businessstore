@@ -40,7 +40,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
             android:maxEms="20"
-            android:maxLines="2"
+            android:maxLines="1"
             android:text="@string/goods_title"
             android:textColor="@color/nav_fontcolor"
             android:textSize="14sp" />
@@ -48,13 +48,13 @@
         <TextView
             android:id="@+id/main_recyclerview_item_describe2"
             android:ellipsize="end"
-            android:singleLine="true"
             android:layout_marginTop="5dp"
             android:layout_marginRight="20dp"
             android:textColor="@color/mgray"
             android:textSize="12sp"
-            android:text="还是很不错的o,还是很不错的哦asdasd"
+            android:text="还是很不错的o,还是很不错的哦没有什么可以比这个更好看绝对没有打折出售还等什么啊别再等了"
             android:maxLines="2"
+            android:maxEms="30"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

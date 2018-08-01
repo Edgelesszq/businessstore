@@ -1,11 +1,12 @@
 package com.businessstore.model;
 
-import java.util.List;
+import com.google.gson.annotations.SerializedName;
 
-public class DataInfo {
+public class DataInfo<T> {
+
     private String code;
     private String msg;
-    private User userInfo;
+    private T data;
 
     public String getCode() {
         return code;
@@ -23,11 +24,11 @@ public class DataInfo {
         this.msg = msg;
     }
 
-    public User getUserInfo() {
-        return userInfo;
+    public T getData() {
+        return data;
     }
 
-    public void setUserInfo(User userInfo) {
-        this.userInfo = userInfo;
+    public void setData(T data) {
+        this.data = data;
     }
 }

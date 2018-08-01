@@ -1,6 +1,8 @@
 package com.businessstore.model;
 
+
 public class User {
+
     private String id;
     private String seller_num;
     private String seller_pwd;
@@ -57,6 +59,8 @@ public class User {
         this.countries = countries;
     }
 
+
+
     public String getUkey() {
         return ukey;
     }
@@ -64,4 +68,5 @@ public class User {
     public void setUkey(String ukey) {
         this.ukey = ukey;
     }
+
 }
