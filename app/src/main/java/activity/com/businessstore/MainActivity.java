@@ -214,7 +214,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 break;
             case R.id.store_address:
                 Intent test_intent = new Intent(MainActivity.this,
-                        StoreAdressActivity.class);
+                        StoreAdressActivity2.class);
                 startActivity(test_intent);
                 break;
             //我的订单

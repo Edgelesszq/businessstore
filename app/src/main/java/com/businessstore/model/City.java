@@ -1,13 +1,23 @@
 package com.businessstore.model;
 
 public class City {
+	public String cityCode;
 	public String name;
 	public String pinyi;
 
-	public City(String name, String pinyi) {
-		super();
+
+	public City(String cityCode, String name, String pinyi) {
+		this.cityCode = cityCode;
 		this.name = name;
 		this.pinyi = pinyi;
+	}
+
+	public String getCityCode() {
+		return cityCode;
+	}
+
+	public void setCityCode(String cityCode) {
+		this.cityCode = cityCode;
 	}
 
 	public City() {
@@ -30,4 +40,8 @@ public class City {
 		this.pinyi = pinyi;
 	}
 
+	@Override
+	public String toString() {
+		return getName();
+	}
 }

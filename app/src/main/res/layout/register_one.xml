@@ -100,10 +100,9 @@
             <EditText
                 android:id="@+id/register_country"
                 android:theme="@style/edittextstyle"
-
                 android:inputType="textEmailAddress"
                 android:layout_gravity="center_vertical"
-                android:background="@null"
+                android:background="@drawable/insert_ev_bg_register"
                 android:hint="请输入国家"
                 android:layout_marginLeft="50dp"
                 android:layout_width="300dp"

@@ -125,7 +125,9 @@ public class RegisterUserActivityOne extends BaseActivity implements View.OnClic
                     else if (!StringUtil.isPasswordRegex(password)){
                         ToastViewUtils.toastShowLoginMessage("密码格式错误！",getApplicationContext(),inflater);
                     }else {
-                        OkGo.<String>post(Config.URL+"api/user/register")
+                        Intent intent = new Intent(RegisterUserActivityOne.this, RegisterUserActivityTwo.class);
+                        startActivity(intent);
+                      /*  OkGo.<String>post(Config.URL+"api/user/register")
                                 .tag(this)
                                 .params("phone",email)
                                 .params("password",password)
@@ -142,7 +144,7 @@ public class RegisterUserActivityOne extends BaseActivity implements View.OnClic
                                         super.onError(response);
                                         Log.d("sadad","sadsadasd");
                                     }
-                                });
+                                });*/
 
                     }
                 }

@@ -11,14 +11,7 @@ import com.businessstore.util.StatusBarUtil;
 
 import java.util.Collections;
 
-import chihane.jdaddressselector.AddressProvider;
-import chihane.jdaddressselector.AddressSelector;
-import chihane.jdaddressselector.BottomDialog;
-import chihane.jdaddressselector.OnAddressSelectedListener;
-import chihane.jdaddressselector.model.City;
-import chihane.jdaddressselector.model.County;
-import chihane.jdaddressselector.model.Province;
-import chihane.jdaddressselector.model.Street;
+
 
 
 /**
