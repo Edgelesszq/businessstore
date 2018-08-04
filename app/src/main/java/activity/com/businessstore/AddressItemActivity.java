@@ -38,19 +38,11 @@ import org.feezu.liuli.timeselector.TimeSelector;
 import java.util.ArrayList;
 import java.util.List;
 
-import adapter.com.businessstore.AdapterOrderRecycler;
-import chihane.jdaddressselector.BottomDialog;
-import chihane.jdaddressselector.OnAddressSelectedListener;
-import chihane.jdaddressselector.model.City;
-import chihane.jdaddressselector.model.County;
-import chihane.jdaddressselector.model.Province;
-import chihane.jdaddressselector.model.Street;
-
 /**
  * Created by joe on 2018/6/11.
  */
 
-public class AddressItemActivity extends BaseActivity implements View.OnClickListener,OnAddressSelectedListener{
+public class AddressItemActivity extends BaseActivity implements View.OnClickListener{
     private Context mContext;
     private ImageView location_icon;
     private TextView location_btn,select_other;
@@ -92,11 +84,7 @@ public class AddressItemActivity extends BaseActivity implements View.OnClickLis
             case R.id.select_other:
             {
 
-                BottomDialog dialog = new BottomDialog(AddressItemActivity.this);
-                location_icon.setVisibility(View.VISIBLE);
 
-                dialog.setOnAddressSelectedListener(AddressItemActivity.this);
-                dialog.show();
 
 
                 break;
@@ -129,15 +117,7 @@ public class AddressItemActivity extends BaseActivity implements View.OnClickLis
 
     }
 
-    @Override
-    public void onAddressSelected(Province province, City city, County county, Street street) {
-        String s = (province == null ? "" : province.name)
-                + (city == null ? "" : "  " + city.name)
-                + (county == null ? "" : "  " + county.name)
-                + (street == null ? "" : "  " + street.name);
-        Toast.makeText(this,""+s,Toast.LENGTH_SHORT).show();
-        select_other.setText(s);
-    }
+
 
     private void InitLocation() {
 

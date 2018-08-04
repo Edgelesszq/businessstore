@@ -144,6 +144,9 @@
         <activity android:name=".MyMessageActivity">
 
         </activity>
+        <activity android:name=".StoreAdressActivity2">
+
+        </activity>
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"

@@ -145,8 +145,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
 
                 }
                 else {
+                    Intent activityIntent=new Intent(LoginActivity.this,MainActivity.class);
+                    startActivity(activityIntent);
 
-                    OkGo.<String>post("http://192.168.0.140/wuji/api/user/login")
+                    /*OkGo.<String>post("http://192.168.0.140/wuji/api/user/login")
                          .tag(this)
                             .params("phone",account)
                             .params("password",password)
@@ -156,6 +158,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                                     Log.d("loglog",response.body());
                                     String responseData = response.body().toString().trim();
                                     Gson gson = new Gson();
+
                                     //把泛型指定为User类型解析
                                     DataInfo<User> dataInfo = gson.fromJson(responseData,new TypeToken<DataInfo<User>>(){}.getType());
                                     Log.d("loglog",dataInfo.toString());
@@ -172,9 +175,26 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                                     }else {
                                         ToastViewUtils.toastShowLoginMessage("账号或密码错误",getApplicationContext(),inflater);
                                     }
+=======
+                                    JsonData jsonData= gson.fromJson(responseData,JsonData.class);
+                                    String id = jsonData.getData().getUserInfo().getId();
+                                    String ukey = jsonData.getData().getUserInfo().getUkey();
+//                                    HashMap<String,String> map = new HashMap<>();
+//                                    map.put("id",id);
+//                                    map.put("Ukey",ukey);
+                                   *//* Log.d("loglog",jsonData.getData().getCode());
+                                    Log.d("loglog",jsonData.getData().getUserInfo().getId());
+                                    Log.d("loglog",jsonData.getData().getUserInfo().getUkey());*//*
+                                    SharedPreferencesUtil.setParam(mcontext,"id",id);
+                                    SharedPreferencesUtil.setParam(mcontext,"ukey",ukey);
+                                    ToastViewUtils.toastShowLoginMessage("成功！",getApplicationContext(),inflater);
+                                    Intent activityIntent=new Intent(LoginActivity.this,MainActivity.class);
+                                    startActivity(activityIntent);
+
+
 
                                 }
-                            });
+                            });*/
 
 
                 }
