@@ -112,13 +112,13 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"/>
             <FrameLayout
-                android:layout_width="100dp"
+                android:layout_width="50dp"
                 android:layout_height="match_parent">
                 <ImageView
                     android:layout_marginRight="20dp"
                     android:id="@+id/delete_icon"
                     android:layout_gravity="right|center"
-                    android:src="@drawable/delete_icon"
+                    android:src="@mipmap/main_recyclerview_item_more_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </FrameLayout>

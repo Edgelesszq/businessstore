@@ -145,36 +145,43 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
 
                 }
                 else {
-
-                    OkGo.<String>post("http://192.168.0.140/wuji/api/user/login")
-                         .tag(this)
-                            .params("phone",account)
-                            .params("password",password)
-                            .execute(new StringCallback() {
-                                @Override
-                                public void onSuccess(Response<String> response) {
-                                    Log.d("loglog",response.body());
-                                    String responseData = response.body().toString().trim();
-                                    Gson gson = new Gson();
-                                    //把泛型指定为User类型解析
-                                    DataInfo<User> dataInfo = gson.fromJson(responseData,new TypeToken<DataInfo<User>>(){}.getType());
-                                    Log.d("loglog",dataInfo.toString());
-
-                                    if (dataInfo.getCode().equals("0")) {
-                                        String id = dataInfo.getData().getId();
-                                        String ukey = dataInfo.getData().getUkey();
-                                        //缓存
-                                        SharedPreferencesUtil.setParam(mcontext,"id",id);
-                                        SharedPreferencesUtil.setParam(mcontext,"ukey",ukey);
-                                        ToastViewUtils.toastShowLoginMessage("成功！", getApplicationContext(), inflater);
-                                        Intent activityIntent = new Intent(LoginActivity.this, MainActivity.class);
+                    Intent activityIntent = new Intent(LoginActivity.this, MainActivity.class);
                                         startActivity(activityIntent);
-                                    }else {
-                                        ToastViewUtils.toastShowLoginMessage("账号或密码错误",getApplicationContext(),inflater);
-                                    }
 
-                                }
-                            });
+//                    OkGo.<String>post("http://192.168.0.140/wuji/api/user/login")
+//                         .tag(this)
+//                            .params("phone",account)
+//                            .params("password",password)
+//                            .execute(new StringCallback() {
+//                                @Override
+//                                public void onSuccess(Response<String> response) {
+//                                    Log.d("loglog",response.body());
+//                                    String responseData = response.body().toString().trim();
+//                                    Gson gson = new Gson();
+//                                    //把泛型指定为User类型解析
+//                                    DataInfo<User> dataInfo = gson.fromJson(responseData,new TypeToken<DataInfo<User>>(){}.getType());
+//                                    Log.d("loglog",dataInfo.toString());
+//
+//                                    if (dataInfo.getCode().equals("0")) {
+//                                        String id = dataInfo.getData().getId();
+//                                        String ukey = dataInfo.getData().getUkey();
+//                                        //缓存
+//                                        SharedPreferencesUtil.setParam(mcontext,"id",id);
+//                                        SharedPreferencesUtil.setParam(mcontext,"ukey",ukey);
+//                                        ToastViewUtils.toastShowLoginMessage("成功！", getApplicationContext(), inflater);
+//                                        Intent activityIntent = new Intent(LoginActivity.this, MainActivity.class);
+//                                        startActivity(activityIntent);
+//                                    }else {
+//                                        ToastViewUtils.toastShowLoginMessage("账号或密码错误",getApplicationContext(),inflater);
+//                                    }
+//
+//                                }
+//
+//                                @Override
+//                                public void onError(Response<String> response) {
+//                                    super.onError(response);
+//                                }
+//                            });
 
 
                 }
