@@ -1,14 +1,16 @@
 package activity.com.businessstore;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.businessstore.util.StatusBarUtil;
 
 
 public class ForgetPasswordFourActivity extends BaseActivity  implements View.OnClickListener{
-    //private TextView forget_one_tips;
+    private TextView gotologin;
     private Context mContext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +23,8 @@ public class ForgetPasswordFourActivity extends BaseActivity  implements View.On
     public void initview(){
         setTitleView(R.drawable.backimage,R.string.Settingcompleted);
         mTitleLefeBackImg.setOnClickListener(this);
-
+        gotologin = findViewById(R.id.goToLogin);
+        gotologin.setOnClickListener(this);
     }
 
 
@@ -31,6 +34,9 @@ public class ForgetPasswordFourActivity extends BaseActivity  implements View.On
             case R.id.title_left_back_img:
                 this.finish();
                 break;
+            case R.id.goToLogin:
+                Intent intent = new Intent(ForgetPasswordFourActivity.this,LoginActivity.class);
+                startActivity(intent);
         }
     }
 }

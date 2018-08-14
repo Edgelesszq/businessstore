@@ -11,6 +11,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.businessstore.util.StatusBarUtil;
+
+import com.businessstore.view.dialog.DialogStyleProgressBar;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 /**
@@ -24,6 +26,7 @@ public class BaseActivity extends AppCompatActivity{
         protected FrameLayout mTitleCenterSearchImg;
         protected MaterialSearchView mTitleCenterSearchView;
         protected RelativeLayout title_center_two_textview;
+        protected DialogStyleProgressBar dialogStyleProgressBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -129,16 +132,16 @@ public class BaseActivity extends AppCompatActivity{
         mTitleCenterText.setText(cecterTextId);
         mTitleRightText.setText(rightTextId);
     }
-    /*protected void setTitleView( boolean isMainSearch,int rightTextId ) {
-        if(isMainSearch){
-
+    protected void showDialogprogressBarWithString(String content){
+        dialogStyleProgressBar=new DialogStyleProgressBar(this, R.style.dialog_style,content);
+        dialogStyleProgressBar.show();
+    }
+    protected void dissmissDialogprogressBarWithString(){
+        if (dialogStyleProgressBar.isShowing()){
+            dialogStyleProgressBar.dismiss();
         }
-        mTitleRightText = findViewById(R.id.title_right_text);
-        mTitleRightText.setVisibility(View.VISIBLE);
-        mTitleRightText.setText(rightTextId);
 
-
-    }*/
+    }
 
 
 }

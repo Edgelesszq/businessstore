@@ -15,14 +15,15 @@ import com.businessstore.view.dialog.DialogStyleOne;
 
 import java.util.List;
 
+import activity.com.businessstore.OrderMainActivity;
 import activity.com.businessstore.R;
 
-public class AdapterOrderRecycler extends RecyclerView.Adapter implements View.OnClickListener {
+public class AdapterOrderRecycler extends RecyclerView.Adapter<AdapterOrderRecycler.MyCompletedHolder> implements View.OnClickListener {
     private Context mcontext;
     private List<String> mlist;
     private OnItemClickListener mOnItemClickListener = null;
-    private  final int COMPLETED_TYPE=1;
-    private final int UND0NE_TYPE=2;
+    private final int COMPLETED_TYPE = 1;
+    private final int UND0NE_TYPE = 2;
 
 
     //private List<MYViewHolder> mHolderList;
@@ -43,119 +44,39 @@ public class AdapterOrderRecycler extends RecyclerView.Adapter implements View.O
     }*/
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType==1){
-            View view= LayoutInflater.from(mcontext).inflate(R.layout.my_order_recyclerview_completed_item,parent,false);
-            view.setOnClickListener(this);
+    public AdapterOrderRecycler.MyCompletedHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(mcontext).inflate(R.layout.my_order_recyclerview_completed_item, parent, false);
+        view.setOnClickListener(this);
 
-            return new MyCompletedHolder(view);
-        }
-        else {
-            View view= LayoutInflater.from(mcontext).inflate(R.layout.my_order_recyclerview_undone_item,parent,false);
-            view.setOnClickListener(this);
-
-            return new MyUndoneHolder(view);
-        }
-
+        return new MyCompletedHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-        holder.itemView.setTag(position+"");
-        if(holder instanceof MyCompletedHolder){
-
-            ((MyCompletedHolder) holder).delete_icon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(mcontext,"shanchu",Toast.LENGTH_SHORT).show();
-                    final DialogStyleOne dialogStyleOne=new DialogStyleOne(mcontext);
-                    dialogStyleOne.setYesOnclickListener("是", new DialogStyleOne.onYesOnclickListener() {
-                        @Override
-                        public void onYesClick() {
-                            dialogStyleOne.dismiss();
-                        }
-                    });
-                    dialogStyleOne.setNoOnclickListener("否", new DialogStyleOne.onNoOnclickListener() {
-                        @Override
-                        public void onNoClick() {
-                            dialogStyleOne.dismiss();
-                        }
-                    });
-                    dialogStyleOne.show();
-
-                }
-            });
-        }
-        else {
-            ((MyUndoneHolder) holder).delete_icon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(mcontext,"fanhui",Toast.LENGTH_SHORT).show();
-                    final DialogStyleOne dialogStyleOne=new DialogStyleOne(mcontext);
-                    dialogStyleOne.setYesOnclickListener("取消", new DialogStyleOne.onYesOnclickListener() {
-                        @Override
-                        public void onYesClick() {
-                            dialogStyleOne.dismiss();
-                        }
-                    });
-                    dialogStyleOne.setNoOnclickListener("是", new DialogStyleOne.onNoOnclickListener() {
-                        @Override
-                        public void onNoClick() {
-                            dialogStyleOne.dismiss();
-                        }
-                    });
-                    dialogStyleOne.show();
-
-                }
-            });
-        }
-    }
-
-   /* @Override
-    public void onBindViewHolder(final MYViewHolder holder, int position) {
-        holder.itemView.setTag(position+"");
-        holder.delete_icon.setOnClickListener(new View.OnClickListener() {
+    public void onBindViewHolder(final MyCompletedHolder holder, final int position) {
+        holder.itemView.setTag(position + "");
+        holder.more_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mcontext,"删除",Toast.LENGTH_SHORT).show();
-                final DialogStyleOne dialogStyleOne=new DialogStyleOne(mcontext);
-                dialogStyleOne.setYesOnclickListener("取消", new DialogStyleOne.onYesOnclickListener() {
-                    @Override
-                    public void onYesClick() {
-                        dialogStyleOne.dismiss();
-                    }
-                });
-                dialogStyleOne.setNoOnclickListener("是", new DialogStyleOne.onNoOnclickListener() {
-                    @Override
-                    public void onNoClick() {
-                        dialogStyleOne.dismiss();
-                    }
-                });
-                dialogStyleOne.show();
-
+                ((OrderMainActivity)mcontext).showPopWindow(holder.more_icon,position);
             }
         });
-    }*/
+
+
+
+    }
 
     @Override
     public int getItemCount() {
         return 20;
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        if (position==1){
-            return COMPLETED_TYPE;
-        }
-        else return UND0NE_TYPE;
-    }
 
     @Override
     public void onClick(View v) {
         //判断当前是否为item设置监听事件
-        if (mOnItemClickListener != null){
+        if (mOnItemClickListener != null) {
             //如果设置了，那么回调该方法，由于view的tag是object类型的，希望能回调到当前所显示到第几项item所以进行类型转换，希望有更好的方法请赐教；
-            mOnItemClickListener.onClick(v,Integer.parseInt((String) v.getTag()));
+            mOnItemClickListener.onClick(v, Integer.parseInt((String) v.getTag()));
         }
     }
 
@@ -163,41 +84,46 @@ public class AdapterOrderRecycler extends RecyclerView.Adapter implements View.O
         TextView goods_title;
         TextView goods_comment;
         TextView goods_price;
-        ImageView delete_icon;
+        ImageView more_icon;
+
         public MyCompletedHolder(View itemView) {
             super(itemView);
-            goods_title=itemView.findViewById(R.id.goods_title);
-            goods_comment=itemView.findViewWithTag(R.id.goods_conment);
-            goods_price=itemView.findViewById(R.id.goods_price);
-            delete_icon=itemView.findViewById(R.id.delete_icon);
+            goods_title = itemView.findViewById(R.id.goods_title);
+            goods_comment = itemView.findViewWithTag(R.id.goods_conment);
+            goods_price = itemView.findViewById(R.id.goods_price);
+            more_icon = itemView.findViewById(R.id.delete_icon);
         }
     }
+
     public class MyUndoneHolder extends RecyclerView.ViewHolder {
         TextView goods_title;
         TextView goods_comment;
         TextView goods_price;
         ImageView delete_icon;
+
         public MyUndoneHolder(View itemView) {
             super(itemView);
-            goods_title=itemView.findViewById(R.id.goods_title);
-            goods_comment=itemView.findViewWithTag(R.id.goods_conment);
-            goods_price=itemView.findViewById(R.id.goods_price);
-            delete_icon=itemView.findViewById(R.id.restore_icon);
+            goods_title = itemView.findViewById(R.id.goods_title);
+            goods_comment = itemView.findViewWithTag(R.id.goods_conment);
+            goods_price = itemView.findViewById(R.id.goods_price);
+            delete_icon = itemView.findViewById(R.id.restore_icon);
         }
     }
+
     /**
      * 创建一个监听事件的接口；重要
      */
     public interface OnItemClickListener {
-        void onClick(View v ,int position);
+        void onClick(View v, int position);
 
     }
 
     /**
      * 外界进行调用该方法，为item设置点击事件；重要
+     *
      * @param listener
      */
-    public void setOnItemClickListener(OnItemClickListener listener){
+    public void setOnItemClickListener(OnItemClickListener listener) {
         this.mOnItemClickListener = listener;
     }
 

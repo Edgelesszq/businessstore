@@ -17,16 +17,17 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.businessstore.model.DataInfo;
-import com.businessstore.model.User;
+import com.businessstore.Config;
+import com.businessstore.model.Json;
+import com.businessstore.model.JsonLogin;
+import com.businessstore.model.LoginResult;
 import com.businessstore.util.NoDoubleClickListener;
 import com.businessstore.util.SharedPreferencesUtil;
 import com.businessstore.util.StringUtil;
 import com.businessstore.util.ToastViewUtils;
-import com.businessstore.view.toast.ToastView;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lzy.okgo.OkGo;
@@ -34,31 +35,37 @@ import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 
 
-public class LoginActivity extends BaseActivity implements View.OnClickListener{
-    private TextView register_btn,title,content;
-    private TextView forget_password_btn,login_btn;
+public class LoginActivity extends BaseActivity implements View.OnClickListener {
+    private TextView register_btn, title, content;
+    private TextView forget_password_btn, login_btn;
     private ImageView see_password;
-    private EditText login_password,login_account;//登录账号和密码
+    private EditText login_password, login_account;//登录账号和密码
     private Context mcontext;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-        mcontext=this;
+        mcontext = this;
         initview();
+        initData();
     }
-    public void initview(){
 
-        AssetManager mgr=getAssets();//得到AssetManager
-        Typeface tf=Typeface.createFromAsset(mgr, "fonts/Roboto-Regular.ttf");//根据路径得到Typeface
+    private void initData() {
 
-        title=findViewById(R.id.text_login_title);
+    }
+
+    public void initview() {
+
+        AssetManager mgr = getAssets();//得到AssetManager
+        Typeface tf = Typeface.createFromAsset(mgr, "fonts/Roboto-Regular.ttf");//根据路径得到Typeface
+        title = findViewById(R.id.text_login_title);
         title.setTypeface(tf);//设置字体
-        content=findViewById(R.id.text_login_content);
+        content = findViewById(R.id.text_login_content);
         content.setTypeface(tf);
-        register_btn=findViewById(R.id.register_btn);
+        register_btn = findViewById(R.id.register_btn);
         register_btn.setOnClickListener(this);
-        forget_password_btn=findViewById(R.id.forget_password_btn);
+        forget_password_btn = findViewById(R.id.forget_password_btn);
         forget_password_btn.setOnClickListener(this);
 
 
@@ -80,8 +87,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
         });
 
         //用户账号和密码输入框
-        login_account=findViewById(R.id.login_account);
-        TextWatcher usernamewatcher=new TextWatcher() {
+        login_account = findViewById(R.id.login_account);
+        TextWatcher usernamewatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -99,8 +106,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
 
         };
 
-        login_password=findViewById(R.id.login_password);
-        TextWatcher passwordwatcher=new TextWatcher() {
+        login_password = findViewById(R.id.login_password);
+        TextWatcher passwordwatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -113,10 +120,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length()>0){
+                if (s.length() > 0) {
                     togglePwd.setVisibility(View.VISIBLE);
-                }
-                else {
+                } else {
                     togglePwd.setVisibility(View.GONE);
 
                 }
@@ -124,78 +130,109 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
             }
         };
         login_password.addTextChangedListener(passwordwatcher);
-         ///
+        ///
 
 
-        login_btn=findViewById(R.id.login_btn);//登录按钮
+        login_btn = findViewById(R.id.login_btn);//登录按钮
 
         login_btn.setOnClickListener(new NoDoubleClickListener() {
 
             @Override
             public void onNoDoubleClick(View v) {
-                String account= login_account.getText().toString().trim();
-                String password= login_password.getText().toString().trim();
-                final LayoutInflater inflater=getLayoutInflater();
-                if(StringUtil.isBlank(account)){
-                    ToastViewUtils.toastShowLoginMessage("请输入账号！",getApplicationContext(),inflater);
 
-                }
-                else if(StringUtil.isBlank(password)){
-                    ToastViewUtils.toastShowLoginMessage("请输入密码！",getApplicationContext(),inflater);
+                showDialogprogressBarWithString("正在登录...");
+                String account = login_account.getText().toString().trim();
+                String password = login_password.getText().toString().trim();
+                final LayoutInflater inflater = getLayoutInflater();
+                if (StringUtil.isBlank(account)) {
+                    ToastViewUtils.toastShowLoginMessage("请输入账号！", getApplicationContext(), inflater);
 
-                }
-                else {
-                    Intent activityIntent=new Intent(LoginActivity.this,MainActivity.class);
-                    startActivity(activityIntent);
+                } else if (StringUtil.isBlank(password)) {
+                    ToastViewUtils.toastShowLoginMessage("请输入密码！", getApplicationContext(), inflater);
 
-                    /*OkGo.<String>post("http://192.168.0.140/wuji/api/user/login")
-                         .tag(this)
-                            .params("phone",account)
-                            .params("password",password)
+                } else {
+
+                    OkGo.<String>post(Config.URL + "/user/login")
+                            .tag(this)
+                            .params("sellerNum", account)
+                            .params("sellerPwd", password)
                             .execute(new StringCallback() {
                                 @Override
                                 public void onSuccess(Response<String> response) {
-                                    Log.d("loglog",response.body());
+
+                                    Log.d("loglog", response.body());
                                     String responseData = response.body().toString().trim();
                                     Gson gson = new Gson();
-
                                     //把泛型指定为User类型解析
-                                    DataInfo<User> dataInfo = gson.fromJson(responseData,new TypeToken<DataInfo<User>>(){}.getType());
-                                    Log.d("loglog",dataInfo.toString());
+                                    Json<LoginResult> loginResultJson = gson.fromJson(responseData,
+                                            new TypeToken<Json<LoginResult>>() {
+                                            }.getType());
+                                    Log.d("loglog", loginResultJson.toString());
 
-                                    if (dataInfo.getCode().equals("0")) {
-                                        String id = dataInfo.getData().getId();
-                                        String ukey = dataInfo.getData().getUkey();
-                                        //缓存
-                                        SharedPreferencesUtil.setParam(mcontext,"id",id);
-                                        SharedPreferencesUtil.setParam(mcontext,"ukey",ukey);
-                                        ToastViewUtils.toastShowLoginMessage("成功！", getApplicationContext(), inflater);
-                                        Intent activityIntent = new Intent(LoginActivity.this, MainActivity.class);
-                                        startActivity(activityIntent);
-                                    }else {
-                                        ToastViewUtils.toastShowLoginMessage("账号或密码错误",getApplicationContext(),inflater);
+
+
+
+                                    if (loginResultJson.getCode()==0) {
+                                        SharedPreferencesUtil.putObject(getApplicationContext(),"loginResult",loginResultJson.getData());
+                                        switch (loginResultJson.getData().getNumActiva()){
+                                            case 1:
+                                                if(loginResultJson.getData().getShopName()==null){
+                                                    ToastViewUtils.toastShowLoginMessage("尚未开店！", getApplicationContext(), inflater);
+                                                    Intent openstoreIntent = new Intent(LoginActivity.this,
+                                                            RegisterUserActivitythree.class);
+                                                    dissmissDialogprogressBarWithString();
+                                                    startActivity(openstoreIntent);
+                                                    break;
+                                                }
+                                                /*else if(loginResultJson.getData().getSellerDomain()==null){
+                                                    ToastViewUtils.toastShowLoginMessage("尚未绑定域名！", getApplicationContext(), inflater);
+                                                    Intent bindingIntent = new Intent(LoginActivity.this,
+                                                            RegisterUserActivityFour.class);
+                                                    dissmissDialogprogressBarWithString();
+                                                    startActivity(bindingIntent);
+                                                    break;
+                                                }*/
+                                                else {
+                                                    ToastViewUtils.toastShowLoginMessage("登录成功！", getApplicationContext(), inflater);
+                                                    Intent mainIntent = new Intent(LoginActivity.this,
+                                                            MainActivity.class);
+                                                    dissmissDialogprogressBarWithString();
+                                                    startActivity(mainIntent);
+                                                    break;
+                                                }
+
+
+                                            case 0:
+                                                ToastViewUtils.toastShowLoginMessage("尚未激活！", getApplicationContext(), inflater);
+                                                Intent registerInternt = new Intent(LoginActivity.this,
+                                                        RegisterUserActivityTwo.class);
+                                                dissmissDialogprogressBarWithString();
+                                                startActivity(registerInternt);
+                                                break;
+
+                                                default:
+                                                    break;
+
+                                        }
+
                                     }
-=======
-                                    JsonData jsonData= gson.fromJson(responseData,JsonData.class);
-                                    String id = jsonData.getData().getUserInfo().getId();
-                                    String ukey = jsonData.getData().getUserInfo().getUkey();
-//                                    HashMap<String,String> map = new HashMap<>();
-//                                    map.put("id",id);
-//                                    map.put("Ukey",ukey);
-                                   *//* Log.d("loglog",jsonData.getData().getCode());
-                                    Log.d("loglog",jsonData.getData().getUserInfo().getId());
-                                    Log.d("loglog",jsonData.getData().getUserInfo().getUkey());*//*
-                                    SharedPreferencesUtil.setParam(mcontext,"id",id);
-                                    SharedPreferencesUtil.setParam(mcontext,"ukey",ukey);
-                                    ToastViewUtils.toastShowLoginMessage("成功！",getApplicationContext(),inflater);
-                                    Intent activityIntent=new Intent(LoginActivity.this,MainActivity.class);
-                                    startActivity(activityIntent);
-
-
+                                    else if(loginResultJson.getCode()==1){
+                                        dissmissDialogprogressBarWithString();
+                                        ToastViewUtils.toastShowLoginMessage("账号或密码错误", getApplicationContext(), inflater);
+                                    }
+                                    else if(loginResultJson.getCode()==2){
+                                        dissmissDialogprogressBarWithString();
+                                        ToastViewUtils.toastShowLoginMessage("账号已被冻结！", getApplicationContext(), inflater);
+                                    }
 
                                 }
-                            });*/
 
+                                @Override
+                                public void onError(Response<String> response) {
+                                    super.onError(response);
+
+                                }
+                            });
 
                 }
             }
@@ -208,19 +245,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
     @Override
     public void onClick(View view) {
 
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.register_btn:
-                Intent registerintent=new Intent(LoginActivity.this,RegisterUserActivityOne.class);
+                Intent registerintent = new Intent(LoginActivity.this, RegisterUserActivityOne.class);
                 startActivity(registerintent);
                 break;
             case R.id.forget_password_btn:
-                Intent forget_password_intent=new Intent(LoginActivity.this,ForgetPasswordOneActivity.class);
+                Intent forget_password_intent = new Intent(LoginActivity.this, ForgetPasswordOneActivity.class);
                 startActivity(forget_password_intent);
                 break;
-
-
-
-
 
 
         }
