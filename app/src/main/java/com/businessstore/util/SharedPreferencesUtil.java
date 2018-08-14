@@ -1,7 +1,19 @@
 package com.businessstore.util;
-
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.text.TextUtils;
+import android.util.Base64;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
+
 
 
 /**
@@ -11,205 +23,267 @@ import android.content.SharedPreferences;
  * 
  */
 public class SharedPreferencesUtil {
-	public final static String CONFIG_FILES = "config_files";
-	public final static String PHONENUM = "phone_number";
-	public final static String SESSIONID = "sessionid";
-	public final static String USERID = "userid";
-	public final static String COMPLAINTTYPELIST = "complainttypelist";
-	
-	public final static String HEADURL = "headurl";
-	public final static String PRICE = "price";
-	public final static String ISREAD = "isRead";
+    private static SharedPreferences sp;
 
-	private static final String FILE_NAME = "share_date";
-
-	public static final String INDEX="index";
-	public static final String LOGIN_DATA="loginData";
-	public static final String IS_LOGIN="isLogin";
-
-	/**
-	 * 保存用户手机号
-	 */
-	public static void savePhoneNum(Context con, String phoneNum,
-			String sessionid, String userid, String headurl, String price) {
-		SharedPreferences sp = con.getSharedPreferences(CONFIG_FILES,
-				Context.MODE_PRIVATE);
-		sp.edit().putString(PHONENUM, phoneNum).commit();
-		sp.edit().putString(SESSIONID, sessionid).commit();
-		sp.edit().putString(USERID, userid).commit();
-		sp.edit().putString(HEADURL, headurl).commit();
-		sp.edit().putString(PRICE, price).commit();
-	}
-
-	/**
-	 * 保存头像地址
-	 */
-	public static void saveHeadurl(Context con,String headurl) {
-		SharedPreferences sp = con.getSharedPreferences(CONFIG_FILES,
-				Context.MODE_PRIVATE);
-		sp.edit().putString(HEADURL, headurl).commit();
-	}
-	
-	/**
-	 * 读取头像
-	 */
-	public static String readHeadUrl(Context con) {
-		SharedPreferences sp = con.getSharedPreferences(CONFIG_FILES,
-				Context.MODE_PRIVATE);
-		return sp.getString(HEADURL, "");
-	}
-	
-	/**
-	 * 读取最低价格
-	 */
-	public static String readPrice(Context con) {
-		SharedPreferences sp = con.getSharedPreferences(CONFIG_FILES,
-				Context.MODE_PRIVATE);
-		return sp.getString(PRICE, "");
-	}
-	
-	/**
-	 * 读取用户手机号
-	 */
-	public static String readPhoneNum(Context con) {
-		SharedPreferences sp = con.getSharedPreferences(CONFIG_FILES,
-				Context.MODE_PRIVATE);
-		return sp.getString(PHONENUM, "");
-	}
-
-	/**
-	 * 读取sessionid
-	 */
-	public static String readSessionid(Context con) {
-		SharedPreferences sp = con.getSharedPreferences(CONFIG_FILES,
-				Context.MODE_PRIVATE);
-		return sp.getString(SESSIONID, "");
-	}
-	
-	/**
-	 * 读取userid
-	 */
-	public static String readUserid(Context con) {
-		SharedPreferences sp = con.getSharedPreferences(CONFIG_FILES,
-				Context.MODE_PRIVATE);
-		return sp.getString(USERID, "");
-	}
-
-/*
-	*
-	 * 刪除用户手机号/sessionid/userid
-	public static void delPhoneNum(Context con) {
-		SharedPreferences sp = con.getSharedPreferences(CONFIG_FILES,
-				Context.MODE_PRIVATE);
-//		sp.edit().remove(PHONENUM).commit();
-		sp.edit().remove(SESSIONID).commit();
-		sp.edit().remove(USERID).commit();
-		sp.edit().remove(ISREAD).commit();
-
-		JPushInterface.setAliasAndTags(con, "", null);
-	}
-*/
+    private static SharedPreferences getSp(Context context) {
+        if (sp == null) {
+            sp = context.getSharedPreferences("SpUtil", Context.MODE_PRIVATE);
+        }
+        return sp;
+    }
 
 
-	public static void saveComplainttypeList(Context con,String placeList){
-		SharedPreferences sp = con.getSharedPreferences(CONFIG_FILES,
-				Context.MODE_PRIVATE);
-		sp.edit().putString(COMPLAINTTYPELIST, placeList).commit();
-	}
-	
-	public static String readComplainttypeList(Context con) {
-		SharedPreferences sp = con.getSharedPreferences(CONFIG_FILES,
-				Context.MODE_PRIVATE);
-		return sp.getString(COMPLAINTTYPELIST, "");
-	}
-	
-	/**
-	 * 是否读过通知
-	 */
-	public static void saveIsRead(Context con,String isRead) {
-		SharedPreferences sp = con.getSharedPreferences(CONFIG_FILES,
-				Context.MODE_PRIVATE);
-		sp.edit().putString(ISREAD, isRead).commit();
-	}
-	public static String readIsRead(Context con) {
-		SharedPreferences sp = con.getSharedPreferences(CONFIG_FILES,
-				Context.MODE_PRIVATE);
-		return sp.getString(ISREAD, "0");
-	}
+    /**
+     * 存入字符串
+     *
+     * @param context 上下文
+     * @param key     字符串的键
+     * @param value   字符串的值
+     */
+    public static void putString(Context context, String key, String value) {
+        SharedPreferences preferences = getSp(context);
+        //存入数据
+        Editor editor = preferences.edit();
+        editor.putString(key, value);
+        editor.commit();
+    }
 
-	/**
-	 * save data into FILE_NAME ,this path is data/data/POCKET_NAME/shared_prefs
-	 * @param context
-	 * @param key
-	 * @param object
-	 */
-	public static void setParam(Context context , String key, Object object){
+    /**
+     * 获取字符串
+     *
+     * @param context 上下文
+     * @param key     字符串的键
+     * @return 得到的字符串
+     */
+    public static String getString(Context context, String key) {
+        SharedPreferences preferences = getSp(context);
+        return preferences.getString(key, "");
+    }
 
-		String type = object.getClass().getSimpleName();
-		SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
-		SharedPreferences.Editor editor = sp.edit();
+    /**
+     * 获取字符串
+     *
+     * @param context 上下文
+     * @param key     字符串的键
+     * @param value   字符串的默认值
+     * @return 得到的字符串
+     */
+    public static String getString(Context context, String key, String value) {
+        SharedPreferences preferences = getSp(context);
+        return preferences.getString(key, value);
+    }
 
-		if("String".equals(type)){
-			editor.putString(key, (String)object);
-		}
-		else if("Integer".equals(type)){
-			editor.putInt(key, (Integer)object);
-		}
-		else if("Boolean".equals(type)){
-			editor.putBoolean(key, (Boolean)object);
-		}
-		else if("Float".equals(type)){
-			editor.putFloat(key, (Float)object);
-		}
-		else if("Long".equals(type)){
-			editor.putLong(key, (Long)object);
-		}
+    /**
+     * 保存布尔值
+     *
+     * @param context 上下文
+     * @param key     键
+     * @param value   值
+     */
+    public static void putBoolean(Context context, String key, boolean value) {
+        SharedPreferences sp     = getSp(context);
+        Editor            editor = sp.edit();
+        editor.putBoolean(key, value);
+        editor.commit();
+    }
 
-		editor.apply();
-	}
+    /**
+     * 获取布尔值
+     *
+     * @param context  上下文
+     * @param key      键
+     * @param defValue 默认值
+     * @return 返回保存的值
+     */
+    public static boolean getBoolean(Context context, String key, boolean defValue) {
+        SharedPreferences sp = getSp(context);
+        return sp.getBoolean(key, defValue);
+    }
 
+    /**
+     * 保存long值
+     *
+     * @param context 上下文
+     * @param key     键
+     * @param value   值
+     */
+    public static void putLong(Context context, String key, long value) {
+        SharedPreferences sp     = getSp(context);
+        Editor            editor = sp.edit();
+        editor.putLong(key, value);
+        editor.commit();
+    }
 
-	/**
-	 * get value via enter key
-	 * @param context
-	 * @param key
-	 * @param defaultObject
-	 * @return
-	 */
-	public static Object getParam(Context context , String key, Object defaultObject){
-		String type = defaultObject.getClass().getSimpleName();
-		SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+    /**
+     * 获取long值
+     *
+     * @param context  上下文
+     * @param key      键
+     * @param defValue 默认值
+     * @return 保存的值
+     */
+    public static long getLong(Context context, String key, long defValue) {
+        SharedPreferences sp = getSp(context);
+        return sp.getLong(key, defValue);
+    }
 
-		if("String".equals(type)){
-			return sp.getString(key, (String)defaultObject);
-		}
-		else if("Integer".equals(type)){
-			return sp.getInt(key, (Integer)defaultObject);
-		}
-		else if("Boolean".equals(type)){
-			return sp.getBoolean(key, (Boolean)defaultObject);
-		}
-		else if("Float".equals(type)){
-			return sp.getFloat(key, (Float)defaultObject);
-		}
-		else if("Long".equals(type)){
-			return sp.getLong(key, (Long)defaultObject);
-		}
+    /**
+     * 保存int值
+     *
+     * @param context 上下文
+     * @param key     键
+     * @param value   值
+     */
+    public static void putInt(Context context, String key, int value) {
+        SharedPreferences sp     = getSp(context);
+        Editor            editor = sp.edit();
+        editor.putInt(key, value);
+        editor.commit();
+    }
 
-		return null;
-	}
+    /**
+     * 获取long值
+     *
+     * @param context  上下文
+     * @param key      键
+     * @param defValue 默认值
+     * @return 保存的值
+     */
+    public static int getInt(Context context, String key, int defValue) {
+        SharedPreferences sp = getSp(context);
+        return sp.getInt(key, defValue);
+    }
 
-	/**
-	 * delete key
-	 * @param context
-	 * @param key
-	 */
-	public static void removeParam(Context context,String key){
-		SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
-		SharedPreferences.Editor editor = sp.edit();
-		editor.remove(key);
-		editor.apply();
-	}
-	
+    /**
+     * 保存对象
+     *
+     * @param context 上下文
+     * @param key     键
+     * @param obj     要保存的对象（Serializable的子类）
+     * @param <T>     泛型定义
+     */
+    public static <T extends Serializable> void putObject(Context context, String key, T obj) {
+        try {
+            put(context, key, obj);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 获取对象
+     *
+     * @param context 上下文
+     * @param key     键
+     * @param <T>     指定泛型
+     * @return 泛型对象
+     */
+    public static <T extends Serializable> T getObject(Context context, String key) {
+        try {
+            return (T) get(context, key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 存储List集合
+     * @param context 上下文
+     * @param key 存储的键
+     * @param list 存储的集合
+     */
+    public static void putList(Context context, String key, List<? extends Serializable> list) {
+        try {
+            put(context, key, list);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 获取List集合
+     * @param context 上下文
+     * @param key 键
+     * @param <E> 指定泛型
+     * @return List集合
+     */
+    public static <E extends Serializable> List<E> getList(Context context, String key) {
+        try {
+            return (List<E>) get(context, key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 存储Map集合
+     * @param context 上下文
+     * @param key 键
+     * @param map 存储的集合
+     * @param <K> 指定Map的键
+     * @param <V> 指定Map的值
+     */
+    public static <K extends Serializable, V extends Serializable> void putMap(Context context,
+                                                                               String key, Map<K, V> map)
+    {
+        try {
+            put(context, key, map);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static <K extends Serializable, V extends Serializable> Map<K, V> getMap(Context context,
+                                                                                    String key)
+    {
+        try {
+            return (Map<K, V>) get(context, key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**存储对象*/
+    private static void put(Context context, String key, Object obj)
+            throws IOException
+    {
+        if (obj == null) {//判断对象是否为空
+            return;
+        }
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream    oos  = null;
+        oos = new ObjectOutputStream(baos);
+        oos.writeObject(obj);
+        // 将对象放到OutputStream中
+        // 将对象转换成byte数组，并将其进行base64编码
+        String objectStr = new String(Base64.encode(baos.toByteArray(), Base64.DEFAULT));
+        baos.close();
+        oos.close();
+
+        putString(context, key, objectStr);
+    }
+
+    /**获取对象*/
+    private static Object get(Context context, String key)
+            throws IOException, ClassNotFoundException
+    {
+        String wordBase64 = getString(context, key);
+        // 将base64格式字符串还原成byte数组
+        if (TextUtils.isEmpty(wordBase64)) { //不可少，否则在下面会报java.io.StreamCorruptedException
+            return null;
+        }
+        byte[]               objBytes = Base64.decode(wordBase64.getBytes(), Base64.DEFAULT);
+        ByteArrayInputStream bais     = new ByteArrayInputStream(objBytes);
+        ObjectInputStream    ois      = new ObjectInputStream(bais);
+        // 将byte数组转换成product对象
+        Object obj = ois.readObject();
+        bais.close();
+        ois.close();
+        return obj;
+    }
+
 
 }

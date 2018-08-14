@@ -39,7 +39,7 @@
     <string name="Business_hours">营业时间</string>
     <string name="Please_fill_in_the_store_business_hours">请填写店铺营业时间</string>
     <string name="Store_location">店铺位置</string>
-    <string name="Please_enter_the_store_location">请输入店铺位置</string>
+    <string name="Please_enter_the_store_location">请输入Zipcode</string>
     <string name="create_store_link">Create store link</string>
     <string name="create_your_store_address">创建店铺地址</string>
     <string name="register_Instructions">Please note that is default URL,if you wish to import an exising domain,you may do so in the Mine > My store tab once you are done setting up your store</string>
