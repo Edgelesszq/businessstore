@@ -1,7 +1,6 @@
 package activity.com.businessstore;
 
 import android.annotation.SuppressLint;
-import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 
@@ -11,13 +10,10 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -40,7 +36,6 @@ import adapter.com.businessstore.Adapter2MainActivity;
 import adapter.com.businessstore.AdapterMainActivity;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import de.hdodenhof.circleimageview.CircleImageView;
-import pub.devrel.easypermissions.EasyPermissions;
 
 
 public class MainActivity extends BaseActivity implements View.OnClickListener,
@@ -214,7 +209,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 break;
             case R.id.store_address:
                 Intent test_intent = new Intent(MainActivity.this,
-                        StoreAdressActivity2.class);
+                        StoreAdressActivity.class);
                 startActivity(test_intent);
                 break;
             //我的订单

@@ -20,7 +20,7 @@ import java.util.List;
 
 import adapter.com.businessstore.AdapterAddressSearch;
 
-public class StoreAdressActivity2 extends BaseActivity implements View.OnClickListener{
+public class StoreAdressActivity extends BaseActivity implements View.OnClickListener{
     private EditText sh;
     private RecyclerView recyclerView;
     private AdapterAddressSearch addressSearch;

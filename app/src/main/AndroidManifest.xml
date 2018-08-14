@@ -144,7 +144,7 @@
         <activity android:name=".MyMessageActivity">
 
         </activity>
-        <activity android:name=".StoreAdressActivity2">
+        <activity android:name=".StoreAdressActivity">
 
         </activity>
         <service
