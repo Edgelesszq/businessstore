@@ -36,11 +36,14 @@ public class BaseActivity extends AppCompatActivity{
     }
 
     protected void setTitleView(int leftImgId, int cecterTextId){
+
         mTitleLefeBackImg = findViewById(R.id.title_left_back_img);
         mTitleCenterText = findViewById(R.id.title_center_text);
 
         mTitleLefeBackImg.setVisibility(View.VISIBLE);
         mTitleCenterText.setVisibility(View.VISIBLE);
+
+
 
         mTitleLefeBackImg.setImageResource(leftImgId);
         mTitleCenterText.setText(cecterTextId);
@@ -137,8 +140,11 @@ public class BaseActivity extends AppCompatActivity{
         dialogStyleProgressBar.show();
     }
     protected void dissmissDialogprogressBarWithString(){
-        if (dialogStyleProgressBar.isShowing()){
+        if (dialogStyleProgressBar!=null&&dialogStyleProgressBar.isShowing()){
             dialogStyleProgressBar.dismiss();
+        }
+        else {
+            return;
         }
 
     }

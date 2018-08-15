@@ -232,22 +232,20 @@
 
 
     <FrameLayout
-        android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="70dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
         <TextView
             android:id="@+id/register_one_ensure2"
             android:text="下一步"
             android:gravity="center"
-
+            android:background="@drawable/ripple_bg"
             android:textSize="18sp"
             android:textColor="@color/white"
-            android:background="@drawable/login_btn"
             android:layout_gravity="center"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_width="310dp"
+            android:layout_height="40dp" />
 
     </FrameLayout>
 

@@ -140,7 +140,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onNoDoubleClick(View v) {
 
-                showDialogprogressBarWithString("正在登录...");
                 String account = login_account.getText().toString().trim();
                 String password = login_password.getText().toString().trim();
                 final LayoutInflater inflater = getLayoutInflater();
@@ -151,11 +150,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     ToastViewUtils.toastShowLoginMessage("请输入密码！", getApplicationContext(), inflater);
 
                 } else {
+                    showDialogprogressBarWithString("正在登录...");
 
                     OkGo.<String>post(Config.URL + "/user/login")
                             .tag(this)
                             .params("sellerNum", account)
                             .params("sellerPwd", password)
+
                             .execute(new StringCallback() {
                                 @Override
                                 public void onSuccess(Response<String> response) {

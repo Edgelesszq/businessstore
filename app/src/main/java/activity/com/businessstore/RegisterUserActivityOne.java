@@ -127,7 +127,9 @@ public class RegisterUserActivityOne extends BaseActivity implements View.OnClic
                     } else if (!StringUtil.isPasswordRegex(password)) {
                         ToastViewUtils.toastShowLoginMessage("密码格式错误！", getApplicationContext(), inflater);
                     } else {
-//                        Toast.makeText(mContext,"??????",Toast.LENGTH_SHORT).show();
+//
+
+                        showDialogprogressBarWithString("正在注冊...");
                         OkGo.<String>post(Config.URL + "/user/register")
                                 .tag(this)
                                 .params("sellerNum", email)
@@ -148,11 +150,12 @@ public class RegisterUserActivityOne extends BaseActivity implements View.OnClic
 
 //
                                             SharedPreferencesUtil.putObject(mContext,"loginResult",DataInfo.getData());
-
+                                            dissmissDialogprogressBarWithString();
                                             Intent intent = new Intent(RegisterUserActivityOne.this,
                                                     RegisterUserActivityTwo.class);
                                             startActivity(intent);
                                         }else {
+                                            dissmissDialogprogressBarWithString();
                                             Toast.makeText(mContext,DataInfo.getMsg().toString(),Toast.LENGTH_SHORT).show();
                                         }
 
@@ -161,7 +164,9 @@ public class RegisterUserActivityOne extends BaseActivity implements View.OnClic
                                     @Override
                                     public void onError(Response<String> response) {
                                         super.onError(response);
-                                        Log.d("loglog", response.toString());
+                                        dissmissDialogprogressBarWithString();
+                                        Toast.makeText(mContext,"發生未知錯誤！",Toast.LENGTH_SHORT).show();
+
                                     }
 
 

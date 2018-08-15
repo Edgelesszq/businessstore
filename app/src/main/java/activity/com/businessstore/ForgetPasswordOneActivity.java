@@ -3,6 +3,7 @@ package activity.com.businessstore;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -15,6 +16,8 @@ import com.businessstore.model.LoginResult;
 import com.businessstore.util.NoDoubleClickListener;
 import com.businessstore.util.SharedPreferencesUtil;
 import com.businessstore.util.StatusBarUtil;
+import com.businessstore.util.StringUtil;
+import com.businessstore.util.ToastViewUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lzy.okgo.OkGo;
@@ -51,32 +54,49 @@ public class ForgetPasswordOneActivity extends BaseActivity implements View.OnCl
             @Override
             public void onNoDoubleClick(View v) {
                String inputsellerNum= sellerNum_et.getText().toString().trim();
-                OkGo.<String>get(Config.URL+"/user/getCodeByForgetPwd/")
-                        .params("sellerNum",inputsellerNum)
-                        .execute(new StringCallback() {
-                            @Override
-                            public void onSuccess(Response<String> response) {
-                                String responseData = response.body().toString().trim();
-                                Gson gson = new Gson();
-                                Json<LoginResult> dataInfo = gson.fromJson(responseData,
-                                        new TypeToken<Json<LoginResult>>(){}.getType());
-                                int code =dataInfo.getCode();
-                                switch (code){
-                                    case 0:
-                                        SharedPreferencesUtil.putObject(getApplicationContext(),"forgetPassword",dataInfo.getData());
-                                        Toast.makeText(getApplicationContext(),"请求成功",Toast.LENGTH_SHORT).show();
-                                        Intent ensure=new Intent(ForgetPasswordOneActivity.this,ForgetPasswordTwoActivity.class);
-                                        startActivity(ensure);
-                                        break;
-                                    case 1:
-                                        Toast.makeText(getApplicationContext(),"请求失败",Toast.LENGTH_SHORT).show();
-                                        break;
-                                        default:
-                                            break;
+                final LayoutInflater inflater = getLayoutInflater();
+               if(StringUtil.isBlank(inputsellerNum)){
+                    ToastViewUtils.toastShowLoginMessage("請輸入驗證碼！", getApplicationContext(), inflater);
 
-                                }
-                            }
-                        });
+               }
+               else {
+                   showDialogprogressBarWithString("正在請求...");
+                   OkGo.<String>get(Config.URL+"/user/getCodeByForgetPwd/")
+                           .params("sellerNum",inputsellerNum)
+                           .execute(new StringCallback() {
+                               @Override
+                               public void onSuccess(Response<String> response) {
+                                   String responseData = response.body().toString().trim();
+                                   Gson gson = new Gson();
+                                   Json<LoginResult> dataInfo = gson.fromJson(responseData,
+                                           new TypeToken<Json<LoginResult>>(){}.getType());
+                                   int code =dataInfo.getCode();
+                                   switch (code){
+                                       case 0:
+                                           SharedPreferencesUtil.putObject(getApplicationContext(),"forgetPassword",dataInfo.getData());
+                                           dissmissDialogprogressBarWithString();
+                                           Toast.makeText(getApplicationContext(),"驗證碼已發送",Toast.LENGTH_SHORT).show();
+
+                                           Intent ensure=new Intent(ForgetPasswordOneActivity.this,ForgetPasswordTwoActivity.class);
+                                           startActivity(ensure);
+                                           break;
+                                       case 1:
+                                           dissmissDialogprogressBarWithString();
+
+                                           Toast.makeText(getApplicationContext(),"請求失敗",Toast.LENGTH_SHORT).show();
+
+                                           break;
+                                       default:
+                                           dissmissDialogprogressBarWithString();
+                                           Toast.makeText(getApplicationContext(),"發生未知錯誤",Toast.LENGTH_SHORT).show();
+
+                                           break;
+
+                                   }
+                               }
+                           });
+               }
+
 
             }
         });

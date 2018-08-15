@@ -107,6 +107,7 @@
             android:layout_width="match_parent"
             android:layout_height="30dp">
             <TextView
+                android:background="?android:attr/selectableItemBackground"
                 android:id="@+id/register_btn"
                 android:layout_marginLeft="50dp"
                 android:layout_gravity="left|center"
@@ -115,6 +116,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
+                android:background="?android:attr/selectableItemBackground"
                 android:id="@+id/forget_password_btn"
                 android:layout_gravity="right|center"
                 android:layout_marginRight="100px"
@@ -125,29 +127,32 @@
 
         </FrameLayout>
         <FrameLayout
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="40dp"
-            android:layout_width="match_parent"
-            android:layout_height="60dp">
-            <TextView
 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/ripple_bg"
                 android:id="@+id/login_btn"
                 android:text="登录"
                 android:gravity="center"
                 android:textSize="16sp"
                 android:textColor="@color/white"
-                android:background="@drawable/login_btn"
                 android:layout_gravity="center"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content" />
+                android:layout_width="230dp"
+                android:layout_height="35dp" />
 
         </FrameLayout>
 
         <FrameLayout
-            android:layout_marginTop="80px"
+            android:layout_marginTop="50dp"
             android:layout_width="match_parent"
             android:layout_height="60dp">
             <ImageView
-                android:src="@drawable/login_with_edgeless"
+                android:src="@drawable/ripple_bg_loginwithedgeless"
                 android:layout_gravity="center"
                 android:layout_width="150dp"
                 android:layout_height="30dp" />

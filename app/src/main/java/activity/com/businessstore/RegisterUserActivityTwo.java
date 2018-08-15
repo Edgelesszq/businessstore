@@ -3,6 +3,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import com.businessstore.model.Json;
 import com.businessstore.model.JsonRegister;
 import com.businessstore.util.NoDoubleClickListener;
 import com.businessstore.util.SharedPreferencesUtil;
+import com.businessstore.util.ToastViewUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lzy.okgo.OkGo;
@@ -26,7 +28,7 @@ public class RegisterUserActivityTwo extends BaseActivity implements View.OnClic
     private Context mContext;
     private TextView submit_btn,text_verification_again,timer_tv;//提交按钮  和验证按钮//倒计时
     private EditText verification;
-    private String verifiCode,sellerId,sellerNum;
+    private String verifiCode,verifiCode2,sellerId,sellerNum;
     LoginResult loginData;
     private TextView sellerNum_tv;
 
@@ -87,37 +89,49 @@ public class RegisterUserActivityTwo extends BaseActivity implements View.OnClic
             @Override
             public void onNoDoubleClick(View v) {
                 verifiCode = verification.getText().toString().trim();
+                verifiCode2=loginData.getVerifiCode();
+                final LayoutInflater inflater = getLayoutInflater();
 
-                OkGo.<String>get(Config.URL + "/user/verifiCode")
-                        .tag(this)
-                        .params("sellerId",loginData.getSellerId())
-                        .params("sellerNum",loginData.getSellerNum())
-                        .params("verifiCode",verifiCode)
-                        .execute(new StringCallback() {
-                            @Override
-                            public void onSuccess(Response<String> response) {
-                                Log.d("loglog",response.body());
+                if(verifiCode.equals(verifiCode2)){
+                    showDialogprogressBarWithString("正在驗證...");
+                    OkGo.<String>get(Config.URL + "/user/verifiCode")
+                            .tag(this)
+                            .params("sellerId",loginData.getSellerId())
+                            .params("sellerNum",loginData.getSellerNum())
+                            .params("verifiCode",verifiCode)
+                            .execute(new StringCallback() {
+                                @Override
+                                public void onSuccess(Response<String> response) {
+                                    Log.d("loglog",response.body());
 
-                                String responseData = response.body().toString().trim();
-                                Gson gson = new Gson();
-                                Json<JsonRegister> dataInfo = gson.fromJson(responseData,
-                                        new TypeToken<Json<JsonRegister>>(){}.getType());
-                                int code =dataInfo.getCode();
-                                if (code==0){
-                                    Intent intent=new Intent(RegisterUserActivityTwo.this,RegisterUserActivitythree.class);
-                                    startActivity(intent);
-                                }else {
-                                    Toast.makeText(mContext,"验证码错误",Toast.LENGTH_SHORT).show();
+                                    String responseData = response.body().toString().trim();
+                                    Gson gson = new Gson();
+                                    Json<JsonRegister> dataInfo = gson.fromJson(responseData,
+                                            new TypeToken<Json<JsonRegister>>(){}.getType());
+                                    int code =dataInfo.getCode();
+                                    if (code==0){
+                                        dissmissDialogprogressBarWithString();
+                                        Intent intent=new Intent(RegisterUserActivityTwo.this,RegisterUserActivitythree.class);
+                                        startActivity(intent);
+                                    }else {
+                                        dissmissDialogprogressBarWithString();
+                                    }
+
                                 }
 
-                            }
+                                @Override
+                                public void onError(Response<String> response) {
+                                    super.onError(response);
+                                    dissmissDialogprogressBarWithString();
+                                    ToastViewUtils.toastShowLoginMessage("發生未知錯誤!",mContext,inflater);
+                                }
+                            });
+                }else {
+                    dissmissDialogprogressBarWithString();
+                    ToastViewUtils.toastShowLoginMessage("驗證碼錯誤!",mContext,inflater);
+                }
 
-                            @Override
-                            public void onError(Response<String> response) {
-                                super.onError(response);
-                                Toast.makeText(mContext,"请求错误",Toast.LENGTH_SHORT).show();
-                            }
-                        });
+
             }
         });
     }
@@ -143,9 +157,15 @@ public class RegisterUserActivityTwo extends BaseActivity implements View.OnClic
         new Thread(new Runnable() {
             @Override
             public void run() {
-                text_verification_again.setTextColor(getResources().getColor(R.color.nav_fontcolor));
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        text_verification_again.setTextColor(getResources().getColor(R.color.nav_fontcolor));
 
-                text_verification_again.setClickable(false);
+                        text_verification_again.setClickable(false);
+
+                    }
+                });
 
                 int i=60;
                 while (i>0){

@@ -2,6 +2,7 @@ package activity.com.businessstore;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -12,6 +13,8 @@ import com.businessstore.model.LoginResult;
 import com.businessstore.util.NoDoubleClickListener;
 import com.businessstore.util.SharedPreferencesUtil;
 import com.businessstore.util.StatusBarUtil;
+import com.businessstore.util.StringUtil;
+import com.businessstore.util.ToastViewUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
@@ -22,6 +25,7 @@ public class ForgetPasswordTwoActivity extends BaseActivity implements View.OnCl
     private Context mContext;
     private EditText verifiCode_et;
     private LoginResult forgetPassword;
+
 
 
 
@@ -52,26 +56,46 @@ public class ForgetPasswordTwoActivity extends BaseActivity implements View.OnCl
         forget_two_ensure.setOnClickListener(new NoDoubleClickListener() {
             @Override
             public void onNoDoubleClick(View v) {
+                final LayoutInflater inflater = getLayoutInflater();
 
                 String inputCode=verifiCode_et.getText().toString().trim();
                 String verifiCode=forgetPassword.getVerifiCode();
-                if (verifiCode.equals(inputCode)){
-                    OkGo.<String>get(Config.URL+"/user/resetPassword/")
-                            .params("sellerId",forgetPassword.getSellerId())
-                            .params("sellerNum",forgetPassword.getSellerNum())
-                            .params("verifiCode",inputCode)
-                            .execute(new StringCallback() {
-                                @Override
-                                public void onSuccess(Response<String> response) {
-                                    Intent ensurethree=new Intent(ForgetPasswordTwoActivity.this,ForgetPasswordThreeActivity.class);
-                                    startActivity(ensurethree);
-                                }
-                            });
-
+                if(StringUtil.isBlank(inputCode)){
+                    ToastViewUtils.toastShowLoginMessage("請輸入驗證碼！",getApplicationContext(),inflater);
                 }
                 else {
-                    Toast.makeText(getApplicationContext(),"验证码错误",Toast.LENGTH_SHORT).show();
+                    if (verifiCode.equals(inputCode)){
+                        showDialogprogressBarWithString("正在驗證...");
+                        OkGo.<String>get(Config.URL+"/user/resetPassword/")
+                                .params("sellerId",forgetPassword.getSellerId())
+                                .params("sellerNum",forgetPassword.getSellerNum())
+                                .params("verifiCode",inputCode)
+                                .execute(new StringCallback() {
+                                    @Override
+                                    public void onSuccess(Response<String> response) {
+                                        dissmissDialogprogressBarWithString();
+                                        ToastViewUtils.toastShowLoginMessage("驗證成功！！",getApplicationContext(),inflater);
+
+                                        Intent ensurethree=new Intent(ForgetPasswordTwoActivity.this,ForgetPasswordThreeActivity.class);
+                                        startActivity(ensurethree);
+                                    }
+
+                                    @Override
+                                    public void onError(Response<String> response) {
+                                        super.onError(response);
+                                        dissmissDialogprogressBarWithString();
+                                        ToastViewUtils.toastShowLoginMessage("發生未知錯誤！",getApplicationContext(),inflater);
+
+                                    }
+                                });
+
+                    }
+                    else {
+                        ToastViewUtils.toastShowLoginMessage("驗證碼錯誤！",getApplicationContext(),inflater);
+
+                    }
                 }
+
 
 
             }
@@ -101,7 +125,13 @@ public class ForgetPasswordTwoActivity extends BaseActivity implements View.OnCl
         new Thread(new Runnable() {
             @Override
             public void run() {
-                text_verification_again.setClickable(false);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        text_verification_again.setClickable(false);
+
+                    }
+                });
 
                 int i=60;
                 while (i>0){

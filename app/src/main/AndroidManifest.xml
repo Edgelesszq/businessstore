@@ -144,7 +144,8 @@
         <activity android:name=".MyMessageActivity">
 
         </activity>
-        <activity android:name=".StoreAdressActivity">
+        <activity android:name=".StoreAdressActivity"
+            tools:ignore="DuplicateActivity">
 
         </activity>
         <service

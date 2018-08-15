@@ -106,6 +106,7 @@ public class RegisterUserActivitythree extends BaseActivity implements View.OnCl
                 }else if(address_str.equals("")){
                     ToastViewUtils.toastShowLoginMessage("请输入zipcode！", getApplicationContext(), inflater);
                 } else {
+                    showDialogprogressBarWithString("正在提交...");
                     OkGo.<String>post(Config.URL + "/user/openStore/")
                             .params("sellerId", loginResult.getSellerId())
                             .params("sellerName", loginResult.getSellerName())
@@ -125,11 +126,13 @@ public class RegisterUserActivitythree extends BaseActivity implements View.OnCl
                                     int code = dataInfo.getCode();
                                     Log.d("loglog", responseData);
                                     if (code == 0) {
+                                        dissmissDialogprogressBarWithString();
                                         Intent intent = new Intent(RegisterUserActivitythree.this,
                                                 RegisterUserActivityFour.class);
                                         startActivity(intent);
                                     } else if (code == 1) {
-                                        Toast.makeText(mContext, "开店失败", Toast.LENGTH_SHORT).show();
+                                        dissmissDialogprogressBarWithString();
+                                        Toast.makeText(mContext, "开店失败!", Toast.LENGTH_SHORT).show();
                                     }
                                 }
 
