@@ -96,11 +96,12 @@
         <FrameLayout
             android:layout_marginBottom="80dp"
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/login_out"
                 android:layout_gravity="center"
-                android:background="@drawable/upload_goods_border"
+                android:background="@drawable/ripple_bg"
                 android:gravity="center"
                 android:text="@string/login_out"
                 android:textSize="16sp"

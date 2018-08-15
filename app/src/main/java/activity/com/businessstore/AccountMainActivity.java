@@ -49,6 +49,7 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
         name_tv=findViewById(R.id.name_tv);
         name_tv.setOnClickListener(this);
 
+
         HeadPortrait_update=findViewById(R.id.HeadPortrait_update);//头像
         HeadPortrait_update.setOnClickListener(this);
 

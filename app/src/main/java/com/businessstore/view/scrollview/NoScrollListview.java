@@ -1,4 +1,4 @@
-package com.businessstore.util;
+package com.businessstore.view.scrollview;
 
 import android.content.Context;
 import android.util.AttributeSet;

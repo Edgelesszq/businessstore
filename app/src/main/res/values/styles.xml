@@ -73,5 +73,16 @@
         <item name="android:textCursorDrawable">@drawable/shape_et_cursor</item>
     </style>
 
+    //dialog  从中间弹出
+    <style name="centerDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/dialog_center</item>
+        <item name="android:windowExitAnimation">@anim/dialog_center</item>
+    </style>
+    <style name="withStringDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/tram</item>
+        <item name="android:windowAnimationStyle">@style/centerDialogAnimation</item>
+    </style>
+
 
 </resources>

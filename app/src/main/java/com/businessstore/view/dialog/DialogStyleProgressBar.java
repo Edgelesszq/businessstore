@@ -16,7 +16,8 @@ public class DialogStyleProgressBar extends Dialog {
     private String content;
 
     public DialogStyleProgressBar(@NonNull Context context, int themeResId, String content) {
-        super(context, R.style.dialog_style);
+      //  super(context, R.style.dialog_style);
+        super(context, R.style.withStringDialog);
         this.content = content;
     }
 

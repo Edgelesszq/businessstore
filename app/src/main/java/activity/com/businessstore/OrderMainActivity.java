@@ -24,12 +24,9 @@ import android.widget.Toast;
 import com.aspsine.swipetoloadlayout.OnLoadMoreListener;
 import com.aspsine.swipetoloadlayout.OnRefreshListener;
 import com.aspsine.swipetoloadlayout.SwipeToLoadLayout;
-import com.businessstore.util.CustomPopWindow;
-import com.businessstore.util.CustomPopWindow2;
+import com.businessstore.view.popwindow.CustomPopWindow2;
 import com.businessstore.util.DpConversion;
-import com.businessstore.util.StatusBarUtil;
 import com.businessstore.view.dialog.DialogStyleOne;
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import org.feezu.liuli.timeselector.TimeSelector;
 

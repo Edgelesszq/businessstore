@@ -284,6 +284,11 @@ public class SharedPreferencesUtil {
         ois.close();
         return obj;
     }
-
+    public static void removeSP(Context context,String key) {
+        SharedPreferences preferences = getSp(context);
+        Editor mEditor= preferences.edit();
+        mEditor.remove(key);
+        mEditor.commit();
+    }
 
 }

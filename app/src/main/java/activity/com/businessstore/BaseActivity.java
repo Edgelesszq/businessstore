@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.businessstore.util.AppManager;
 import com.businessstore.util.StatusBarUtil;
 
 import com.businessstore.view.dialog.DialogStyleProgressBar;
@@ -33,6 +34,13 @@ public class BaseActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         StatusBarUtil.transparencyBar(this); //设置状态栏全透明
         StatusBarUtil.StatusBarLightMode(this); //设置白底黑字
+        AppManager.getAppManager().addActivity(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AppManager.getAppManager().removeActivity(this);
     }
 
     protected void setTitleView(int leftImgId, int cecterTextId){
@@ -148,6 +156,7 @@ public class BaseActivity extends AppCompatActivity{
         }
 
     }
+
 
 
 }

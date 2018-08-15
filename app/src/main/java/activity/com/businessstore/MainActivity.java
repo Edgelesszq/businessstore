@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -21,17 +22,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.businessstore.Config;
 import com.businessstore.model.Goods;
 import com.businessstore.model.LoginResult;
-import com.businessstore.util.CustomPopWindow;
+import com.businessstore.util.ActivityUtil;
+import com.businessstore.view.popwindow.CustomPopWindow;
 import com.businessstore.util.DpConversion;
 import com.businessstore.util.SharedPreferencesUtil;
 import com.businessstore.util.StatusBarUtil;
 import com.businessstore.view.dialog.DialogStyleOne;
 import com.businessstore.view.popwindow.CommonPopupWindow;
 import com.businessstore.view.popwindow.CommonUtil;
-import com.lzy.okgo.OkGo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,10 +71,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     //用户信息
     private LoginResult user;
 
+    private long exitTime = 0; //退出程序
+
     @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        user = SharedPreferencesUtil.getObject(this,"loginResult");
+       if (user==null){
+           ActivityUtil.skipActivity(MainActivity.this,LoginActivity.class);
+       }
         setContentView(R.layout.activity_main);
         mContext = this;
 //        navView=findViewById(R.id.nav_view);
@@ -83,7 +91,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         drawerLayout = findViewById(R.id.drawerLayout);
-
         initview();
         initAdapter();
           /*  navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -169,7 +176,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
         user_address = findViewById(R.id.text_user_address);//店铺位置
 
-        user = SharedPreferencesUtil.getObject(mContext,"loginInformation");
+
         //设置头像
         if (user.getSellerHead()!=null){
 //            circleImageView.setImageDrawable(user.getSellerHead());
@@ -424,4 +431,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 break;
         }
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            exit();
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    public void exit() {
+        if ((System.currentTimeMillis() - exitTime) > 2000) {
+            Toast.makeText(getApplicationContext(), "再按一次退出程序",
+                    Toast.LENGTH_SHORT).show();
+            exitTime = System.currentTimeMillis();
+        } else {
+            finish();
+            System.exit(0);
+        }
+    }
+
 }

@@ -279,7 +279,7 @@ public class CustomPopWindow {
         简书著作权归作者所有，任何形式的转载都请联系作者获得授权并注明出处。
 */
 
-package com.businessstore.util;
+package com.businessstore.view.popwindow;
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.Gravity;

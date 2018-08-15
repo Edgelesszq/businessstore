@@ -4,15 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.ArraySet;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -27,25 +23,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.businessstore.model.Goods;
-import com.businessstore.model.SearchHistory;
 import com.businessstore.util.ACache;
-import com.businessstore.util.CustomPopWindow;
+import com.businessstore.view.popwindow.CustomPopWindow;
 import com.businessstore.util.DpConversion;
 import com.businessstore.util.GsonUtil;
-import com.businessstore.util.StatusBarUtil;
 import com.businessstore.view.dialog.DialogStyleOne;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
-import adapter.com.businessstore.AdapterMainActivity;
 import adapter.com.businessstore.AdapterSearchActivity;
 import adapter.com.businessstore.AdapterSearchResultActivity;
 import cn.sharesdk.onekeyshare.OnekeyShare;
