@@ -11,9 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.businessstore.model.LoginResult;
+import com.businessstore.util.SharedPreferencesUtil;
 import com.businessstore.util.StatusBarUtil;
 import com.businessstore.view.popwindow.CommonPopupWindow;
 import com.businessstore.view.popwindow.CommonUtil;
@@ -23,10 +26,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AccountMainActivity extends BaseActivity implements View.OnClickListener,CommonPopupWindow.ViewInterface {
     private Context mContext;
-    private TextView update_password,update_phonenum,name_tv;
+    private TextView update_password,update_phonenum,name_tv,user_num;
     private CommonPopupWindow popupWindow;
     private CircleImageView HeadPortrait_update;
     private ToggleButton btn_switch;
+    private LoginResult user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,10 +49,29 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
         name_tv=findViewById(R.id.name_tv);
         name_tv.setOnClickListener(this);
 
-        HeadPortrait_update=findViewById(R.id.HeadPortrait_update);//修改头像
+        HeadPortrait_update=findViewById(R.id.HeadPortrait_update);//头像
         HeadPortrait_update.setOnClickListener(this);
 
+        user = SharedPreferencesUtil.getObject(mContext,"loginInformation");
+        //显示昵称
+        if (user.getSellerName()!=null){
+            name_tv.setText(user.getSellerName());
+        }
+        //显示账号
+        if (user.getSellerNum()!=null){
+            user_num.setText(user.getSellerNum());
+        }
+        //显示手机号
+        if (user.getSellerTel()!=null){
+            update_phonenum.setText(user.getSellerTel());
+        }
+        //是否公开号码
         btn_switch=findViewById(R.id.switch_btn);
+        if (user.getTelOpen().equals("0")){
+            btn_switch.setChecked(true);
+        }else {
+            btn_switch.setChecked(false);
+        }
         btn_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

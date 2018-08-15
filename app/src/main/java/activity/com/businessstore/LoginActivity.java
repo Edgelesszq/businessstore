@@ -195,6 +195,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                                 }*/
                                                 else {
                                                     ToastViewUtils.toastShowLoginMessage("登录成功！", getApplicationContext(), inflater);
+                                                    SharedPreferencesUtil.putObject(mcontext,"loginInformation",loginResultJson.getData());
                                                     Intent mainIntent = new Intent(LoginActivity.this,
                                                             MainActivity.class);
                                                     dissmissDialogprogressBarWithString();

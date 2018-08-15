@@ -32,6 +32,7 @@
             android:layout_height="match_parent"
             android:layout_weight="2">
             <TextView
+                android:id="@+id/text_user_name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingLeft="15dp"
@@ -83,6 +84,7 @@
                android:layout_width="wrap_content"
                android:layout_height="wrap_content" />
            <TextView
+               android:id="@+id/text_user_number"
                android:layout_marginRight="40dp"
                android:layout_gravity="center_vertical|right"
                android:text="135455sssssssssssssssssssss6455@qq.com"
@@ -170,6 +172,7 @@
 
 
            <TextView
+               android:id="@+id/text_user_address"
                android:layout_marginRight="40dp"
                android:layout_gravity="center_vertical|right"
                android:text="草市街，时代锦江"
