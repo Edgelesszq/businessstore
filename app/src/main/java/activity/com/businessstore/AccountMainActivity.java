@@ -34,6 +34,7 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        user = SharedPreferencesUtil.getObject(mContext,"loginResult");
         setContentView(R.layout.my_account);
 
         mContext = this;
@@ -54,7 +55,7 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
         HeadPortrait_update=findViewById(R.id.HeadPortrait_update);//头像
         HeadPortrait_update.setOnClickListener(this);
 
-        user = SharedPreferencesUtil.getObject(mContext,"loginInformation");
+
         //显示昵称
         if (user.getSellerName()!=null){
             name_tv.setText(user.getSellerName());
