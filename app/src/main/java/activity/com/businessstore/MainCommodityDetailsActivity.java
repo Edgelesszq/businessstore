@@ -1,29 +1,21 @@
 package activity.com.businessstore;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.businessstore.Config;
-import com.businessstore.ShowImagesDialog;
 import com.businessstore.util.DpConversion;
-import com.businessstore.util.NoScrollListview;
-import com.businessstore.util.StatusBarUtil;
 import com.businessstore.view.scrollview.ObservableScrollView;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -11,18 +11,22 @@ import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.businessstore.Config;
 import com.businessstore.model.Json;
 import com.businessstore.model.JsonLogin;
 import com.businessstore.model.LoginResult;
+import com.businessstore.util.ActivityUtil;
+import com.businessstore.util.AppManager;
 import com.businessstore.util.NoDoubleClickListener;
 import com.businessstore.util.SharedPreferencesUtil;
 import com.businessstore.util.StringUtil;
@@ -41,6 +45,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private ImageView see_password;
     private EditText login_password, login_account;//登录账号和密码
     private Context mcontext;
+    private long exitTime = 0; //退出程序
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -195,11 +200,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                                 }*/
                                                 else {
                                                     ToastViewUtils.toastShowLoginMessage("登录成功！", getApplicationContext(), inflater);
-                                                    SharedPreferencesUtil.putObject(mcontext,"loginInformation",loginResultJson.getData());
-                                                    Intent mainIntent = new Intent(LoginActivity.this,
-                                                            MainActivity.class);
+                                                    SharedPreferencesUtil.putObject(mcontext,"loginResult",loginResultJson.getData());
+                                                   /* Intent mainIntent = new Intent(LoginActivity.this,
+                                                            MainActivity.class);*/
                                                     dissmissDialogprogressBarWithString();
-                                                    startActivity(mainIntent);
+                                                    AppManager.getAppManager().finishAllActivity();
+                                                    ActivityUtil.skipActivity(LoginActivity.this,MainActivity.class);
+                                                    /*startActivity(mainIntent);*/
                                                     break;
                                                 }
 
@@ -258,6 +265,26 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 break;
 
 
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            exit();
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    public void exit() {
+        if ((System.currentTimeMillis() - exitTime) > 2000) {
+            Toast.makeText(getApplicationContext(), "再按一次退出程序",
+                    Toast.LENGTH_SHORT).show();
+            exitTime = System.currentTimeMillis();
+        } else {
+            finish();
+            System.exit(0);
         }
     }
 }

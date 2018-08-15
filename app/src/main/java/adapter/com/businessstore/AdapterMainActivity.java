@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.businessstore.model.Goods;
-import com.businessstore.view.roundImageView.RoundImageView;
 import com.businessstore.view.roundImageView.RoundImageView1;
 
 import java.util.List;

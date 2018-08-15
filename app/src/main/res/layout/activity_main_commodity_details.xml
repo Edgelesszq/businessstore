@@ -43,7 +43,7 @@
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
-                        <com.businessstore.util.RoundImageView
+                        <com.businessstore.view.roundImageView.RoundImageView
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:src="@mipmap/default_head_image" />
@@ -178,7 +178,7 @@
                         android:layout_marginTop="10dp"
                         android:background="@color/my_account_number_line" />
 
-                    <com.businessstore.util.NoScrollListview
+                    <com.businessstore.view.scrollview.NoScrollListview
                         android:id="@+id/commodity_details_listview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -187,7 +187,7 @@
                         android:listSelector="@android:color/transparent"
                         >
 
-                    </com.businessstore.util.NoScrollListview>
+                    </com.businessstore.view.scrollview.NoScrollListview>
 
                 </LinearLayout>
 

@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical">
 
-        <com.businessstore.util.RoundImageView
+        <com.businessstore.view.roundImageView.RoundImageView
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:src="@mipmap/default_head_image" />
