@@ -25,13 +25,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.businessstore.Config;
 import com.businessstore.model.Goods;
+import com.businessstore.model.LoginResult;
 import com.businessstore.util.CustomPopWindow;
 import com.businessstore.util.DpConversion;
+import com.businessstore.util.SharedPreferencesUtil;
 import com.businessstore.util.StatusBarUtil;
 import com.businessstore.view.dialog.DialogStyleOne;
 import com.businessstore.view.popwindow.CommonPopupWindow;
 import com.businessstore.view.popwindow.CommonUtil;
+import com.lzy.okgo.OkGo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +51,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         CommonPopupWindow.ViewInterface {
 
     private Context mContext;
-    private TextView upload_btn;
+    private TextView upload_btn,user_name,user_num,user_address;
     //    private NavigationView navView;
     private String edt_title, edt_content;
     private int edt_price,edt_number;
@@ -69,7 +73,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     //自定义popwindow对象
     private CustomPopWindow popWindow;
     private boolean mPopwindowIsShow;
-
+    //用户信息
+    private LoginResult user;
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -162,9 +167,30 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         store_address = findViewById(R.id.store_address);
         store_address.setOnClickListener(this);
 
-//        goods_title = findViewById(R.id.main_recyclerview_item_title);
-//        goods_content = findViewById(R.id.main_recyclerview_item_describe);
-//        goods_price = findViewById(R.id.main_recyclerview_item_price);
+        user_name = findViewById(R.id.text_user_name);
+        user_name.setOnClickListener(this);//昵称
+
+        user_num = findViewById(R.id.text_user_number);//账号
+
+        user_address = findViewById(R.id.text_user_address);//店铺位置
+
+        user = SharedPreferencesUtil.getObject(mContext,"loginInformation");
+        //设置头像
+        if (user.getSellerHead()!=null){
+//            circleImageView.setImageDrawable(user.getSellerHead());
+        }
+        //设置用户名
+        if (user.getSellerName()!=null){
+            user_name.setText(user.getSellerNum());
+        }
+        //设置我的账号
+        if (user.getSellerNum()!=null){
+            user_num.setText(user.getSellerNum());
+        }
+        //设置店的位置
+        if(user.getDetailedAddress()!=null){
+            user_address.setText(user.getDetailedAddress());
+        }
     }
 
     @Override
@@ -202,9 +228,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 startActivity(intentlogin);
                 break;
             case R.id.image_head:
+//                OkGo.<String>get(Config.URL+"")
                 Intent circleImageView = new Intent(MainActivity.this,
                         AccountMainActivity.class);
                 startActivity(circleImageView);
+                break;
+            case R.id.text_user_name:
+                Intent usernametext = new Intent(MainActivity.this,
+                        AccountMainActivity.class);
+                startActivity(usernametext);
                 break;
             //我的账号
             case R.id.myaccount_icon:
