@@ -1,26 +1,39 @@
 package activity.com.businessstore;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.businessstore.Config;
+import com.businessstore.model.Json;
+import com.businessstore.model.LoginResult;
+import com.businessstore.util.SharedPreferencesUtil;
 import com.businessstore.util.StatusBarUtil;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Response;
 
 
 public class AccountUpadateNameActivity extends BaseActivity implements View.OnClickListener{
     private Context mContext;
     private ImageView clean_iv;
     private EditText phonenum_et;
+    private LoginResult user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_account_updatepname);
 
+        mContext=this;
         initview();
     }
     public void initview(){
@@ -29,9 +42,9 @@ public class AccountUpadateNameActivity extends BaseActivity implements View.OnC
         mTitleLefeBackImg.setOnClickListener(this);
         mTitleRightText.setOnClickListener(this);
 
-        clean_iv=findViewById(R.id.clean_iv);
+        clean_iv=findViewById(R.id.clean_iv);//清除按钮
         clean_iv.setOnClickListener(this);
-        phonenum_et=findViewById(R.id.phonenum_et);
+        phonenum_et=findViewById(R.id.phonenum_et);//修改昵称框
         phonenum_et.setOnClickListener(this);
 
         final String phonenumstr=getIntent().getStringExtra("Name").trim();
@@ -88,7 +101,35 @@ public class AccountUpadateNameActivity extends BaseActivity implements View.OnC
                 phonenum_et.setText("");
                 break;
             case R.id.title_right_text:
-                Toast.makeText(this,"sssss",Toast.LENGTH_SHORT).show();
+                user = SharedPreferencesUtil.getObject(mContext,"loginInformation");
+                user.setSellerName(phonenum_et.getText().toString());
+                OkGo.<String>put(Config.URL + "/user/editUserInfo")
+                        .tag(this)
+                        .params("headImg",user.getSellerHead())
+                        .params("sellerName",user.getSellerName())
+                        .params("sellerPhone",user.getSellerTel())
+                        .params("telopen",user.getTelOpen())
+                        .params("sellerId",user.getSellerId())
+                        .params("appKey",user.getAppKey())
+                        .execute(new StringCallback() {
+                            @Override
+                            public void onSuccess(Response<String> response) {
+                                Log.d("loglog",response.body());
+                                String responedata = response.body().toString().trim();
+                                Gson gson = new Gson();
+                                Json<LoginResult> jsondata = gson.fromJson(responedata, new TypeToken<Json<LoginResult>>() {}.getType());
+                                if (jsondata.getCode()==0){
+                                    SharedPreferencesUtil.putObject(mContext,"loginInformation",jsondata.getData());
+                                    Log.d("loglog",jsondata.getData().getSellerName());
+                                    Intent intent = new Intent(AccountUpadateNameActivity.this,
+                                            AccountMainActivity.class);
+                                    startActivity(intent);
+                                }else{
+                                    Toast.makeText(mContext,jsondata.getMsg(),Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+
                 break;
         }
     }

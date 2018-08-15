@@ -17,29 +17,15 @@ public class LoginResult implements Serializable{
     private String cityName;        //城市名字
     private String shopTime;        //工作时间
     private String detailedAddress;     //详细地址
-
-    private int numActiva;              //账号状态   0-未激活,1-激活,2-冻结
-
+    private String zipCode;         //zipCode
+    private String createAt;        //创建时间
+    private String updateAt;        //更新时间
+    private int numActiva;         //账号状态   0-未激活,1-激活,2-冻结
     private String verifiCode;    //验证码
 
-    public LoginResult(String sellerId, String appKey, String sellerName, String sellerHead, String sellerNum, String sellerDomain, String sellerTel, String telOpen, String sellerCountry, String shopName, String stateName, String cityName, String shopTime, String detailedAddress, int numActiva, String verifiCode) {
-        this.sellerId = sellerId;
-        this.appKey = appKey;
-        this.sellerName = sellerName;
-        this.sellerHead = sellerHead;
-        this.sellerNum = sellerNum;
-        this.sellerDomain = sellerDomain;
-        this.sellerTel = sellerTel;
-        this.telOpen = telOpen;
-        this.sellerCountry = sellerCountry;
-        this.shopName = shopName;
-        this.stateName = stateName;
-        this.cityName = cityName;
-        this.shopTime = shopTime;
-        this.detailedAddress = detailedAddress;
-        this.numActiva = numActiva;
-        this.verifiCode = verifiCode;
-    }
+
+
+
 
     public String getVerifiCode() {
         return verifiCode;
@@ -178,4 +164,30 @@ public class LoginResult implements Serializable{
     public void setNumActiva(int numActiva) {
         this.numActiva = numActiva;
     }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public String getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(String createAt) {
+        this.createAt = createAt;
+    }
+
+    public String getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(String updateAt) {
+        this.updateAt = updateAt;
+    }
+
+
 }

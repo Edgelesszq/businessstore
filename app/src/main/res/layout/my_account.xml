@@ -84,6 +84,7 @@
                 android:theme="@style/myaccount_style" />
 
             <TextView
+                android:id="@+id/text_num2"
                 android:layout_width="wrap_content"
                 android:layout_height="49dp"
                 android:layout_gravity="right"

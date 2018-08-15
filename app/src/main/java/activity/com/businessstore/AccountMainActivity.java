@@ -43,11 +43,12 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
         setTitleView(R.drawable.backimage,R.string.my_account);
         mTitleLefeBackImg.setOnClickListener(this);
         update_password=findViewById(R.id.update_password_textview);
-        update_phonenum=findViewById(R.id.update_phoneNum_text);
+        update_phonenum=findViewById(R.id.update_phoneNum_text);//手机号显示
         update_password.setOnClickListener(this);
         update_phonenum.setOnClickListener(this);
-        name_tv=findViewById(R.id.name_tv);
+        name_tv=findViewById(R.id.name_tv);//昵称显示
         name_tv.setOnClickListener(this);
+        user_num = findViewById(R.id.text_num2);//账号显示
 
         HeadPortrait_update=findViewById(R.id.HeadPortrait_update);//头像
         HeadPortrait_update.setOnClickListener(this);
