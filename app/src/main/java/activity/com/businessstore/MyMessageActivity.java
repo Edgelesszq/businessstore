@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.businessstore.util.StatusBarUtil;
 
@@ -38,6 +39,7 @@ public class MyMessageActivity extends BaseActivity implements View.OnClickListe
 
     private void initview() {
         setTitleView(R.drawable.backimage,R.string.my_message);
+        mTitleLefeBackImg.setOnClickListener(this);
 
         recyclerView=findViewById(R.id.comment_list);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
@@ -58,7 +60,7 @@ public class MyMessageActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.title_left_back_img:
-                finish();
+                this.finish();
                 break;
         }
     }
