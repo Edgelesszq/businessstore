@@ -101,7 +101,7 @@ public class AccountUpadateNameActivity extends BaseActivity implements View.OnC
                 phonenum_et.setText("");
                 break;
             case R.id.title_right_text:
-                user = SharedPreferencesUtil.getObject(mContext,"loginInformation");
+                user = SharedPreferencesUtil.getObject(mContext,"loginResult");
                 user.setSellerName(phonenum_et.getText().toString());
                 OkGo.<String>put(Config.URL + "/user/editUserInfo")
                         .tag(this)
@@ -119,7 +119,7 @@ public class AccountUpadateNameActivity extends BaseActivity implements View.OnC
                                 Gson gson = new Gson();
                                 Json<LoginResult> jsondata = gson.fromJson(responedata, new TypeToken<Json<LoginResult>>() {}.getType());
                                 if (jsondata.getCode()==0){
-                                    SharedPreferencesUtil.putObject(mContext,"loginInformation",jsondata.getData());
+                                    SharedPreferencesUtil.putObject(mContext,"loginResult",jsondata.getData());
                                     Log.d("loglog",jsondata.getData().getSellerName());
                                     Intent intent = new Intent(AccountUpadateNameActivity.this,
                                             AccountMainActivity.class);

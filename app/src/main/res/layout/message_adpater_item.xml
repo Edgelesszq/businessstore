@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:id="@+id/message_relative"
     android:layout_marginLeft="20dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -8,10 +9,11 @@
         android:text="zqzzz"
         android:id="@+id/username"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textColor="@color/title_name"/>
     <TextView
         android:layout_marginLeft="10dp"
-
+        android:textColor="@color/title_name"
         android:layout_toRightOf="@+id/username"
         android:text=":"
         android:id="@+id/symbol"
@@ -23,6 +25,7 @@
         android:id="@+id/content"
         android:text="woshizq"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textColor="@color/title_name"/>
 
 </RelativeLayout>

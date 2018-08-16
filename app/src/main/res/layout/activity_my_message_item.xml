@@ -25,6 +25,7 @@
                     android:id="@+id/nickname"
                     android:text="买卖一家"
                     android:gravity="center"
+                    android:textColor="@color/title_name"
                     android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp" />
@@ -33,6 +34,7 @@
                     android:gravity="center"
                     android:text="2013.5"
                     android:layout_weight="1"
+                    android:textColor="@color/mgray"
                     android:layout_width="match_parent"
                     android:layout_height="0dp" />
 
@@ -40,6 +42,7 @@
             <TextView
                 android:id="@+id/reply"
                 android:textSize="16sp"
+                android:textColor="@color/nav_color"
                 android:text="回复"
                 android:layout_marginRight="20dp"
                 android:layout_alignParentRight="true"
@@ -53,6 +56,7 @@
             android:textSize="16sp"
             android:layout_marginLeft="20dp"
             android:text="您好，欢迎光临本店！"
+            android:textColor="@color/title_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <RelativeLayout
@@ -60,6 +64,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_width="match_parent"
+            android:background="@drawable/my_messege_background"
             android:layout_height="60dp">
             <com.businessstore.view.roundImageView.RoundImageView1
                 android:src="@drawable/qidong"
@@ -72,19 +77,21 @@
                 android:layout_toRightOf="@+id/roundImag_2"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="60dp">
                 <TextView
                     android:gravity="center_vertical"
-                    android:text="全新的衣服现在很漂亮，5折出售哦"
-                    android:singleLine="true"
+                    android:text="全新的衣服现在很漂亮，5折出售哦哦哦哦哦哦噢噢噢噢"
+                    android:lines="1"
+                    android:textColor="@color/title_name"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="0dp" />
                 <TextView
                     android:gravity="center_vertical"
-
-                    android:text="还是很不错的哦，还是很不错的哦"
+                    android:lines="1"
+                    android:text="还是很不错的哦，还是很不错的哦噢噢噢噢噢噢噢噢哦哦哦"
                     android:layout_weight="1"
+                    android:textColor="@color/mgray"
                     android:layout_width="match_parent"
                     android:layout_height="0dp" />
                 <RelativeLayout
@@ -106,8 +113,8 @@
                         android:gravity="center_vertical"
                         android:textColor="@color/red"
                         android:text="126"
-                        android:textSize="18sp"
-                        android:layout_marginLeft="8dp"
+                        android:textSize="16sp"
+                        android:layout_marginLeft="2dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </RelativeLayout>
@@ -120,7 +127,7 @@
 
 
     <LinearLayout
-        android:id="@+id/comment_layout"
+        android:id="@+id/comment_layout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
@@ -169,7 +176,7 @@
         android:textColor="@color/green"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="20dp"
-        android:text="加载更多"
+        android:text="查看全部"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
