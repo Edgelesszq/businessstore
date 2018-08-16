@@ -27,12 +27,12 @@ public class AccountUpadateNameActivity extends BaseActivity implements View.OnC
     private Context mContext;
     private ImageView clean_iv;
     private EditText phonenum_et;
-    private LoginResult user;
+    private LoginResult loginResult;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_account_updatepname);
-
+        loginResult = SharedPreferencesUtil.getObject(mContext,"loginResult");
         mContext=this;
         initview();
     }
@@ -101,16 +101,16 @@ public class AccountUpadateNameActivity extends BaseActivity implements View.OnC
                 phonenum_et.setText("");
                 break;
             case R.id.title_right_text:
-                user = SharedPreferencesUtil.getObject(mContext,"loginInformation");
-                user.setSellerName(phonenum_et.getText().toString());
+
+                loginResult.setSellerName(phonenum_et.getText().toString());
                 OkGo.<String>put(Config.URL + "/user/editUserInfo")
                         .tag(this)
-                        .params("headImg",user.getSellerHead())
-                        .params("sellerName",user.getSellerName())
-                        .params("sellerPhone",user.getSellerTel())
-                        .params("telopen",user.getTelOpen())
-                        .params("sellerId",user.getSellerId())
-                        .params("appKey",user.getAppKey())
+                        .params("headImg",loginResult.getSellerHead())
+                        .params("sellerName",loginResult.getSellerName())
+                        .params("sellerTel",loginResult.getSellerTel())
+                        .params("telopen",loginResult.getTelOpen())
+                        .params("sellerId",loginResult.getSellerId())
+                        .params("appKey",loginResult.getAppKey())
                         .execute(new StringCallback() {
                             @Override
                             public void onSuccess(Response<String> response) {
@@ -119,7 +119,7 @@ public class AccountUpadateNameActivity extends BaseActivity implements View.OnC
                                 Gson gson = new Gson();
                                 Json<LoginResult> jsondata = gson.fromJson(responedata, new TypeToken<Json<LoginResult>>() {}.getType());
                                 if (jsondata.getCode()==0){
-                                    SharedPreferencesUtil.putObject(mContext,"loginInformation",jsondata.getData());
+                                    SharedPreferencesUtil.putObject(mContext,"loginResult",jsondata.getData());
                                     Log.d("loglog",jsondata.getData().getSellerName());
                                     Intent intent = new Intent(AccountUpadateNameActivity.this,
                                             AccountMainActivity.class);

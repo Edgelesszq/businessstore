@@ -1,12 +1,21 @@
 package activity.com.businessstore;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.businessstore.Config;
+import com.businessstore.model.Json;
+import com.businessstore.model.LoginResult;
+import com.businessstore.util.NoDoubleClickListener;
+import com.businessstore.util.SharedPreferencesUtil;
 import com.businessstore.util.StatusBarUtil;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
@@ -15,10 +24,13 @@ import com.lzy.okgo.model.Response;
 public class AccountUpadatePasswordActivity extends BaseActivity implements View.OnClickListener{
     private Context mContext;
     private EditText oldpsw,newpsw1,newpsw2;
+    private LoginResult loginResult;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_account_updatepassword);
+        loginResult = SharedPreferencesUtil.getObject(mContext,"loginResult");
+
         initview();
     }
     public void initview(){
@@ -27,8 +39,16 @@ public class AccountUpadatePasswordActivity extends BaseActivity implements View
         mTitleLefeBackImg.setOnClickListener(this);
         mTitleRightText.setOnClickListener(this);
         oldpsw = findViewById(R.id.edit_old_psw);
-        newpsw1 = findViewById(R.id.edit_new_psw);
+
         newpsw2 = findViewById(R.id.edit_new_psw_again);
+        newpsw1 = findViewById(R.id.edit_new_psw);
+        mTitleRightText.setOnClickListener(new NoDoubleClickListener() {
+            @Override
+            public void onNoDoubleClick(View v) {
+
+
+            }
+        });
 
 
     }
@@ -41,22 +61,7 @@ public class AccountUpadatePasswordActivity extends BaseActivity implements View
                 this.finish();
                 break;
             case R.id.title_right_text:
-                Log.d("log1","right");
-                OkGo.<String>put("http://192.168.0.140/wuji/api/user/login")
-                        .tag(this)
-                        .params("phone","18682572151")
-                        .params("password","123456")
-                        .execute(new StringCallback() {
-                            @Override
-                            public void onSuccess(Response<String> response) {
-                                Log.d("log1",response.body().toString().trim());
-                            }
 
-                            @Override
-                            public void onError(Response<String> response) {
-                                super.onError(response);
-                            }
-                        });
                 break;
         }
     }

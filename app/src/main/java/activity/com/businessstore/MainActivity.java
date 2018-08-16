@@ -83,16 +83,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
        if (user==null){
            ActivityUtil.skipActivity(MainActivity.this,LoginActivity.class);
        }
-        setContentView(R.layout.activity_main);
-        mContext = this;
+       else {
+           setContentView(R.layout.activity_main);
+           mContext = this;
 //        navView=findViewById(R.id.nav_view);
-        StatusBarUtil.StatusBarLightMode_white(this);
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        drawerLayout = findViewById(R.id.drawerLayout);
-        initview();
-        initAdapter();
+           StatusBarUtil.StatusBarLightMode_white(this);
+           toolbar = findViewById(R.id.toolbar);
+           setSupportActionBar(toolbar);
+           getSupportActionBar().setDisplayShowTitleEnabled(false);
+           drawerLayout = findViewById(R.id.drawerLayout);
+           initview();
+           initAdapter();
+       }
+
           /*  navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -404,7 +407,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
     public void onDestroy() {
         //在该生命周期的时候调用该方法，
-        mAdapterMainActivity.onDestroy();
+        //mAdapterMainActivity.onDestroy();
         super.onDestroy();
     }
 

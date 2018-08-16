@@ -6,22 +6,39 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.businessstore.Config;
+import com.businessstore.model.Json;
+import com.businessstore.model.LoginResult;
+import com.businessstore.util.ActivityUtil;
+import com.businessstore.util.NoDoubleClickListener;
+import com.businessstore.util.SharedPreferencesUtil;
 import com.businessstore.util.StatusBarUtil;
+import com.businessstore.util.StringUtil;
+import com.businessstore.util.ToastViewUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Response;
 
 
 public class AccountUpadatePhoneNumActivity extends BaseActivity implements View.OnClickListener{
     private Context mContext;
     private ImageView clean_iv;
     private EditText phonenum_et;
+    private LoginResult loginResult;
+    private String phonenumstr;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_account_updatephonenum);
+        loginResult = SharedPreferencesUtil.getObject(mContext,"loginResult");
 
         initview();
     }
@@ -29,14 +46,12 @@ public class AccountUpadatePhoneNumActivity extends BaseActivity implements View
         mContext = this;
         setTitleView(R.drawable.backimage,R.string.update_phonenum,R.string.save);
         mTitleLefeBackImg.setOnClickListener(this);
-        mTitleRightText.setOnClickListener(this);
 
         clean_iv=findViewById(R.id.clean_iv);
         clean_iv.setOnClickListener(this);
         phonenum_et=findViewById(R.id.phonenum_et);
         phonenum_et.setOnClickListener(this);
-
-        final String phonenumstr=getIntent().getStringExtra("phoneNum").trim();
+        phonenumstr=loginResult.getSellerTel();
         phonenum_et.setText(phonenumstr);
         phonenum_et.setSelection(phonenum_et.getText().length());
         TextWatcher watcher=new TextWatcher() {
@@ -76,6 +91,47 @@ public class AccountUpadatePhoneNumActivity extends BaseActivity implements View
             }
         };
         phonenum_et.addTextChangedListener(watcher);
+
+        mTitleRightText.setOnClickListener(new NoDoubleClickListener() {
+
+
+
+
+            @Override
+            public void onNoDoubleClick(View v) {
+                String phoneNum=phonenum_et.getText().toString().trim();
+                Log.d("loglog",phoneNum);
+
+                OkGo.<String>put(Config.URL + "/user/editUserInfo")
+                        .tag(this)
+                        .params("headImg",loginResult.getSellerHead())
+                        .params("sellerName",loginResult.getSellerName())
+                        .params("sellerTel",phoneNum)
+                        .params("telopen",loginResult.getTelOpen())
+                        .params("sellerId",loginResult.getSellerId())
+                        .params("appKey",loginResult.getAppKey())
+                        .execute(new StringCallback() {
+                            @Override
+                            public void onSuccess(Response<String> response) {
+                                Log.d("loglog",response.body());
+                                String responedata = response.body().toString().trim();
+                                Gson gson = new Gson();
+                                Json<LoginResult> jsondata = gson.fromJson(responedata, new TypeToken<Json<LoginResult>>() {}.getType());
+                                if (jsondata.getCode()==0){
+                                    SharedPreferencesUtil.putObject(mContext,"loginResult",jsondata.getData());
+                                    /*Intent intent = new Intent(AccountUpadatePhoneNumActivity.this,
+                                            AccountMainActivity.class);
+                                    startActivity(intent);*/
+                                    ActivityUtil.skipActivity(AccountUpadatePhoneNumActivity.this,AccountMainActivity.class);
+                                }else{
+                                    Toast.makeText(mContext,jsondata.getMsg(),Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+
+            }
+        });
+
     }
 
 
