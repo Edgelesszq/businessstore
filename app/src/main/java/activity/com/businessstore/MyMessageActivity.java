@@ -7,7 +7,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.businessstore.util.StatusBarUtil;
 
@@ -41,19 +43,23 @@ public class MyMessageActivity extends BaseActivity implements View.OnClickListe
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        AdapterMyMessageRecycler adapterMyMessageRecycler=new AdapterMyMessageRecycler(getApplicationContext(),urlList);
-        adapterMyMessageRecycler.setmOnItemClickListener(new AdapterMyMessageRecycler.OnItemReplyClickListener() {
+        AdapterMyMessageRecycler adapterMyMessageRecycler=new AdapterMyMessageRecycler(this,urlList);
+        /*adapterMyMessageRecycler.setmOnItemClickListener(new AdapterMyMessageRecycler.OnItemReplyClickListener() {
             @Override
             public void onClick(View v, int position) {
                 Intent replyIntent=new Intent(MyMessageActivity.this,ReplyActivity.class);
                 startActivity(replyIntent);
             }
-        });
+        });*/
         recyclerView.setAdapter(adapterMyMessageRecycler);
     }
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()){
+            case R.id.title_left_back_img:
+                finish();
+                break;
+        }
     }
 }

@@ -14,5 +14,34 @@
         android:background="@color/white">
 
     </android.support.v7.widget.RecyclerView>
+    <RelativeLayout
+        android:id="@+id/reply_msg"
+        android:background="@color/my_account_number_line"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+        <EditText
+            android:theme="@style/edittextstyle"
+            android:paddingLeft="10dp"
+            android:id="@+id/reply_et"
+            android:layout_marginLeft="20dp"
+            android:textSize="16sp"
+            android:textColorHint="@color/q_gray"
+            android:hint="回复：阿三"
+            android:background="@drawable/insert_ev_bg"
+            android:layout_width="260dp"
+            android:layout_height="40dp" />
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:layout_toRightOf="@+id/reply_et"
+            android:text="发送"
+            android:background="@drawable/reply_border"
+            android:layout_width="60dp"
+            android:layout_height="30dp" />
 
+    </RelativeLayout>
 </LinearLayout>

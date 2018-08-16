@@ -101,7 +101,6 @@ public class AccountUpadateNameActivity extends BaseActivity implements View.OnC
                 phonenum_et.setText("");
                 break;
             case R.id.title_right_text:
-
                 loginResult.setSellerName(phonenum_et.getText().toString());
                 OkGo.<String>put(Config.URL + "/user/editUserInfo")
                         .tag(this)
