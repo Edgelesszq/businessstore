@@ -1,5 +1,6 @@
 package activity.com.businessstore;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -7,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.HideReturnsTransformationMethod;
@@ -23,13 +25,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.bumptech.glide.Glide;
 import com.businessstore.Config;
 import com.businessstore.model.Json;
 import com.businessstore.model.LoginResult;
 import com.businessstore.util.ActivityUtil;
+import com.businessstore.util.PermissionUtil;
 import com.businessstore.util.PictureCutUtil;
 import com.businessstore.util.SharedPreferencesUtil;
 import com.businessstore.util.StatusBarUtil;
+import com.businessstore.util.StringUtil;
 import com.businessstore.view.popwindow.CommonPopupWindow;
 import com.businessstore.view.popwindow.CommonUtil;
 import com.google.gson.Gson;
@@ -54,11 +59,11 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
     private CommonPopupWindow popupWindow;
     private CircleImageView HeadPortrait_update;
     private ToggleButton btn_switch;
-    private Button btn_take_photo,btn_select_photo;
+    private Button btn_take_photo,btn_select_photo,btn_cancel;
     private Bitmap head;// 头像Bitmap
     private static String path = "/sdcard/myHead/";// sd路径
     private LoginResult loginResult;
-
+    private final int REQUEST_CODE_CAMERA = 101;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,8 +71,22 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
         setContentView(R.layout.my_account);
 
         mContext = this;
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loginResult = SharedPreferencesUtil.getObject(mContext,"loginResult");
+
         initview();
     }
+
     public void initview(){
         setTitleView(R.drawable.backimage,R.string.my_account);
         mTitleLefeBackImg.setOnClickListener(this);
@@ -75,6 +94,64 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
         update_phonenum=findViewById(R.id.update_phoneNum_text);//手机号显示
         update_password.setOnClickListener(this);
         update_phonenum.setOnClickListener(this);
+
+        btn_switch=findViewById(R.id.switch_btn);
+        btn_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked==true){
+                    OkGo.<String>post(Config.URL + "/user/editUserInfo")
+                            .tag(this)
+                            .params("headImg",loginResult.getSellerHead())
+                            .params("sellerName",loginResult.getSellerName())
+                            .params("sellerTel",loginResult.getSellerTel())
+                            .params("telOpen","1")
+                            .params("sellerId",loginResult.getSellerId())
+                            .params("appKey",loginResult.getAppKey())
+                            .execute(new StringCallback() {
+                                @Override
+                                public void onSuccess(Response<String> response) {
+                                    Log.d("loglog",response.body());
+                                    String responedata = response.body().toString().trim();
+                                    Gson gson = new Gson();
+                                    Json<LoginResult> jsondata = gson.fromJson(responedata, new TypeToken<Json<LoginResult>>() {}.getType());
+                                    if (jsondata.getCode()==0){
+                                        SharedPreferencesUtil.putObject(mContext,"loginResult",jsondata.getData());
+                                        Log.d("loglog",jsondata.getData().getSellerName());
+
+                                    }else{
+                                        Toast.makeText(mContext,jsondata.getMsg(),Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                }
+                else {
+                    OkGo.<String>post(Config.URL + "/user/editUserInfo")
+                            .tag(this)
+                            .params("headImg",loginResult.getSellerHead())
+                            .params("sellerName",loginResult.getSellerName())
+                            .params("sellerTel",loginResult.getSellerTel())
+                            .params("telOpen","0")
+                            .params("sellerId",loginResult.getSellerId())
+                            .params("appKey",loginResult.getAppKey())
+                            .execute(new StringCallback() {
+                                @Override
+                                public void onSuccess(Response<String> response) {
+                                    Log.d("loglog",response.body());
+                                    String responedata = response.body().toString().trim();
+                                    Gson gson = new Gson();
+                                    Json<LoginResult> jsondata = gson.fromJson(responedata, new TypeToken<Json<LoginResult>>() {}.getType());
+                                    if (jsondata.getCode()==0){
+                                        SharedPreferencesUtil.putObject(mContext,"loginResult",jsondata.getData());
+                                        Log.d("loglog",jsondata.getData().getSellerName());
+                                    }else{
+                                        Toast.makeText(mContext,jsondata.getMsg(),Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                }
+            }
+        });
         name_tv=findViewById(R.id.name_tv);//昵称显示
         name_tv.setOnClickListener(this);
         user_num = findViewById(R.id.text_num2);//账号显示
@@ -92,11 +169,28 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
         }*/
 
         HeadPortrait_update=findViewById(R.id.HeadPortrait_update);//头像
+        File headImg=new File(path+"head.jpg");
+        if (loginResult.getSellerHead()==null){
+            Glide.with(this).load(R.drawable.qidong)
+                    .into(HeadPortrait_update);
+        }
+        else {
+            Glide.with(this).load(loginResult.getSellerHead())
+                    .into(HeadPortrait_update);
+        }
+
+
+
+
+
         HeadPortrait_update.setOnClickListener(this);
 
 
         //显示昵称
-        if (loginResult.getSellerName()!=null){
+        if (StringUtil.isBlank(loginResult.getSellerName())){
+            name_tv.setText(loginResult.getSellerNum());
+        }
+        if (!StringUtil.isBlank(loginResult.getSellerName())){
             name_tv.setText(loginResult.getSellerName());
         }
         //显示账号
@@ -128,7 +222,11 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
             }
         });
     }
+    public void requestCameraPermisson() {
 
+       boolean isget= PermissionUtil.requestPerssions(this, REQUEST_CODE_CAMERA, Manifest.permission.CAMERA, Manifest.permission.READ_SMS, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);
+       boolean get= PermissionUtil.getCameraPermissions(this, REQUEST_CODE_CAMERA);
+    }
 
     @Override
     public void onClick(View view) {
@@ -176,15 +274,28 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
                     public void getChildView(View view, int layoutResId) {
                         btn_select_photo= view.findViewById(R.id.btn_select_photo);
                         btn_take_photo=view.findViewById(R.id.btn_take_photo);
+                        btn_cancel=findViewById(R.id.btn_cancel);
+                        btn_cancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                popupWindow.dismiss();
+                            }
+                        });
 
                         btn_take_photo.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 Log.d("tag","asaaa");
+                                requestCameraPermisson();
+
                                 Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                                 intent2.putExtra(MediaStore.EXTRA_OUTPUT,
-                                        Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "headimg.jpg")));
-                                startActivityForResult(intent2, 2);// 采用ForResult打开
+                                        Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "head.jpg")));
+                                StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+                                StrictMode.setVmPolicy(builder.build());
+
+                                startActivityForResult(intent2, 2);
+
                                 popupWindow.dismiss();
 
                             }
@@ -231,7 +342,7 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
                    break;
                case 2:
                    if (resultCode == RESULT_OK) {
-                       String filePath=Environment.getExternalStorageDirectory() + "/headImg.jpg";
+                       String filePath=Environment.getExternalStorageDirectory() + "/head.jpg";
                        File temp = new File(filePath);
                        cropPhoto(Uri.fromFile(temp));// 裁剪图片
                    }
@@ -251,13 +362,12 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
                            /**
                             * 上传服务器代码
                             */
-                           OkGo.<String>put(Config.URL + "/user/editUserInfo")
+                           OkGo.<String>post(Config.URL + "/user/editUserInfo")
                                    .tag(this)
-                                   .isMultipart(true)
-                                    .params("headImg",new File(filepath))
+                                   .params("headImg",new File(filepath))
                                    .params("sellerName",loginResult.getSellerName())
                                    .params("sellerTel",loginResult.getSellerTel())
-                                   .params("telopen",loginResult.getTelOpen())
+                                   .params("telOpen",loginResult.getTelOpen())
                                    .params("sellerId",loginResult.getSellerId())
                                    .params("appKey",loginResult.getAppKey())
                                    .execute(new StringCallback() {
@@ -269,9 +379,13 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
                                            Json<LoginResult> jsondata = gson.fromJson(responedata, new TypeToken<Json<LoginResult>>() {}.getType());
                                            if (jsondata.getCode()==0){
                                                SharedPreferencesUtil.putObject(mContext,"loginResult",jsondata.getData());
-                                    /*Intent intent = new Intent(AccountUpadatePhoneNumActivity.this,
-                                            AccountMainActivity.class);
-                                    startActivity(intent);*/
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        Glide.with(getApplicationContext()).load(head).into(HeadPortrait_update);
+
+                                                    }
+                                                });
 
                                            }else{
                                                Toast.makeText(mContext,jsondata.getMsg(),Toast.LENGTH_SHORT).show();
@@ -290,8 +404,12 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
 
                                        }
                                    });
+/*
                            setPicToView(head);// 保存在SD卡中
-                           HeadPortrait_update.setImageBitmap(head);// 用ImageButton显示出来
+*/
+                          /* Glide.with(this).load(head)
+                                   .into(HeadPortrait_update);*/
+                         //  HeadPortrait_update.setImageBitmap(head);// 用ImageButton显示出来
                        }
                    }
                    break;

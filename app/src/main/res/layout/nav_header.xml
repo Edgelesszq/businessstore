@@ -4,61 +4,57 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-    <LinearLayout
+    <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:background="@drawable/slide_bac"
        >
 
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
 
             <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_alignParentLeft="true"
                 android:id="@+id/image_head"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="60dp"
-                android:src="@drawable/qidong" />
-        </FrameLayout>
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/qidong"
+                android:layout_marginLeft="40px"
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2">
+                />
+
+
+
             <TextView
+                android:layout_marginLeft="40px"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/image_head"
                 android:id="@+id/text_user_name"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingLeft="15dp"
-                 android:paddingTop="75dp"
-                android:text="世上再无张居正"
+                android:layout_width="wrap_content"
+                android:layout_marginRight="140px"
+                android:layout_height="25dp"
+                android:gravity="center"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
                 android:textColor="@color/white"
-
                 android:textSize="18sp"
                 />
 
-        </LinearLayout>
-        <FrameLayout
-            android:clickable="false"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+
             <ImageView
+                android:layout_marginRight="40px"
+                android:layout_alignParentRight="true"
+
+                android:layout_centerVertical="true"
                 android:id="@+id/qrcode"
-                android:layout_marginTop="75dp"
-                android:layout_marginLeft="30dp"
+
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:src="@drawable/swt_icon"
                 />
-        </FrameLayout>
-    </LinearLayout>
+
+    </RelativeLayout>
    <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"

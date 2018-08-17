@@ -34,19 +34,21 @@ public class AccountUpadatePhoneNumActivity extends BaseActivity implements View
     private EditText phonenum_et;
     private LoginResult loginResult;
     private String phonenumstr;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_account_updatephonenum);
         loginResult = SharedPreferencesUtil.getObject(mContext,"loginResult");
-
         initview();
     }
     public void initview(){
         mContext = this;
         setTitleView(R.drawable.backimage,R.string.update_phonenum,R.string.save);
-        mTitleLefeBackImg.setOnClickListener(this);
 
+        mTitleRightText.setClickable(false);
         clean_iv=findViewById(R.id.clean_iv);
         clean_iv.setOnClickListener(this);
         phonenum_et=findViewById(R.id.phonenum_et);
@@ -71,6 +73,46 @@ public class AccountUpadatePhoneNumActivity extends BaseActivity implements View
                     clean_iv.setVisibility(View.VISIBLE);
                     mTitleRightText.setClickable(true);
                     mTitleRightText.setTextColor(getBaseContext().getResources().getColor(R.color.nav_color));
+                    mTitleRightText.setOnClickListener(new NoDoubleClickListener() {
+
+
+
+
+                        @Override
+                        public void onNoDoubleClick(View v) {
+                            String phoneNum=phonenum_et.getText().toString().trim();
+                            Log.d("loglog",phoneNum);
+
+                            mTitleRightText.setClickable(false);
+                            OkGo.<String>post(Config.URL + "/user/editUserInfo")
+                                    .tag(this)
+                                    .params("headImg",loginResult.getSellerHead())
+                                    .params("sellerName",loginResult.getSellerName())
+                                    .params("sellerTel",phoneNum)
+                                    .params("telOpen",loginResult.getTelOpen())
+                                    .params("sellerId",loginResult.getSellerId())
+                                    .params("appKey",loginResult.getAppKey())
+                                    .execute(new StringCallback() {
+                                        @Override
+                                        public void onSuccess(Response<String> response) {
+                                            Log.d("loglog",response.body());
+                                            String responedata = response.body().toString().trim();
+                                            Gson gson = new Gson();
+                                            Json<LoginResult> jsondata = gson.fromJson(responedata, new TypeToken<Json<LoginResult>>() {}.getType());
+                                            if (jsondata.getCode()==0){
+                                                SharedPreferencesUtil.putObject(mContext,"loginResult",jsondata.getData());
+                                    /*Intent intent = new Intent(AccountUpadatePhoneNumActivity.this,
+                                            AccountMainActivity.class);
+                                    startActivity(intent);*/
+                                                finish();
+                                            }else{
+                                                Toast.makeText(mContext,jsondata.getMsg(),Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+
+                        }
+                    });
 
                 }
                 else if(s.length()>0&&s.toString()==phonenumstr&&s.toString().equals(phonenumstr))
@@ -92,45 +134,7 @@ public class AccountUpadatePhoneNumActivity extends BaseActivity implements View
         };
         phonenum_et.addTextChangedListener(watcher);
 
-        mTitleRightText.setOnClickListener(new NoDoubleClickListener() {
 
-
-
-
-            @Override
-            public void onNoDoubleClick(View v) {
-                String phoneNum=phonenum_et.getText().toString().trim();
-                Log.d("loglog",phoneNum);
-
-                OkGo.<String>put(Config.URL + "/user/editUserInfo")
-                        .tag(this)
-                        .params("headImg",loginResult.getSellerHead())
-                        .params("sellerName",loginResult.getSellerName())
-                        .params("sellerTel",phoneNum)
-                        .params("telopen",loginResult.getTelOpen())
-                        .params("sellerId",loginResult.getSellerId())
-                        .params("appKey",loginResult.getAppKey())
-                        .execute(new StringCallback() {
-                            @Override
-                            public void onSuccess(Response<String> response) {
-                                Log.d("loglog",response.body());
-                                String responedata = response.body().toString().trim();
-                                Gson gson = new Gson();
-                                Json<LoginResult> jsondata = gson.fromJson(responedata, new TypeToken<Json<LoginResult>>() {}.getType());
-                                if (jsondata.getCode()==0){
-                                    SharedPreferencesUtil.putObject(mContext,"loginResult",jsondata.getData());
-                                    /*Intent intent = new Intent(AccountUpadatePhoneNumActivity.this,
-                                            AccountMainActivity.class);
-                                    startActivity(intent);*/
-                                    ActivityUtil.skipActivity(AccountUpadatePhoneNumActivity.this,AccountMainActivity.class);
-                                }else{
-                                    Toast.makeText(mContext,jsondata.getMsg(),Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-
-            }
-        });
 
     }
 
@@ -145,9 +149,7 @@ public class AccountUpadatePhoneNumActivity extends BaseActivity implements View
             case R.id.clean_iv:
                 phonenum_et.setText("");
                 break;
-            case R.id.title_right_text:
-                Toast.makeText(this,"sssss",Toast.LENGTH_SHORT).show();
-                break;
+
         }
     }
 }

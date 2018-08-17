@@ -22,9 +22,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.businessstore.model.Goods;
 import com.businessstore.model.LoginResult;
 import com.businessstore.util.ActivityUtil;
+import com.businessstore.util.StringUtil;
 import com.businessstore.view.popwindow.CustomPopWindow;
 import com.businessstore.util.DpConversion;
 import com.businessstore.util.SharedPreferencesUtil;
@@ -65,11 +67,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     private FrameLayout myaccount_icon, myorder_icon, setting_icon, third_party_domian,
             store_address,mystore;
 
+
+
     //自定义popwindow对象
     private CustomPopWindow popWindow;
     private boolean mPopwindowIsShow;
     //用户信息
-    private LoginResult user;
+    private LoginResult loginResult;
 
     private long exitTime = 0; //退出程序
 
@@ -77,13 +81,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loginResult = SharedPreferencesUtil.getObject(this,"loginResult");
 
 
-        user = SharedPreferencesUtil.getObject(this,"loginResult");
-       if (user==null){
+       if (loginResult==null||loginResult.getNumActiva()==0){
            ActivityUtil.skipActivity(MainActivity.this,LoginActivity.class);
        }
+
        else {
+
+
            setContentView(R.layout.activity_main);
            mContext = this;
 //        navView=findViewById(R.id.nav_view);
@@ -103,6 +110,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
             return true;
             }
         });*/
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loginResult = SharedPreferencesUtil.getObject(this,"loginResult");
+
+        initview();
+        initAdapter();
+
     }
 
     private void initAdapter() {
@@ -181,20 +198,28 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
 
         //设置头像
-        if (user.getSellerHead()!=null){
+        if (loginResult.getSellerHead()!=null){
 //            circleImageView.setImageDrawable(user.getSellerHead());
+            Glide.with(this).load(loginResult.getSellerHead()).into(circleImageView);
+        }
+        if (loginResult.getSellerHead()==null){
+            Glide.with(this).load(R.drawable.qidong).into(circleImageView);
+
         }
         //设置用户名
-        if (user.getSellerName()!=null){
-            user_name.setText(user.getSellerNum());
+        if (StringUtil.isBlank(loginResult.getSellerName())){
+            user_name.setText(loginResult.getSellerNum());
+        }
+        if (!StringUtil.isBlank(loginResult.getSellerName())){
+            user_name.setText(loginResult.getSellerName());
         }
         //设置我的账号
-        if (user.getSellerNum()!=null){
-            user_num.setText(user.getSellerNum());
+        if (loginResult.getSellerNum()!=null){
+            user_num.setText(loginResult.getSellerNum());
         }
         //设置店的位置
-        if(user.getDetailedAddress()!=null){
-            user_address.setText(user.getDetailedAddress());
+        if(loginResult.getDetailedAddress()!=null){
+            user_address.setText(loginResult.getDetailedAddress());
         }
     }
 
