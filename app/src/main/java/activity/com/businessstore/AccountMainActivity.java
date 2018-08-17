@@ -274,7 +274,7 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
                     public void getChildView(View view, int layoutResId) {
                         btn_select_photo= view.findViewById(R.id.btn_select_photo);
                         btn_take_photo=view.findViewById(R.id.btn_take_photo);
-                        btn_cancel=findViewById(R.id.btn_cancel);
+                        btn_cancel=view.findViewById(R.id.btn_cancel);
                         btn_cancel.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
