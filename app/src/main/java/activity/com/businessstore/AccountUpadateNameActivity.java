@@ -14,6 +14,8 @@ import android.widget.Toast;
 import com.businessstore.Config;
 import com.businessstore.model.Json;
 import com.businessstore.model.LoginResult;
+import com.businessstore.util.ActivityUtil;
+import com.businessstore.util.NoDoubleClickListener;
 import com.businessstore.util.SharedPreferencesUtil;
 import com.businessstore.util.StatusBarUtil;
 import com.google.gson.Gson;
@@ -67,7 +69,37 @@ public class AccountUpadateNameActivity extends BaseActivity implements View.OnC
                     clean_iv.setVisibility(View.VISIBLE);
                     mTitleRightText.setClickable(true);
                     mTitleRightText.setTextColor(getBaseContext().getResources().getColor(R.color.nav_color));
+                    mTitleRightText.setOnClickListener(new NoDoubleClickListener() {
+                        @Override
+                        public void onNoDoubleClick(View v) {
+                            loginResult.setSellerName(phonenum_et.getText().toString());
+                            OkGo.<String>post(Config.URL + "/user/editUserInfo")
+                                    .tag(this)
+                                    .params("headImg",loginResult.getSellerHead())
+                                    .params("sellerName",loginResult.getSellerName())
+                                    .params("sellerTel",loginResult.getSellerTel())
+                                    .params("telOpen",loginResult.getTelOpen())
+                                    .params("sellerId",loginResult.getSellerId())
+                                    .params("appKey",loginResult.getAppKey())
+                                    .execute(new StringCallback() {
+                                        @Override
+                                        public void onSuccess(Response<String> response) {
+                                            Log.d("loglog",response.body());
+                                            String responedata = response.body().toString().trim();
+                                            Gson gson = new Gson();
+                                            Json<LoginResult> jsondata = gson.fromJson(responedata, new TypeToken<Json<LoginResult>>() {}.getType());
+                                            if (jsondata.getCode()==0){
+                                                SharedPreferencesUtil.putObject(mContext,"loginResult",jsondata.getData());
+                                                Log.d("loglog",jsondata.getData().getSellerName());
+                                                finish();
+                                            }else{
+                                                Toast.makeText(mContext,jsondata.getMsg(),Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
 
+                        }
+                    });
                 }
                 else if(s.length()>0&&s.toString()==phonenumstr&&s.toString().equals(phonenumstr))
                 {
@@ -100,37 +132,7 @@ public class AccountUpadateNameActivity extends BaseActivity implements View.OnC
             case R.id.clean_iv:
                 phonenum_et.setText("");
                 break;
-            case R.id.title_right_text:
 
-                loginResult.setSellerName(phonenum_et.getText().toString());
-                OkGo.<String>put(Config.URL + "/user/editUserInfo")
-                        .tag(this)
-                        .params("headImg",loginResult.getSellerHead())
-                        .params("sellerName",loginResult.getSellerName())
-                        .params("sellerTel",loginResult.getSellerTel())
-                        .params("telopen",loginResult.getTelOpen())
-                        .params("sellerId",loginResult.getSellerId())
-                        .params("appKey",loginResult.getAppKey())
-                        .execute(new StringCallback() {
-                            @Override
-                            public void onSuccess(Response<String> response) {
-                                Log.d("loglog",response.body());
-                                String responedata = response.body().toString().trim();
-                                Gson gson = new Gson();
-                                Json<LoginResult> jsondata = gson.fromJson(responedata, new TypeToken<Json<LoginResult>>() {}.getType());
-                                if (jsondata.getCode()==0){
-                                    SharedPreferencesUtil.putObject(mContext,"loginResult",jsondata.getData());
-                                    Log.d("loglog",jsondata.getData().getSellerName());
-                                    Intent intent = new Intent(AccountUpadateNameActivity.this,
-                                            AccountMainActivity.class);
-                                    startActivity(intent);
-                                }else{
-                                    Toast.makeText(mContext,jsondata.getMsg(),Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-
-                break;
         }
     }
 }

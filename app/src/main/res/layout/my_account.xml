@@ -47,7 +47,7 @@
                 android:layout_height="80dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="30dp"
-                android:src="@drawable/qidong" />
+                 />
 
             <TextView
                 android:id="@+id/name_tv"

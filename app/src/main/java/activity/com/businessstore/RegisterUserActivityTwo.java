@@ -38,13 +38,15 @@ public class RegisterUserActivityTwo extends BaseActivity implements View.OnClic
         setContentView(R.layout.register_verification_two);
         mContext = this;
         loginData=SharedPreferencesUtil.getObject(getApplicationContext(),"loginResult");
-        if(loginData.getAppKey()!=null){
+        initview();
+        if(loginData.getNumActiva()==0){
             Re_request();
         }
         else {
+            timer_tv.setVisibility(View.GONE);
             starttimer();
         }
-        initview();
+
 
     }
 
@@ -89,10 +91,9 @@ public class RegisterUserActivityTwo extends BaseActivity implements View.OnClic
             @Override
             public void onNoDoubleClick(View v) {
                 verifiCode = verification.getText().toString().trim();
-                verifiCode2=loginData.getVerifiCode();
                 final LayoutInflater inflater = getLayoutInflater();
 
-                if(verifiCode.equals(verifiCode2)){
+
                     showDialogprogressBarWithString("正在驗證...");
                     OkGo.<String>get(Config.URL + "/user/verifiCode")
                             .tag(this)
@@ -126,13 +127,10 @@ public class RegisterUserActivityTwo extends BaseActivity implements View.OnClic
                                     ToastViewUtils.toastShowLoginMessage("發生未知錯誤!",mContext,inflater);
                                 }
                             });
-                }else {
-                    dissmissDialogprogressBarWithString();
-                    ToastViewUtils.toastShowLoginMessage("驗證碼錯誤!",mContext,inflater);
                 }
 
 
-            }
+
         });
     }
 

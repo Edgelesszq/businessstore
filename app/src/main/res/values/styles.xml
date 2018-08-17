@@ -83,6 +83,10 @@
         <item name="android:windowBackground">@color/tram</item>
         <item name="android:windowAnimationStyle">@style/centerDialogAnimation</item>
     </style>
-
+    <style name="SplashTheme" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/splash</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
 
 </resources>
