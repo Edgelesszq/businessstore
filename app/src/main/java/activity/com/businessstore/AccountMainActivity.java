@@ -96,62 +96,7 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
         update_phonenum.setOnClickListener(this);
 
         btn_switch=findViewById(R.id.switch_btn);
-        btn_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked==true){
-                    OkGo.<String>post(Config.URL + "/user/editUserInfo")
-                            .tag(this)
-                            .params("headImg",loginResult.getSellerHead())
-                            .params("sellerName",loginResult.getSellerName())
-                            .params("sellerTel",loginResult.getSellerTel())
-                            .params("telOpen","1")
-                            .params("sellerId",loginResult.getSellerId())
-                            .params("appKey",loginResult.getAppKey())
-                            .execute(new StringCallback() {
-                                @Override
-                                public void onSuccess(Response<String> response) {
-                                    Log.d("loglog",response.body());
-                                    String responedata = response.body().toString().trim();
-                                    Gson gson = new Gson();
-                                    Json<LoginResult> jsondata = gson.fromJson(responedata, new TypeToken<Json<LoginResult>>() {}.getType());
-                                    if (jsondata.getCode()==0){
-                                        SharedPreferencesUtil.putObject(mContext,"loginResult",jsondata.getData());
-                                        Log.d("loglog",jsondata.getData().getSellerName());
 
-                                    }else{
-                                        Toast.makeText(mContext,jsondata.getMsg(),Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-                }
-                else {
-                    OkGo.<String>post(Config.URL + "/user/editUserInfo")
-                            .tag(this)
-                            .params("headImg",loginResult.getSellerHead())
-                            .params("sellerName",loginResult.getSellerName())
-                            .params("sellerTel",loginResult.getSellerTel())
-                            .params("telOpen","0")
-                            .params("sellerId",loginResult.getSellerId())
-                            .params("appKey",loginResult.getAppKey())
-                            .execute(new StringCallback() {
-                                @Override
-                                public void onSuccess(Response<String> response) {
-                                    Log.d("loglog",response.body());
-                                    String responedata = response.body().toString().trim();
-                                    Gson gson = new Gson();
-                                    Json<LoginResult> jsondata = gson.fromJson(responedata, new TypeToken<Json<LoginResult>>() {}.getType());
-                                    if (jsondata.getCode()==0){
-                                        SharedPreferencesUtil.putObject(mContext,"loginResult",jsondata.getData());
-                                        Log.d("loglog",jsondata.getData().getSellerName());
-                                    }else{
-                                        Toast.makeText(mContext,jsondata.getMsg(),Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-                }
-            }
-        });
         name_tv=findViewById(R.id.name_tv);//昵称显示
         name_tv.setOnClickListener(this);
         user_num = findViewById(R.id.text_num2);//账号显示
@@ -212,11 +157,55 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    //如果选中，显示密码
 
+                    OkGo.<String>post(Config.URL + "/user/editUserInfo")
+                            .tag(this)
+                            .params("headImg",loginResult.getSellerHead())
+                            .params("sellerName",loginResult.getSellerName())
+                            .params("sellerTel",loginResult.getSellerTel())
+                            .params("telOpen","1")
+                            .params("sellerId",loginResult.getSellerId())
+                            .params("appKey",loginResult.getAppKey())
+                            .execute(new StringCallback() {
+                                @Override
+                                public void onSuccess(Response<String> response) {
+                                    Log.d("loglog",response.body());
+                                    String responedata = response.body().toString().trim();
+                                    Gson gson = new Gson();
+                                    Json<LoginResult> jsondata = gson.fromJson(responedata, new TypeToken<Json<LoginResult>>() {}.getType());
+                                    if (jsondata.getCode()==0){
+                                        SharedPreferencesUtil.putObject(mContext,"loginResult",jsondata.getData());
+                                        Log.d("loglog",jsondata.getData().getTelOpen());
 
+                                    }else{
+                                        Toast.makeText(mContext,jsondata.getMsg(),Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
                 } else {
-                    //否则隐藏密码
+                    OkGo.<String>post(Config.URL + "/user/editUserInfo")
+                            .tag(this)
+                            .params("headImg",loginResult.getSellerHead())
+                            .params("sellerName",loginResult.getSellerName())
+                            .params("sellerTel",loginResult.getSellerTel())
+                            .params("telOpen","0")
+                            .params("sellerId",loginResult.getSellerId())
+                            .params("appKey",loginResult.getAppKey())
+                            .execute(new StringCallback() {
+                                @Override
+                                public void onSuccess(Response<String> response) {
+                                    Log.d("loglog",response.body());
+                                    String responedata = response.body().toString().trim();
+                                    Gson gson = new Gson();
+                                    Json<LoginResult> jsondata = gson.fromJson(responedata, new TypeToken<Json<LoginResult>>() {}.getType());
+                                    if (jsondata.getCode()==0){
+                                        SharedPreferencesUtil.putObject(mContext,"loginResult",jsondata.getData());
+                                        Log.d("loglog",jsondata.getData().getTelOpen());
+                                    }else{
+                                        Toast.makeText(mContext,jsondata.getMsg(),Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
 
                 }
             }
