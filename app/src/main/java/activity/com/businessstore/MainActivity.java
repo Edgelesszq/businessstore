@@ -51,8 +51,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     private TextView upload_btn,user_name,user_num,user_address;
     //    private NavigationView navView;
     private String edt_title, edt_content;
-    private int edt_price,edt_number;
-    private boolean pubPrice,pubNumber;
+    private Double edt_price;
+    private int pubPrice,pubNumber,edt_number;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     //适配器
@@ -142,10 +142,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
     public void initview() {
         mList = new ArrayList<>();
-        Goods goods = new Goods("朵拉薇拉2","大码女装2",199,99,true,
-                false);
+        Goods goods = new Goods("朵拉薇拉2","大码女装2",199.5,99,1,
+                1);
         for (int i = 0;i<5;i++){
-            mList.add(goods);
+            mList.add(goods);//5个goods对象
         }
         message_imgview=findViewById(R.id.message_imgview);//我的消息界面
         message_imgview.setOnClickListener(this);
@@ -302,12 +302,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 //                Toast.makeText(mContext, "编辑", Toast.LENGTH_SHORT).show();
                 int position = popWindow.getPosition();
                 mList.get(position);
-                edt_title = mList.get(position).getTitle();
-                edt_content = mList.get(position).getContent();
-                edt_price = mList.get(position).getPrice();
-                edt_number = mList.get(position).getNumber();
-                pubPrice = mList.get(position).isPubPrice();
-                pubNumber = mList.get(position).isPubNumber();
+                edt_title = mList.get(position).getGoodsName();
+                edt_content = mList.get(position).getGoodsInfo();
+                edt_price = mList.get(position).getMaxprice();
+                edt_number = mList.get(position).getGoodsStock();
+                pubPrice = mList.get(position).getPriceOpen();
+                pubNumber = mList.get(position).getStockOpen();
 
                 Intent editor = new Intent(MainActivity.this,
                         CommodityUploadActivity.class);

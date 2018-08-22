@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -16,7 +15,6 @@ import android.widget.Toast;
 import com.businessstore.Config;
 import com.businessstore.model.City;
 import com.businessstore.model.Json;
-import com.businessstore.model.JsonRegister;
 import com.businessstore.model.LoginResult;
 
 import com.businessstore.util.NoDoubleClickListener;
@@ -27,10 +25,8 @@ import com.google.gson.reflect.TypeToken;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
-import com.mob.tools.utils.Data;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import adapter.com.businessstore.AdapterCityArray;
@@ -120,8 +116,8 @@ public class RegisterUserActivitythree extends BaseActivity implements View.OnCl
                                 public void onSuccess(Response<String> response) {
                                     String responseData = response.body().toString().trim();
                                     Gson gson = new Gson();
-                                    Json<JsonRegister> dataInfo = gson.fromJson(responseData,
-                                            new TypeToken<Json<JsonRegister>>() {
+                                    Json<LoginResult> dataInfo = gson.fromJson(responseData,
+                                            new TypeToken<Json<LoginResult>>() {
                                             }.getType());
                                     int code = dataInfo.getCode();
                                     Log.d("loglog", responseData);

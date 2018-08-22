@@ -39,7 +39,7 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
     private List<String> permissionlist = new ArrayList<>(); //权限
     private LocationClient mLocationClient;
     private TextView current_location;//当前定位Textview
-    private EditText editTitle, editContent, editPrice,editnumber;
+    private EditText editTitle, editContent, editPrice,editPriceMin,editnumber;
     private ImageView numberMinus, numberAdd;
 //    private boolean pubprice,pubnumber;
     private EditText number;
@@ -65,11 +65,12 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
         setTitleView(R.drawable.backimage, R.string.commodity_upload, R.string.save);
         mTitleLefeBackImg.setOnClickListener(this);
 
-        editTitle = findViewById(R.id.edit_commodity_title);
+        editTitle = findViewById(R.id.edit_commodity_title);//标题
 
-        editContent = findViewById(R.id.edit_commodity_content);
-        editPrice = findViewById(R.id.edit_price);
-        number = findViewById(R.id.text_number);
+        editContent = findViewById(R.id.edit_commodity_content);//内容
+        editPrice = findViewById(R.id.edit_price);//价格
+        editPriceMin = findViewById(R.id.edit_price2);//优惠价格
+        number = findViewById(R.id.text_number);//商品数量
 
         number.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -84,18 +85,20 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
 
 
 
-
+        //判断是否有数据（是否是编辑而不是上传）
         if (getIntent().getStringExtra("editor_title") != null) {
             String edt_title = getIntent().getStringExtra("editor_title");
             String edt_content = getIntent().getStringExtra("editor_content");
-            int edt_price = getIntent().getIntExtra("editor_price",0);
+            Double edt_price_max = getIntent().getDoubleExtra("editor_price",0);
+            Double edt_price_min = getIntent().getDoubleExtra("editor_price2",0);
             int edt_number = getIntent().getIntExtra("editor_number",0);
-            boolean spubprice = getIntent().getBooleanExtra("pub_price",false);
-            boolean spubnum = getIntent().getBooleanExtra("pub_number",false);
+            int spubprice = getIntent().getIntExtra("pub_price",0);
+            int spubnum = getIntent().getIntExtra("pub_number",0);
 
             editTitle.setText(edt_title);
             editContent.setText(edt_content);
-            editPrice.setText(edt_price+"");
+            editPrice.setText(edt_price_max+"");
+            editPriceMin.setText(edt_price_min+"");
             number.setText(edt_number+"");
 
         }
@@ -162,7 +165,7 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
                 if (position == parent.getChildCount() - 1) {
                     //如果“增加按钮形状的”图片的位置是最后一张，且添加了的图片的数量不超过9张，才能点击
                     if (mPiclist.size() == MainConstant.MAX_SELECT_PIC_NUM) {
-                        //最多添加5张图片
+                        //最多添加9张图片
                         viewPluImg(position);
                     } else {
                         //添加凭证图片

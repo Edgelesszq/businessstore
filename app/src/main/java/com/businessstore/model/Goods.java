@@ -1,67 +1,112 @@
 package com.businessstore.model;
 
 public class Goods {
-    private String title;
-    private String content;
-    private int price;
-    private int number;
-    private boolean pubPrice;
-    private boolean pubNumber;
+    private int sellerId;
+    private String goodsName;
+    private String goodsInfo;
+    private String tradPosition;
+    private Double minPrice;
+    private Double maxprice;
+    private int goodsStock;
+    private int priceOpen;
+    private int stockOpen;
+    private String pictureInfo;
+    private int createdAt;
 
-    public Goods(String title, String content, int price, int number, boolean pubPrice, boolean pubNumber) {
-        this.title = title;
-        this.content = content;
-        this.price = price;
-        this.number = number;
-        this.pubPrice = pubPrice;
-        this.pubNumber = pubNumber;
+    public Goods(String title, String content, Double price, int number, int pubPrice, int pubNumber) {
+        this.goodsName = title;
+        this.goodsInfo = content;
+        this.maxprice = price;
+        this.goodsStock = number;
+        this.priceOpen = pubPrice;
+        this.stockOpen = pubNumber;
     }
 
-    public String getTitle() {
-        return title;
+    public int getSellerId() {
+        return sellerId;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setSellerId(int sellerId) {
+        this.sellerId = sellerId;
     }
 
-    public String getContent() {
-        return content;
+    public String getGoodsName() {
+        return goodsName;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setGoodsName(String goodsName) {
+        this.goodsName = goodsName;
     }
 
-    public int getPrice() {
-        return price;
+    public String getGoodsInfo() {
+        return goodsInfo;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public void setGoodsInfo(String goodsInfo) {
+        this.goodsInfo = goodsInfo;
     }
 
-    public int getNumber() {
-        return number;
+    public String getTradPosition() {
+        return tradPosition;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setTradPosition(String tradPosition) {
+        this.tradPosition = tradPosition;
     }
 
-    public boolean isPubPrice() {
-        return pubPrice;
+    public Double getMinPrice() {
+        return minPrice;
     }
 
-    public void setPubPrice(boolean pubPrice) {
-        this.pubPrice = pubPrice;
+    public void setMinPrice(Double minPrice) {
+        this.minPrice = minPrice;
     }
 
-    public boolean isPubNumber() {
-        return pubNumber;
+    public Double getMaxprice() {
+        return maxprice;
     }
 
-    public void setPubNumber(boolean pubNumber) {
-        this.pubNumber = pubNumber;
+    public void setMaxprice(Double maxprice) {
+        this.maxprice = maxprice;
+    }
+
+    public int getGoodsStock() {
+        return goodsStock;
+    }
+
+    public void setGoodsStock(int goodsStock) {
+        this.goodsStock = goodsStock;
+    }
+
+    public int getPriceOpen() {
+        return priceOpen;
+    }
+
+    public void setPriceOpen(int priceOpen) {
+        this.priceOpen = priceOpen;
+    }
+
+    public int getStockOpen() {
+        return stockOpen;
+    }
+
+    public void setStockOpen(int stockOpen) {
+        this.stockOpen = stockOpen;
+    }
+
+    public String getPictureInfo() {
+        return pictureInfo;
+    }
+
+    public void setPictureInfo(String pictureInfo) {
+        this.pictureInfo = pictureInfo;
+    }
+
+    public int getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(int createdAt) {
+        this.createdAt = createdAt;
     }
 }

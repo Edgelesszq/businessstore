@@ -63,6 +63,7 @@ public class Adapter2MainActivity extends RecyclerView.Adapter<Adapter2MainActiv
                 ((MainActivity) mContext).showPopWindow(holder.itemMore, position);
             }
         });
+//        holder.itemTitle.setText(mList.get(0).getGoodsName());//设置标题
     }
 
     @Override

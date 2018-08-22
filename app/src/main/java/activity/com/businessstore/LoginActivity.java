@@ -23,7 +23,6 @@ import android.widget.ToggleButton;
 
 import com.businessstore.Config;
 import com.businessstore.model.Json;
-import com.businessstore.model.JsonLogin;
 import com.businessstore.model.LoginResult;
 import com.businessstore.util.ActivityUtil;
 import com.businessstore.util.AppManager;

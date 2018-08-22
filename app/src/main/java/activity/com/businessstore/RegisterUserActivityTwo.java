@@ -13,7 +13,6 @@ import com.businessstore.Config;
 import com.businessstore.model.LoginResult;
 
 import com.businessstore.model.Json;
-import com.businessstore.model.JsonRegister;
 import com.businessstore.util.NoDoubleClickListener;
 import com.businessstore.util.SharedPreferencesUtil;
 import com.businessstore.util.ToastViewUtils;
@@ -107,8 +106,8 @@ public class RegisterUserActivityTwo extends BaseActivity implements View.OnClic
 
                                     String responseData = response.body().toString().trim();
                                     Gson gson = new Gson();
-                                    Json<JsonRegister> dataInfo = gson.fromJson(responseData,
-                                            new TypeToken<Json<JsonRegister>>(){}.getType());
+                                    Json<LoginResult> dataInfo = gson.fromJson(responseData,
+                                            new TypeToken<Json<LoginResult>>(){}.getType());
                                     int code =dataInfo.getCode();
                                     if (code==0){
                                         dissmissDialogprogressBarWithString();

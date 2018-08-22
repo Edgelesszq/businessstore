@@ -3,7 +3,7 @@ package com.businessstore.model;
 import java.io.Serializable;
 
 public class LoginResult implements Serializable{
-    private String sellerId;   //卖家id
+    private int sellerId;   //卖家id
     private String appKey;      //appkey
     private String sellerName;      //卖家名字
     private String sellerHead;      //卖家头像
@@ -38,18 +38,18 @@ public class LoginResult implements Serializable{
     public LoginResult() {
     }
 
-    public LoginResult(String sellerId, String sellerNum) {
+    public LoginResult(int sellerId, String sellerNum) {
         this.sellerId = sellerId;
         this.sellerNum = sellerNum;
     }
 
 
 
-    public String getSellerId() {
+    public int getSellerId() {
         return sellerId;
     }
 
-    public void setSellerId(String sellerId) {
+    public void setSellerId(int sellerId) {
         this.sellerId = sellerId;
     }
 

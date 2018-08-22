@@ -32,7 +32,7 @@ android {
 dependencies {
 
     api fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support:support-annotations:26.0.2') {
+    androidTestImplementation('com.android.support:support-annotations:26.0.2') {
         force = true
     }
     //noinspection GradleCompatible
@@ -80,4 +80,7 @@ dependencies {
     api 'com.google.code.gson:gson:2.7'
 
     api 'com.github.bumptech.glide:glide:4.3.1'
+    //butterknife
+    api 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 }

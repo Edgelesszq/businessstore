@@ -22,7 +22,6 @@ import com.businessstore.Config;
 import com.businessstore.model.LoginResult;
 
 import com.businessstore.model.Json;
-import com.businessstore.model.JsonRegister;
 import com.businessstore.util.NoDoubleClickListener;
 import com.businessstore.util.SharedPreferencesUtil;
 import com.businessstore.util.StringUtil;
@@ -148,7 +147,6 @@ public class RegisterUserActivityOne extends BaseActivity implements View.OnClic
 
                                         if (DataInfo.getCode()==0){
 
-//
                                             SharedPreferencesUtil.putObject(mContext,"loginResult",DataInfo.getData());
                                             dissmissDialogprogressBarWithString();
                                             Intent intent = new Intent(RegisterUserActivityOne.this,
@@ -165,7 +163,7 @@ public class RegisterUserActivityOne extends BaseActivity implements View.OnClic
                                     public void onError(Response<String> response) {
                                         super.onError(response);
                                         dissmissDialogprogressBarWithString();
-                                        Toast.makeText(mContext,"發生未知錯誤！",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(mContext,"发生未知错误！",Toast.LENGTH_SHORT).show();
 
                                     }
 

@@ -47,8 +47,8 @@ public class MainSearchActivity extends BaseActivity implements View.OnClickList
     private List<String> searchHistories = new ArrayList<>();
     private ACache mCache;
     private String edt_title, edt_content;
-    private int edt_price,edt_number;
-    private boolean pubPrice,pubNumber;
+    private Double edt_price;
+    private int pubPrice,pubNumber,edt_number;
     private EditText mEt_string_input;      //搜索框
     private ImageView search_clear;         //清除搜索框内容
     private TextView clear_history,history,cancle;         //清除历史记录，历史记录,返回
@@ -126,7 +126,8 @@ public class MainSearchActivity extends BaseActivity implements View.OnClickList
         cancle.setOnClickListener(this);
 
         mList = new ArrayList<>();
-        Goods goods = new Goods("朵拉薇拉","大码女装",199,99,true,false);
+        Goods goods = new Goods("朵拉薇拉","大码女装",199.5,99,1,1);
+
         for (int i = 0;i<5;i++){
             mList.add(goods);
         }
@@ -176,12 +177,12 @@ public class MainSearchActivity extends BaseActivity implements View.OnClickList
 //                Toast.makeText(mContext, "编辑", Toast.LENGTH_SHORT).show();
                 int position = popWindow.getPosition();
                 mList.get(position);
-                edt_title = mList.get(position).getTitle();
-                edt_content = mList.get(position).getContent();
-                edt_price = mList.get(position).getPrice();
-                edt_number = mList.get(position).getNumber();
-                pubPrice = mList.get(position).isPubPrice();
-                pubNumber = mList.get(position).isPubNumber();
+                edt_title = mList.get(position).getGoodsName();
+                edt_content = mList.get(position).getGoodsInfo();
+                edt_price = mList.get(position).getMaxprice();
+                edt_number = mList.get(position).getGoodsStock();
+                pubPrice = mList.get(position).getPriceOpen();
+                pubNumber = mList.get(position).getStockOpen();
 
                 Intent editor = new Intent(MainSearchActivity.this, CommodityUploadActivity.class);
                 editor.putExtra("editor_title", edt_title);

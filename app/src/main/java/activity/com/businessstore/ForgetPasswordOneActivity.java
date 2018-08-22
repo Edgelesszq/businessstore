@@ -11,11 +11,9 @@ import android.widget.Toast;
 
 import com.businessstore.Config;
 import com.businessstore.model.Json;
-import com.businessstore.model.JsonRegister;
 import com.businessstore.model.LoginResult;
 import com.businessstore.util.NoDoubleClickListener;
 import com.businessstore.util.SharedPreferencesUtil;
-import com.businessstore.util.StatusBarUtil;
 import com.businessstore.util.StringUtil;
 import com.businessstore.util.ToastViewUtils;
 import com.google.gson.Gson;
