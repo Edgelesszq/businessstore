@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Gravity;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.businessstore.Config;
 import com.businessstore.model.Goods;
 import com.businessstore.model.LoginResult;
 import com.businessstore.util.ActivityUtil;
@@ -34,6 +36,10 @@ import com.businessstore.util.StatusBarUtil;
 import com.businessstore.view.dialog.DialogStyleOne;
 import com.businessstore.view.popwindow.CommonPopupWindow;
 import com.businessstore.view.popwindow.CommonUtil;
+import com.google.gson.Gson;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,8 +124,33 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         loginResult = SharedPreferencesUtil.getObject(this,"loginResult");
 
         initview();
+        initGoods();
         initAdapter();
 
+    }
+
+    private void initGoods() {
+        mList = new ArrayList<>();
+        Goods goods = new Goods("朵拉薇拉2","大码女装2",199.5,99,1,
+                1);
+        for (int i = 0;i<5;i++){
+            mList.add(goods);//5个goods对象
+        }
+
+        OkGo.<String>get(Config.URL + "/goods/goodsList")
+                .tag(this)
+                .params("sellerId",loginResult.getSellerId())
+                .params("appKey",loginResult.getAppKey())
+                .params("p",1)//页数（每页有固定的商品数）
+                .params("page",0)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        Log.d("loglog",response.body());
+                        String responseData = response.body().toString().trim();
+                        Gson gson = new Gson();
+                    }
+                });
     }
 
     private void initAdapter() {
@@ -141,12 +172,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     }
 
     public void initview() {
-        mList = new ArrayList<>();
-        Goods goods = new Goods("朵拉薇拉2","大码女装2",199.5,99,1,
-                1);
-        for (int i = 0;i<5;i++){
-            mList.add(goods);//5个goods对象
-        }
         message_imgview=findViewById(R.id.message_imgview);//我的消息界面
         message_imgview.setOnClickListener(this);
         mRecyclerView = findViewById(R.id.main_recyclerview);

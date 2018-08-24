@@ -172,10 +172,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                     Json<LoginResult> loginResultJson = gson.fromJson(responseData,
                                             new TypeToken<Json<LoginResult>>() {
                                             }.getType());
-                                    Log.d("loglog", loginResultJson.toString());
-
-
-
 
                                     if (loginResultJson.getCode()==0) {
                                         SharedPreferencesUtil.putObject(getApplicationContext(),"loginResult",loginResultJson.getData());

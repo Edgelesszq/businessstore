@@ -1,6 +1,8 @@
 package com.businessstore.model;
 
-public class Goods {
+import java.io.Serializable;
+
+public class Goods implements Serializable{
     private int sellerId;
     private String goodsName;
     private String goodsInfo;

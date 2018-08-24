@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.JsonToken;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,8 +20,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baidu.location.LocationClient;
+import com.businessstore.Config;
 import com.businessstore.MainConstant;
 
+import java.io.File;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,9 +33,19 @@ import android.widget.ImageView;
 import android.widget.ToggleButton;
 
 import com.businessstore.PictureSelectorConfig;
+import com.businessstore.model.Goods;
+import com.businessstore.model.Json;
+import com.businessstore.model.LoginResult;
+import com.businessstore.util.SharedPreferencesUtil;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Response;
+import com.lzy.okgo.request.PostRequest;
 
 import adapter.com.businessstore.GridViewAdapter;
 
@@ -41,7 +56,7 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
     private TextView current_location;//当前定位Textview
     private EditText editTitle, editContent, editPrice,editPriceMin,editnumber;
     private ImageView numberMinus, numberAdd;
-//    private boolean pubprice,pubnumber;
+    private int pubprice,pubnumber;
     private EditText number;
     private int intNumber;
     private Context mContext;
@@ -50,6 +65,7 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
     private GridViewAdapter mGridViewAddImgAdapter;//展示上传的图片的适配器
 
     private ToggleButton switch_btn_price,switch_btn_goods_num;
+    private LoginResult loginResult;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,6 +74,18 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
         mContext = this;
 
         initView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (switch_btn_price.isChecked() == true){
+            pubprice = 0;
+        }else { pubprice = 1; }
+        if (switch_btn_goods_num.isChecked() ==true){
+            pubnumber = 0;
+        }else {pubnumber = 1;}
+        loginResult = SharedPreferencesUtil.getObject(mContext,"loginResult");
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -71,6 +99,7 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
         editPrice = findViewById(R.id.edit_price);//价格
         editPriceMin = findViewById(R.id.edit_price2);//优惠价格
         number = findViewById(R.id.text_number);//商品数量
+        mTitleRightText.setOnClickListener(this);//保存的监听事件
 
         number.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -103,7 +132,7 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
 
         }
 
-        current_location = findViewById(R.id.current_location);
+        current_location = findViewById(R.id.current_location);//当前定位未知
         final Editable editContext = editTitle.getText();
         location_upload = findViewById(R.id.location_upload);
         location_upload.setOnClickListener(this);
@@ -183,10 +212,9 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-
-
+                    pubprice = 0;
                 } else {
-
+                    pubprice = 1;
                 }
             }
         });
@@ -195,10 +223,9 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-
-
+                    pubnumber = 0;
                 } else {
-
+                    pubnumber = 0;
                 }
             }
         });
@@ -226,12 +253,16 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
 
                 minusNumber();
                 break;
-
+            case R.id.title_right_text:
+                save();
+                break;
             default:
                 break;
         }
 
     }
+
+
 
     public void addNumber() {
 
@@ -313,5 +344,57 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
             mGridViewAddImgAdapter.notifyDataSetChanged();
         }
     }
+    private void save() {
+        Log.d("loglog",loginResult.getAppKey());
+        List<File> files = new ArrayList<>();
+
+        for (int i=0;i<mPiclist.size();i++){
+            File file=new File(mPiclist.get(i));
+            files.add(file);
+        }
+        /*for (int i = 0;i<files.size();i++){
+            Log.d("loglog",files.get(i)+"");
+        }*/
+        PostRequest<String> request = OkGo.<String>post(Config.URL + "/goods/addGoods")
+                .tag(this)
+                .addFileParams("pictrueInfo",files)
+                .params("sellerId",loginResult.getSellerId())
+                .params("appKey",loginResult.getAppKey())
+                .params("goodsName",editTitle.getText().toString().trim())
+                .params("goodsInfo",editContent.getText().toString().trim())
+                .params("tradPosition",current_location.getText().toString().trim())
+                .params("maxPrice",editPrice.getText().toString().trim())
+                .params("minPrice",editPriceMin.getText().toString().trim())
+                .params("priceOpen",pubprice)
+                .params("goodsStock",number.getText().toString().trim())
+                .params("stockOpen",pubnumber);
+
+/*                for (int i = 0;i<mPiclist.size();i++){
+                    request.params("pictrueInfo",files[i]);
+                }*/
+
+        request.execute(new StringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                Log.d("loglog","x"+response.body().toString());
+                                String responeseData = response.body().toString().trim();
+                                Gson gson = new Gson();
+                                Json<Goods> jsonData = gson.fromJson(responeseData,new TypeToken<Json<Goods>>(){}.getType());
+                                if (jsonData.getCode() ==0){
+                                    Intent intent = new Intent(CommodityUploadActivity.this,MainActivity.class);
+                                    startActivity(intent);
+                                }else {
+                                    Toast.makeText(mContext,jsonData.getMsg(),Toast.LENGTH_SHORT).show();
+                                }
+            }
+
+            @Override
+            public void onError(Response<String> response) {
+                super.onError(response);
+                Toast.makeText(mContext,"请求错误",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 }
 
