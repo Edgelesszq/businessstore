@@ -157,7 +157,7 @@ public class MainSearchActivity extends BaseActivity implements View.OnClickList
             }
         });
 
-        GridLayoutManager layoutManage = new GridLayoutManager(mContext, 2);
+        GridLayoutManager layoutManage = new GridLayoutManager(mContext, 1);
         mRecyclerView.setLayoutManager(layoutManage);
     }
 

@@ -26,7 +26,10 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.businessstore.Config;
 import com.businessstore.model.Goods;
+import com.businessstore.model.GoodsList;
+import com.businessstore.model.Json;
 import com.businessstore.model.LoginResult;
+import com.businessstore.model.PictureInfo;
 import com.businessstore.util.ActivityUtil;
 import com.businessstore.util.StringUtil;
 import com.businessstore.view.popwindow.CustomPopWindow;
@@ -37,6 +40,8 @@ import com.businessstore.view.dialog.DialogStyleOne;
 import com.businessstore.view.popwindow.CommonPopupWindow;
 import com.businessstore.view.popwindow.CommonUtil;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.reflect.TypeToken;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
@@ -66,6 +71,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     private Adapter2MainActivity mAdapterMainActivity;
     private RecyclerView mRecyclerView;
     private List<Goods> mList;
+    private List<PictureInfo> mPList;
     private CircleImageView circleImageView;
     private CommonPopupWindow popupWindow;
     private ImageView nav_personal_btn, mMainSearchImgview,qrcode,message_imgview;
@@ -131,16 +137,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
     private void initGoods() {
         mList = new ArrayList<>();
-        Goods goods = new Goods("朵拉薇拉2","大码女装2",199.5,99,1,
-                1);
-        for (int i = 0;i<5;i++){
-            mList.add(goods);//5个goods对象
-        }
+        mPList = new ArrayList<>();
 
+/*        Gson gson = new Gson();
+        Json<GoodsList> jsonData = gson.fromJson(Config.TEST_JSON, new TypeToken<Json<GoodsList>>(){}.getType());
+        List<Goods> goodsList = jsonData.getData().getList();
+        for (int i=0;i<goodsList.size();i++) {
+            mList.add(goodsList.get(i));
+        }*/
+
+//        Log.d("loglog",jsonData.getData().getList().get(0).getGoodsInfo());
+//        Log.d("loglog",jsonData.getData().getList().get(0).getPictureInfo().get(1).getUrllarge());
         OkGo.<String>get(Config.URL + "/goods/goodsList")
                 .tag(this)
-                .params("sellerId",loginResult.getSellerId())
-                .params("appKey",loginResult.getAppKey())
+//                .params("sellerId",loginResult.getSellerId())
+//                .params("appKey",loginResult.getAppKey())
                 .params("p",1)//页数（每页有固定的商品数）
                 .params("page",0)
                 .execute(new StringCallback() {
@@ -149,6 +160,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                         Log.d("loglog",response.body());
                         String responseData = response.body().toString().trim();
                         Gson gson = new Gson();
+                        Json<GoodsList> jsonData = gson.fromJson(responseData, new TypeToken<Json<GoodsList>>(){}.getType());
+                        List<Goods> goodsList = jsonData.getData().getList();
+                        for (int i=0;i<goodsList.size();i++) {
+                            mList.add(goodsList.get(i));
+                        }
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                            mAdapterMainActivity.notifyDataSetChanged();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
                     }
                 });
     }

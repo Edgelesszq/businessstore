@@ -1,15 +1,21 @@
 package adapter.com.businessstore;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.businessstore.model.Goods;
 import com.businessstore.view.roundImageView.RoundImageView1;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.BitmapCallback;
+import com.lzy.okgo.model.Response;
 
 import java.util.List;
 
@@ -55,6 +61,7 @@ public class Adapter2MainActivity extends RecyclerView.Adapter<Adapter2MainActiv
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder,final int position) {
+        Goods goods = mList.get(position);//每个item的数据指定
         //一定要设置这个。要不在回调方法里面获得不到当前点击的是第几个item;注意tag是object类型的；
         holder.itemView.setTag(position + "");
         holder.itemMore.setOnClickListener(new View.OnClickListener() {
@@ -63,12 +70,16 @@ public class Adapter2MainActivity extends RecyclerView.Adapter<Adapter2MainActiv
                 ((MainActivity) mContext).showPopWindow(holder.itemMore, position);
             }
         });
-//        holder.itemTitle.setText(mList.get(0).getGoodsName());//设置标题
+        holder.itemTitle.setText(goods.getGoodsName());//设置标题
+        holder.itemDescribe.setText(goods.getGoodsInfo());//设置内容
+        Glide.with(mContext).load(goods.getPictureInfo().get(0).getUrllarge()).into(holder.itrmDisplayDiagram);//设置图片
+        holder.itemPrice.setText(goods.getMinPrice().toString());
+        holder.itemNumber.setText("剩余"+goods.getGoodsStock()+"件");
     }
 
     @Override
     public int getItemCount() {
-        return 20;
+        return mList.size();
     }
 
     @Override
@@ -117,4 +128,5 @@ public class Adapter2MainActivity extends RecyclerView.Adapter<Adapter2MainActiv
             itemMore = itemView.findViewById(R.id.main_recyclerview_item_more2);
         }
     }
+
 }

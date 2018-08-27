@@ -1,19 +1,22 @@
 package com.businessstore.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Goods implements Serializable{
     private int sellerId;
-    private String goodsName;
-    private String goodsInfo;
-    private String tradPosition;
-    private Double minPrice;
-    private Double maxprice;
-    private int goodsStock;
-    private int priceOpen;
-    private int stockOpen;
-    private String pictureInfo;
-    private int createdAt;
+    private int goodsId;
+    private String goodsName;//标题
+    private String goodsInfo;//内容
+    private String tradPosition;//地址
+    private Double minPrice;//优惠价
+    private Double maxprice;//原价
+    private int goodsStock;//数量
+    private int priceOpen;//价格可见
+    private int stockOpen;//数量可见
+    private List<PictureInfo> pictureInfo;//图片
+    private int createdAt;//创建时间
+    private int updateAt;//更新时间
 
     public Goods(String title, String content, Double price, int number, int pubPrice, int pubNumber) {
         this.goodsName = title;
@@ -96,12 +99,28 @@ public class Goods implements Serializable{
         this.stockOpen = stockOpen;
     }
 
-    public String getPictureInfo() {
+    public int getGoodsId() {
+        return goodsId;
+    }
+
+    public void setGoodsId(int goodsId) {
+        this.goodsId = goodsId;
+    }
+
+    public List<PictureInfo> getPictureInfo() {
         return pictureInfo;
     }
 
-    public void setPictureInfo(String pictureInfo) {
+    public void setPictureInfo(List<PictureInfo> pictureInfo) {
         this.pictureInfo = pictureInfo;
+    }
+
+    public int getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(int updateAt) {
+        this.updateAt = updateAt;
     }
 
     public int getCreatedAt() {

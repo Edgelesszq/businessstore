@@ -49,7 +49,7 @@ public class AdapterSearchResultActivity extends RecyclerView.Adapter<AdapterSea
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.main_recyclerview_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.main_recyclerview_item2, parent, false);
         //为每个item设置点击事件；
         view.setOnClickListener(this);
         return new MyViewHolder(view);
@@ -115,12 +115,12 @@ public class AdapterSearchResultActivity extends RecyclerView.Adapter<AdapterSea
             super(itemView);
             //重要
             this.itemView = itemView;
-            itrmDisplayDiagram = itemView.findViewById(R.id.main_recyclerview_item_display_diagram);
-            itemTitle = itemView.findViewById(R.id.main_recyclerview_item_title);
-            itemDescribe = itemView.findViewById(R.id.main_recyclerview_item_describe);
-            itemPrice = itemView.findViewById(R.id.main_recyclerview_item_price);
-            itemNumber = itemView.findViewById(R.id.main_recyclerview_item_number);
-            itemMore = itemView.findViewById(R.id.main_recyclerview_item_more);
+            itrmDisplayDiagram = itemView.findViewById(R.id.main_recyclerview_item_display_diagram2);
+            itemTitle = itemView.findViewById(R.id.main_recyclerview_item_title2);
+            itemDescribe = itemView.findViewById(R.id.main_recyclerview_item_describe2);
+            itemPrice = itemView.findViewById(R.id.main_recyclerview_item_price2);
+            itemNumber = itemView.findViewById(R.id.main_recyclerview_item_number2);
+            itemMore = itemView.findViewById(R.id.main_recyclerview_item_more2);
         }
     }
 }

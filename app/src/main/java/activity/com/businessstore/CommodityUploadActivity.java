@@ -345,7 +345,6 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
         }
     }
     private void save() {
-        Log.d("loglog",loginResult.getAppKey());
         List<File> files = new ArrayList<>();
 
         for (int i=0;i<mPiclist.size();i++){
@@ -376,11 +375,12 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
         request.execute(new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
-                Log.d("loglog","x"+response.body().toString());
+                Log.d("loglog",response.body().toString());
                                 String responeseData = response.body().toString().trim();
                                 Gson gson = new Gson();
                                 Json<Goods> jsonData = gson.fromJson(responeseData,new TypeToken<Json<Goods>>(){}.getType());
                                 if (jsonData.getCode() ==0){
+                                    Toast.makeText(mContext,jsonData.getMsg(),Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(CommodityUploadActivity.this,MainActivity.class);
                                     startActivity(intent);
                                 }else {
