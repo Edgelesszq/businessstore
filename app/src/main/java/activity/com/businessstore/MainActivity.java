@@ -46,6 +46,7 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,8 +62,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     private Context mContext;
     private TextView upload_btn,user_name,user_num,user_address;
     //    private NavigationView navView;
-    private String edt_title, edt_content;
-    private Double edt_price;
+    private String edt_title, edt_content,location;
+    private Double edt_price,edt_price2;
     private int pubPrice,pubNumber,edt_number;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
@@ -112,6 +113,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
            getSupportActionBar().setDisplayShowTitleEnabled(false);
            drawerLayout = findViewById(R.id.drawerLayout);
            initview();
+           initGoods();
            initAdapter();
        }
 
@@ -129,9 +131,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         super.onResume();
         loginResult = SharedPreferencesUtil.getObject(this,"loginResult");
 
-        initview();
-        initGoods();
-        initAdapter();
+//        initview();
+//        initGoods();
+//        initAdapter();
 
     }
 
@@ -352,26 +354,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
             //popwindow Item 的点击事件
             case R.id.main_recyclerview_item_more_pop_editer:
 //                Toast.makeText(mContext, "编辑", Toast.LENGTH_SHORT).show();
-                int position = popWindow.getPosition();
-                mList.get(position);
-                edt_title = mList.get(position).getGoodsName();
-                edt_content = mList.get(position).getGoodsInfo();
-                edt_price = mList.get(position).getMaxprice();
-                edt_number = mList.get(position).getGoodsStock();
-                pubPrice = mList.get(position).getPriceOpen();
-                pubNumber = mList.get(position).getStockOpen();
-
-                Intent editor = new Intent(MainActivity.this,
-                        CommodityUploadActivity.class);
-                editor.putExtra("editor_title", edt_title);
-                editor.putExtra("editor_content", edt_content);
-                editor.putExtra("editor_price", edt_price);
-                editor.putExtra("editor_number", edt_number);
-                editor.putExtra("pub_price", pubPrice);
-                editor.putExtra("pub_number", pubNumber);
-                startActivity(editor);
-                popWindow.dismiss();
-                mPopwindowIsShow = true;
+                editor();
                 break;
             case R.id.main_recyclerview_item_more_pop_delete:
 //                Toast.makeText(mContext, "删除", Toast.LENGTH_SHORT).show();
@@ -530,6 +513,36 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
             finish();
             System.exit(0);
         }
+    }
+
+    public void editor(){
+        int position = popWindow.getPosition();
+        mList.get(position);
+        edt_title = mList.get(position).getGoodsName();
+        edt_content = mList.get(position).getGoodsInfo();
+        edt_price = mList.get(position).getMaxprice();
+        edt_number = mList.get(position).getGoodsStock();
+        pubPrice = mList.get(position).getPriceOpen();
+        pubNumber = mList.get(position).getStockOpen();
+        edt_price2 = mList.get(position).getMinPrice();
+        location = mList.get(position).getTradPosition();
+        List<PictureInfo> pictureInfoList= mList.get(position).getPictureInfo();
+
+        Intent editor = new Intent(MainActivity.this,
+                CommodityUploadActivity.class);
+        editor.putExtra("editor_title", edt_title);
+        editor.putExtra("editor_content", edt_content);
+        editor.putExtra("editor_price", edt_price);
+        editor.putExtra("editor_number", edt_number);
+        editor.putExtra("pub_price", pubPrice);
+        editor.putExtra("pub_number", pubNumber);
+        editor.putExtra("editor_price2",edt_price2);
+        editor.putExtra("editor_location",location);
+        editor.putExtra("editor_picture",(Serializable)pictureInfoList);
+
+        startActivity(editor);
+        popWindow.dismiss();
+        mPopwindowIsShow = true;
     }
 
 }

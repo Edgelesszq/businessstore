@@ -10,7 +10,7 @@ public class Goods implements Serializable{
     private String goodsInfo;//内容
     private String tradPosition;//地址
     private Double minPrice;//优惠价
-    private Double maxprice;//原价
+    private Double maxPrice;//原价
     private int goodsStock;//数量
     private int priceOpen;//价格可见
     private int stockOpen;//数量可见
@@ -21,7 +21,7 @@ public class Goods implements Serializable{
     public Goods(String title, String content, Double price, int number, int pubPrice, int pubNumber) {
         this.goodsName = title;
         this.goodsInfo = content;
-        this.maxprice = price;
+        this.maxPrice = price;
         this.goodsStock = number;
         this.priceOpen = pubPrice;
         this.stockOpen = pubNumber;
@@ -68,11 +68,11 @@ public class Goods implements Serializable{
     }
 
     public Double getMaxprice() {
-        return maxprice;
+        return maxPrice;
     }
 
     public void setMaxprice(Double maxprice) {
-        this.maxprice = maxprice;
+        this.maxPrice = maxprice;
     }
 
     public int getGoodsStock() {

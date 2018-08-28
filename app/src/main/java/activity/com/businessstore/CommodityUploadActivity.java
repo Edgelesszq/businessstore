@@ -36,6 +36,7 @@ import com.businessstore.PictureSelectorConfig;
 import com.businessstore.model.Goods;
 import com.businessstore.model.Json;
 import com.businessstore.model.LoginResult;
+import com.businessstore.model.PictureInfo;
 import com.businessstore.util.SharedPreferencesUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -66,6 +67,8 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
 
     private ToggleButton switch_btn_price,switch_btn_goods_num;
     private LoginResult loginResult;
+
+    private boolean codex = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -100,6 +103,9 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
         editPriceMin = findViewById(R.id.edit_price2);//优惠价格
         number = findViewById(R.id.text_number);//商品数量
         mTitleRightText.setOnClickListener(this);//保存的监听事件
+        switch_btn_price=findViewById(R.id.switch_btn_price);//是否公开价格
+        switch_btn_goods_num=findViewById(R.id.switch_btn_goods_num);//是否公开商品个数
+        current_location = findViewById(R.id.current_location);//当前定位未知
 
         number.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -112,27 +118,6 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
             }
         });
 
-
-
-        //判断是否有数据（是否是编辑而不是上传）
-        if (getIntent().getStringExtra("editor_title") != null) {
-            String edt_title = getIntent().getStringExtra("editor_title");
-            String edt_content = getIntent().getStringExtra("editor_content");
-            Double edt_price_max = getIntent().getDoubleExtra("editor_price",0);
-            Double edt_price_min = getIntent().getDoubleExtra("editor_price2",0);
-            int edt_number = getIntent().getIntExtra("editor_number",0);
-            int spubprice = getIntent().getIntExtra("pub_price",0);
-            int spubnum = getIntent().getIntExtra("pub_number",0);
-
-            editTitle.setText(edt_title);
-            editContent.setText(edt_content);
-            editPrice.setText(edt_price_max+"");
-            editPriceMin.setText(edt_price_min+"");
-            number.setText(edt_number+"");
-
-        }
-
-        current_location = findViewById(R.id.current_location);//当前定位未知
         final Editable editContext = editTitle.getText();
         location_upload = findViewById(R.id.location_upload);
         location_upload.setOnClickListener(this);
@@ -164,8 +149,6 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
         };
         editTitle.addTextChangedListener(textWatcher);
 
-
-
         numberMinus = findViewById(R.id.img_number_minus);
         numberAdd = findViewById(R.id.img_number_add);
         numberMinus.setOnClickListener(this);
@@ -175,6 +158,9 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
         gridView = findViewById(R.id.grid_pic);
         mGridViewAddImgAdapter = new GridViewAdapter(mContext, mPiclist);
         gridView.setAdapter(mGridViewAddImgAdapter);
+
+        isEditor();
+
         mGridViewAddImgAdapter.setOnItemClickListener(new GridViewAdapter.OnMyItemClickListener() {
             @Override
             public void myclick(View v, int position) {
@@ -206,7 +192,7 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
             }
         });
 
-        switch_btn_price=findViewById(R.id.switch_btn_price);//是否公开价格
+
 
         switch_btn_price.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -218,7 +204,7 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
                 }
             }
         });
-        switch_btn_goods_num=findViewById(R.id.switch_btn_goods_num);//是否公开商品个数
+
         switch_btn_goods_num.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -229,6 +215,43 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
                 }
             }
         });
+    }
+
+    private void isEditor() {
+        //判断是否有数据（是否是编辑而不是上传）
+        if (getIntent().getStringExtra("editor_title") != null) {
+            codex = false;//是编辑即为false，保存即为修改
+            //提取intent传来的数据
+            String edt_title = getIntent().getStringExtra("editor_title");
+            String edt_content = getIntent().getStringExtra("editor_content");
+            Double edt_price_max = getIntent().getDoubleExtra("editor_price",0);
+            Double edt_price_min = getIntent().getDoubleExtra("editor_price2",0);
+            int edt_number = getIntent().getIntExtra("editor_number",0);
+            int spubprice = getIntent().getIntExtra("pub_price",0);
+            int spubnum = getIntent().getIntExtra("pub_number",0);
+            String location = getIntent().getStringExtra("editor_location");
+            List<PictureInfo> pictureInfoList = (List<PictureInfo>) getIntent().getSerializableExtra("editor_picture");
+
+            //设置属性
+            for (int i=0;i<pictureInfoList.size();i++){
+                String compressPath = pictureInfoList.get(i).getUrlsmall(); //压缩后的图片路径
+                mPiclist.add(compressPath); //把图片添加到将要上传的图片数组中
+            }
+            mGridViewAddImgAdapter.notifyDataSetChanged();
+
+            editTitle.setText(edt_title);
+            editContent.setText(edt_content);
+            editPrice.setText(edt_price_max+"");
+            editPriceMin.setText(edt_price_min+"");
+            number.setText(edt_number+"");
+            current_location.setText(location);
+            if (spubprice == 0){
+                switch_btn_price.setChecked(true);
+            }else {switch_btn_price.setChecked(false);}
+            if (spubnum == 0){
+                switch_btn_goods_num.setChecked(true);
+            }else {switch_btn_goods_num.setChecked(false);}
+        }
     }
 
 
@@ -254,7 +277,14 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
                 minusNumber();
                 break;
             case R.id.title_right_text:
-                save();
+                //判断上传还是修改
+                if (codex = true && mPiclist != null) {
+                    save();
+                }else if (codex =false){
+
+                }else {
+
+                }
                 break;
             default:
                 break;
