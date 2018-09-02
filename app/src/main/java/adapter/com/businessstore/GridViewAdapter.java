@@ -24,6 +24,7 @@ public class GridViewAdapter extends android.widget.BaseAdapter {
     private List<String> mList;
     private LayoutInflater inflater;
     public OnMyItemClickListener onItemClickListener;
+
     public interface OnMyItemClickListener{
          void myclick(View v,int position);
          void myOnlongclick(View v,int position);

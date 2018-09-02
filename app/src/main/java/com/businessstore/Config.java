@@ -7,7 +7,7 @@ package com.businessstore;
 public class  Config {
     public static int EXACT_SCREEN_HEIGHT;
     public static int EXACT_SCREEN_WIDTH;
-    public static final String URL="http://192.168.0.141/wuji/api";
+    public static final String URL="http://192.168.0.140/wuji/api";
     public static final String TEST_JSON="{\n" +
             "    \"code\": 0,\n" +
             "    \"msg\": \"请求成功\",\n" +

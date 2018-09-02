@@ -43,12 +43,12 @@
             android:maxLines="1"
             android:text="@string/goods_title"
             android:textColor="@color/nav_fontcolor"
-            android:textSize="14sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/main_recyclerview_item_describe2"
             android:ellipsize="end"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="3dp"
             android:layout_marginRight="20dp"
             android:textColor="@color/mgray"
             android:textSize="12sp"
@@ -56,10 +56,10 @@
             android:maxLines="2"
             android:maxEms="30"
             android:layout_width="wrap_content"
-            android:layout_height="30dp" />
+            android:layout_height="36dp" />
 
         <LinearLayout
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

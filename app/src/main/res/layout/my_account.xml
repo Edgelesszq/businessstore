@@ -57,7 +57,7 @@
                 android:layout_marginTop="130dp"
                 android:text="\@\世上再无张居正"
                 android:textColor="@color/nav_fontcolor"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
 
             <View
                 android:layout_width="match_parent"
@@ -80,6 +80,7 @@
                 android:layout_marginLeft="30px"
                 android:gravity="center"
                 android:text="我的账号"
+                android:textSize="17sp"
                 android:theme="@style/myaccount_style" />
 
             <TextView
@@ -112,7 +113,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="49dp"
                 android:layout_marginLeft="30px"
-
+                android:textSize="17sp"
                 android:gravity="center"
                 android:text="登录密码"
                 android:theme="@style/myaccount_style" />
@@ -182,6 +183,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="49dp"
                 android:layout_marginLeft="30px"
+                android:textSize="17sp"
                 android:gravity="center"
                 android:text="联系电话"
                 android:theme="@style/myaccount_style" />
@@ -198,6 +200,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="49dp"
                 android:layout_marginLeft="30px"
+                android:textSize="17sp"
                 android:gravity="center"
                 android:text="是否要公开电话号码"
                 android:theme="@style/myaccount_style" />

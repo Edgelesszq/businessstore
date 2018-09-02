@@ -64,7 +64,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     //    private NavigationView navView;
     private String edt_title, edt_content,location;
     private Double edt_price,edt_price2;
-    private int pubPrice,pubNumber,edt_number;
+    private int pubPrice,pubNumber,edt_number,goodsId;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     //适配器
@@ -141,15 +141,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         mList = new ArrayList<>();
         mPList = new ArrayList<>();
 
-/*        Gson gson = new Gson();
-        Json<GoodsList> jsonData = gson.fromJson(Config.TEST_JSON, new TypeToken<Json<GoodsList>>(){}.getType());
-        List<Goods> goodsList = jsonData.getData().getList();
-        for (int i=0;i<goodsList.size();i++) {
-            mList.add(goodsList.get(i));
-        }*/
-
-//        Log.d("loglog",jsonData.getData().getList().get(0).getGoodsInfo());
-//        Log.d("loglog",jsonData.getData().getList().get(0).getPictureInfo().get(1).getUrllarge());
         OkGo.<String>get(Config.URL + "/goods/goodsList")
                 .tag(this)
 //                .params("sellerId",loginResult.getSellerId())
@@ -526,6 +517,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         pubNumber = mList.get(position).getStockOpen();
         edt_price2 = mList.get(position).getMinPrice();
         location = mList.get(position).getTradPosition();
+        goodsId = mList.get(position).getGoodsId();
         List<PictureInfo> pictureInfoList= mList.get(position).getPictureInfo();
 
         Intent editor = new Intent(MainActivity.this,
@@ -538,6 +530,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         editor.putExtra("pub_number", pubNumber);
         editor.putExtra("editor_price2",edt_price2);
         editor.putExtra("editor_location",location);
+        editor.putExtra("editor_goodsId",goodsId);
         editor.putExtra("editor_picture",(Serializable)pictureInfoList);
 
         startActivity(editor);

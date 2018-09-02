@@ -10,6 +10,7 @@
     <color name="q_gray">#c4c4c4</color>
     <color name="red">#Fe0000</color>
     <color name="green">#66CD00</color>
+    <color name="more">#507daf</color>
     <color name="black">#000000</color>
     <color name="nav_fontcolor">#333333</color>
     <color name="line">#d5d5d5</color>
@@ -20,7 +21,7 @@
     <color name="colorf5f8fa">#f5f8fa</color>
     <color name="search_background">#f6f6f6</color>
     <color name="shuibo">#FF21272B</color>
-    <color name="messege_background">#F1F1F1</color>
+    <color name="messege_background">#F4F4F4</color>
     <color name="title_name">#333333</color>
 
 </resources>

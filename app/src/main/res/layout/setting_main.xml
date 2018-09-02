@@ -27,13 +27,13 @@
             android:src="@drawable/feedback"
             android:layout_marginLeft="20dp"
             android:layout_gravity="center_vertical|left"
-            android:layout_width="16dp"
-            android:layout_height="16dp" />
+            android:layout_width="18dp"
+            android:layout_height="18dp" />
         <TextView
             android:layout_marginLeft="45dp"
             android:gravity="center"
             android:text="@string/Feedback"
-            android:textSize="16sp"
+            android:textSize="17sp"
             android:textColor="@color/nav_fontcolor"
             android:layout_width="wrap_content"
             android:layout_height="49dp" />
@@ -63,13 +63,13 @@
             android:src="@drawable/update_version"
             android:layout_marginLeft="20dp"
             android:layout_gravity="center_vertical|left"
-            android:layout_width="16dp"
-            android:layout_height="16dp" />
+            android:layout_width="18dp"
+            android:layout_height="18dp" />
         <TextView
             android:layout_marginLeft="45dp"
             android:gravity="center"
             android:text="@string/update_version"
-            android:textSize="16sp"
+            android:textSize="17sp"
             android:textColor="@color/nav_fontcolor"
             android:layout_width="wrap_content"
             android:layout_height="49dp" />

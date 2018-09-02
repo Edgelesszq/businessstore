@@ -27,6 +27,7 @@
                     android:gravity="center"
                     android:textColor="@color/title_name"
                     android:layout_weight="1"
+                    android:textSize="15sp"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp" />
                 <TextView
@@ -35,7 +36,7 @@
                     android:text="2013.5"
                     android:layout_weight="1"
                     android:textColor="@color/mgray"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="0dp" />
 
             </LinearLayout>
@@ -65,23 +66,24 @@
             android:layout_marginRight="20dp"
             android:layout_width="match_parent"
             android:background="@drawable/my_messege_background"
-            android:layout_height="60dp">
+            android:layout_height="66dp">
             <com.businessstore.view.roundImageView.RoundImageView1
                 android:src="@drawable/qidong"
 
                 android:id="@+id/roundImag_2"
-                android:layout_width="60dp"
-                android:layout_height="60dp" />
+                android:layout_width="66dp"
+                android:layout_height="66dp" />
             <LinearLayout
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/roundImag_2"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="60dp">
+                android:layout_height="match_parent">
                 <TextView
                     android:gravity="center_vertical"
                     android:text="全新的衣服现在很漂亮，5折出售哦哦哦哦哦哦噢噢噢噢"
                     android:lines="1"
+                    android:layout_marginTop="3dp"
                     android:textColor="@color/title_name"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
@@ -94,20 +96,19 @@
                     android:textColor="@color/mgray"
                     android:layout_width="match_parent"
                     android:layout_height="0dp" />
-                <RelativeLayout
+                <LinearLayout
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="0dp">
                     <TextView
                         android:id="@+id/dollar_symbol"
-                        android:gravity="center_vertical"
+                        android:gravity="bottom"
                         android:textColor="@color/red"
                         android:text="$"
-                        android:textSize="16sp"
-                        android:layout_weight="1"
+                        android:textSize="14sp"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent" />
+                        android:layout_height="wrap_content" />
                     <TextView
                         android:layout_toRightOf="@+id/dollar_symbol"
                         android:gravity="center_vertical"
@@ -117,7 +118,7 @@
                         android:layout_marginLeft="2dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
-                </RelativeLayout>
+                </LinearLayout>
 
 
             </LinearLayout>
@@ -173,7 +174,7 @@
     <TextView
         android:visibility="gone"
         android:id="@+id/load_more"
-        android:textColor="@color/green"
+        android:textColor="@color/more"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="20dp"
         android:text="查看全部"

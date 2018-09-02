@@ -20,6 +20,7 @@ public class PlusImageActivity extends AppCompatActivity implements ViewPager.On
     private ViewPager viewPager; //展示图片的ViewPager
     private TextView positionTv; //图片的位置，第几张图片
     private ArrayList<String> imgList; //图片的数据源
+    private ArrayList<String> imgListNum; //编辑页图片
     private int mPosition; //第几张图片
     private ViewPagerAdapter mAdapter;
 
@@ -29,6 +30,7 @@ public class PlusImageActivity extends AppCompatActivity implements ViewPager.On
         setContentView(R.layout.activity_plus_image);
 
         imgList = getIntent().getStringArrayListExtra(MainConstant.IMG_LIST);
+        imgListNum = getIntent().getStringArrayListExtra(MainConstant.IMG_LIST_NUM);
         mPosition = getIntent().getIntExtra(MainConstant.POSITION, 0);
         initView();
     }
@@ -53,6 +55,9 @@ public class PlusImageActivity extends AppCompatActivity implements ViewPager.On
             public void ok() {
                 super.ok();
                 imgList.remove(mPosition); //从数据源移除删除的图片
+                if (mPosition < imgListNum.size()){
+                    imgListNum.remove(mPosition);
+                }
                 setPosition();
                 dismiss();
             }
@@ -71,6 +76,7 @@ public class PlusImageActivity extends AppCompatActivity implements ViewPager.On
     private void back() {
         Intent intent = getIntent();
         intent.putStringArrayListExtra(MainConstant.IMG_LIST, imgList);
+        intent.putStringArrayListExtra(MainConstant.IMG_LIST_NUM, imgListNum);
         setResult(MainConstant.RESULT_CODE_VIEW_IMG, intent);
         finish();
     }
