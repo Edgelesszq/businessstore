@@ -52,7 +52,7 @@ public class RefreshHeaderView extends TextView implements SwipeRefreshTrigger, 
 
     @Override
     public void onComplete() {
-        setText("COMPLETE");
+//        setText("COMPLETE");
     }
 
     @Override

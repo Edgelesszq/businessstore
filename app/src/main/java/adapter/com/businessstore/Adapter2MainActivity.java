@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.businessstore.model.Goods;
 import com.businessstore.view.roundImageView.RoundImageView1;
 import com.lzy.okgo.OkGo;
@@ -72,7 +74,10 @@ public class Adapter2MainActivity extends RecyclerView.Adapter<Adapter2MainActiv
         });
         holder.itemTitle.setText(goods.getGoodsName());//设置标题
         holder.itemDescribe.setText(goods.getGoodsInfo());//设置内容
-        Glide.with(mContext).load(goods.getPictureInfo().get(0).getUrllarge()).into(holder.itrmDisplayDiagram);//设置图片
+        RequestOptions options = new RequestOptions()
+                .placeholder(R.drawable.qidong)
+                .diskCacheStrategy(DiskCacheStrategy.NONE);
+        Glide.with(mContext).load(goods.getPictureInfo().get(0).getUrllarge()).apply(options).into(holder.itrmDisplayDiagram);//设置图片
         holder.itemPrice.setText(goods.getMinPrice().toString());
         holder.itemNumber.setText("剩余"+goods.getGoodsStock()+"件");
     }

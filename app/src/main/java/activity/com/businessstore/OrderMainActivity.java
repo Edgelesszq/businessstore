@@ -253,6 +253,8 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
             case R.id.order_recyclerview_item_more_pop_editer:
                 Toast.makeText(mContext,"触发点击事件",Toast.LENGTH_SHORT).show();
                 break;
+                default:
+                    break;
         }
     }
 

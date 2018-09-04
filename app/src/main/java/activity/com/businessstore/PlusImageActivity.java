@@ -9,9 +9,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.businessstore.MainConstant;
+import com.businessstore.model.PictureInfo;
 import com.businessstore.view.dialog.CancelOrOkDialog;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import adapter.com.businessstore.ViewPagerAdapter;
 
@@ -23,6 +26,7 @@ public class PlusImageActivity extends AppCompatActivity implements ViewPager.On
     private ArrayList<String> imgListNum; //编辑页图片
     private int mPosition; //第几张图片
     private ViewPagerAdapter mAdapter;
+    private List<PictureInfo> pictureInfoList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +36,7 @@ public class PlusImageActivity extends AppCompatActivity implements ViewPager.On
         imgList = getIntent().getStringArrayListExtra(MainConstant.IMG_LIST);
         imgListNum = getIntent().getStringArrayListExtra(MainConstant.IMG_LIST_NUM);
         mPosition = getIntent().getIntExtra(MainConstant.POSITION, 0);
+        pictureInfoList = getIntent().getParcelableArrayListExtra(MainConstant.IMG_LIST_NUM_ALL);
         initView();
     }
 
@@ -54,9 +59,11 @@ public class PlusImageActivity extends AppCompatActivity implements ViewPager.On
             @Override
             public void ok() {
                 super.ok();
-                imgList.remove(mPosition); //从数据源移除删除的图片
+                //从数据源移除删除的图片
+                imgList.remove(mPosition);
                 if (mPosition < imgListNum.size()){
                     imgListNum.remove(mPosition);
+                    pictureInfoList.remove(mPosition);
                 }
                 setPosition();
                 dismiss();
@@ -74,9 +81,11 @@ public class PlusImageActivity extends AppCompatActivity implements ViewPager.On
 
     //返回上一个页面
     private void back() {
+        ArrayList<PictureInfo> maList = new ArrayList<>(pictureInfoList);
         Intent intent = getIntent();
         intent.putStringArrayListExtra(MainConstant.IMG_LIST, imgList);
         intent.putStringArrayListExtra(MainConstant.IMG_LIST_NUM, imgListNum);
+        intent.putParcelableArrayListExtra(MainConstant.IMG_LIST_NUM_ALL,maList);
         setResult(MainConstant.RESULT_CODE_VIEW_IMG, intent);
         finish();
     }
@@ -108,6 +117,8 @@ public class PlusImageActivity extends AppCompatActivity implements ViewPager.On
                 //删除图片
                 deletePic();
                 break;
+                default:
+                    break;
         }
     }
 

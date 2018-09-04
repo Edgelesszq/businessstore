@@ -5,9 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.JsonToken;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,14 +18,10 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.baidu.location.LocationClient;
 import com.businessstore.Config;
 import com.businessstore.MainConstant;
 
 import java.io.File;
-import java.lang.reflect.Array;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,9 +37,8 @@ import com.businessstore.model.Json;
 import com.businessstore.model.LoginResult;
 import com.businessstore.model.PictureInfo;
 import com.businessstore.util.SharedPreferencesUtil;
+import com.businessstore.util.ToastUtils;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -57,27 +52,27 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import adapter.com.businessstore.GridViewAdapter;
-
+/**
+ * CommodityUploadActivity class
+ *
+ * @author Wuxi
+ * @date 2018/7/10
+ */
 public class CommodityUploadActivity extends BaseActivity implements View.OnClickListener {
-    private LinearLayout location_upload;
-    private List<String> permissionlist = new ArrayList<>(); //权限
-    private LocationClient mLocationClient;
-    private TextView current_location;//当前定位Textview
-    private EditText editTitle, editContent, editPrice,editPriceMin,editnumber;
-    private ImageView numberMinus, numberAdd;
+
+    private TextView currentLocation;
+    private EditText editTitle, editContent, editPrice,editPriceMin;
     private int pubprice,pubnumber;
     private EditText number;
     private int intNumber,goodsId;
     private Context mContext;
-    private GridView gridView;
-    private ArrayList<String> mPiclist = new ArrayList<>();//上传的图片凭证的数据源
-    private ArrayList<String> mPiclistNum = new ArrayList<>();//已有的图片
-    private JSONArray jsonArray = new JSONArray();
-    private GridViewAdapter mGridViewAddImgAdapter;//展示上传的图片的适配器
+    private ArrayList<String> mPiclist = new ArrayList<>();
+    private ArrayList<String> mPiclistNum = new ArrayList<>();
+    private GridViewAdapter mGridViewAddImgAdapter;
     private List<PictureInfo> pictureInfoList;
-
-    private ToggleButton switch_btn_price,switch_btn_goods_num;
+    private ToggleButton switchBtnPrice,switchBtnGoodsNum;
     private LoginResult loginResult;
+    private GridView gridView;
 
     private boolean codex = true;
 
@@ -88,15 +83,17 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
         mContext = this;
 
         initView();
+        isEditor();
+        initViewOn();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (switch_btn_price.isChecked()){
+        if (switchBtnPrice.isChecked()){
             pubprice = 0;
         }else { pubprice = 1; }
-        if (switch_btn_goods_num.isChecked()){
+        if (switchBtnGoodsNum.isChecked()){
             pubnumber = 0;
         }else {pubnumber = 1;}
         loginResult = SharedPreferencesUtil.getObject(mContext,"loginResult");
@@ -106,17 +103,36 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
     private void initView() {
         setTitleView(R.drawable.backimage, R.string.commodity_upload, R.string.save);
         mTitleLefeBackImg.setOnClickListener(this);
+        //标题
+        editTitle = findViewById(R.id.edit_commodity_title);
+        //内容
+        editContent = findViewById(R.id.edit_commodity_content);
+        //价格
+        editPrice = findViewById(R.id.edit_price);
+        //优惠价格
+        editPriceMin = findViewById(R.id.edit_price2);
+        //商品数量
+        number = findViewById(R.id.text_number);
+        //保存的监听事件
+        mTitleRightText.setOnClickListener(this);
+        //是否公开价格
+        switchBtnPrice=findViewById(R.id.switch_btn_price);
+        //是否公开商品个数
+        switchBtnGoodsNum=findViewById(R.id.switch_btn_goods_num);
+        //当前定位未知
+        currentLocation = findViewById(R.id.current_location);
+        LinearLayout locationUpload = findViewById(R.id.location_upload);
+        locationUpload.setOnClickListener(this);
 
-        editTitle = findViewById(R.id.edit_commodity_title);//标题
+        ImageView numberMinus, numberAdd;
+        numberMinus = findViewById(R.id.img_number_minus);
+        numberAdd = findViewById(R.id.img_number_add);
+        numberMinus.setOnClickListener(this);
+        numberAdd.setOnClickListener(this);
 
-        editContent = findViewById(R.id.edit_commodity_content);//内容
-        editPrice = findViewById(R.id.edit_price);//价格
-        editPriceMin = findViewById(R.id.edit_price2);//优惠价格
-        number = findViewById(R.id.text_number);//商品数量
-        mTitleRightText.setOnClickListener(this);//保存的监听事件
-        switch_btn_price=findViewById(R.id.switch_btn_price);//是否公开价格
-        switch_btn_goods_num=findViewById(R.id.switch_btn_goods_num);//是否公开商品个数
-        current_location = findViewById(R.id.current_location);//当前定位未知
+        gridView = findViewById(R.id.grid_pic);
+        mGridViewAddImgAdapter = new GridViewAdapter(mContext, mPiclist);
+        gridView.setAdapter(mGridViewAddImgAdapter);
 
         number.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -124,70 +140,43 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
                 if (event.getAction()==MotionEvent.ACTION_UP){
                     number.setFocusable(true);
                 }
-
                 return false;
             }
         });
+    }
 
-        final Editable editContext = editTitle.getText();
-        location_upload = findViewById(R.id.location_upload);
-        location_upload.setOnClickListener(this);
-
+    private void initViewOn(){
         TextWatcher textWatcher=new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
             @Override
             public void afterTextChanged(Editable s) {
                 if(s.length()>0){
                     mTitleRightText.setClickable(true);
-
-                    mTitleRightText.setTextColor(getBaseContext().getResources().getColor(R.color.nav_color));
+                    mTitleRightText.setTextColor(ContextCompat.getColor(mContext,R.color.nav_color));
                 }
                 else {
                     mTitleRightText.setClickable(false);
-                    mTitleRightText.setTextColor(getBaseContext().getResources().getColor(R.color.nav_fontcolor));
-
+                    mTitleRightText.setTextColor(ContextCompat.getColor(mContext,R.color.nav_fontcolor));
                 }
             }
         };
         editTitle.addTextChangedListener(textWatcher);
-
-        numberMinus = findViewById(R.id.img_number_minus);
-        numberAdd = findViewById(R.id.img_number_add);
-        numberMinus.setOnClickListener(this);
-        numberAdd.setOnClickListener(this);
-
-
-        gridView = findViewById(R.id.grid_pic);
-        mGridViewAddImgAdapter = new GridViewAdapter(mContext, mPiclist);
-        gridView.setAdapter(mGridViewAddImgAdapter);
-
-        isEditor();
-
         mGridViewAddImgAdapter.setOnItemClickListener(new GridViewAdapter.OnMyItemClickListener() {
             @Override
             public void myclick(View v, int position) {
                 mPiclist.remove(position);
                 if (position < mPiclistNum.size()){
                     mPiclistNum.remove(position);
+                    pictureInfoList.remove(position);
                 }
                 mGridViewAddImgAdapter.notifyDataSetChanged();
             }
-
             @Override
-            public void myOnlongclick(View v, int position) {
-
-            }
+            public void myOnlongclick(View v, int position) { }
         });
-
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -205,10 +194,7 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
                 }
             }
         });
-
-
-
-        switch_btn_price.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        switchBtnPrice.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -219,7 +205,7 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
             }
         });
 
-        switch_btn_goods_num.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        switchBtnGoodsNum.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -232,52 +218,48 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
     }
 
     private void isEditor() {
-        Map<String,String> map = new HashMap<>();
-        map.put("Ils","mmmmmmmmmmm2");
-        map.put("Ils3","mmmmmmmmmmm2");
-        map.put("Ils2","mmmmmmmmmmmmmm2");
-        JSONObject jsonObject1 = new JSONObject(map);
-        JSONArray jsonArray = new JSONArray();
-        jsonArray.put(jsonObject1);
-        jsonArray.put(jsonObject1);
-        Log.d("loglog",jsonObject1.toString());
-        Log.d("loglog",jsonArray.toString());
+        String edtTitle = getIntent().getStringExtra("editor_title");
         //判断是否有数据（是否是编辑而不是上传）
-        if (getIntent().getStringExtra("editor_title") != null) {
-            codex = false;//是编辑即为false，保存即为修改
+        if (edtTitle != null) {
+            //是编辑即为false，保存即为修改
+            codex = false;
             //提取intent传来的数据
-            String edt_title = getIntent().getStringExtra("editor_title");
-            String edt_content = getIntent().getStringExtra("editor_content");
-            Double edt_price_max = getIntent().getDoubleExtra("editor_price",0);
-            Double edt_price_min = getIntent().getDoubleExtra("editor_price2",0);
-            int edt_number = getIntent().getIntExtra("editor_number",0);
+            String edtContent = getIntent().getStringExtra("editor_content");
+            Double edtPriceMax = getIntent().getDoubleExtra("editor_price",0);
+            Double edtPriceMin = getIntent().getDoubleExtra("editor_price2",0);
+            int edtNumber = getIntent().getIntExtra("editor_number",0);
             int spubprice = getIntent().getIntExtra("pub_price",0);
             int spubnum = getIntent().getIntExtra("pub_number",0);
             String location = getIntent().getStringExtra("editor_location");
             goodsId = getIntent().getIntExtra("editor_goodsId",0);
-            pictureInfoList = (List<PictureInfo>) getIntent().getSerializableExtra("editor_picture");
+            pictureInfoList = getIntent().getParcelableArrayListExtra("editor_picture");
 
 //            设置属性
             for (int i=0;i<pictureInfoList.size();i++){
-                String compressPath = pictureInfoList.get(i).getUrlsmall(); //压缩后的图片路径
-                mPiclist.add(compressPath); //把图片添加到将要上传的图片数组中
+                //压缩后的图片路径
+                String compressPath = pictureInfoList.get(i).getUrlsmall();
+                //把图片添加到将要上传的图片数组中
+                mPiclist.add(compressPath);
                 mPiclistNum.addAll(mPiclist);
             }
 
             mGridViewAddImgAdapter.notifyDataSetChanged();
 
-            editTitle.setText(edt_title);
-            editContent.setText(edt_content);
-            editPrice.setText(edt_price_max+"");
-            editPriceMin.setText(edt_price_min+"");
-            number.setText(edt_number+"");
-            current_location.setText(location);
+            String max = edtPriceMax.toString();
+            String min = edtPriceMin.toString();
+            String num = edtNumber+"";
+            editTitle.setText(edtTitle);
+            editContent.setText(edtContent);
+            editPrice.setText(max);
+            editPriceMin.setText(min);
+            number.setText(num);
+            currentLocation.setText(location);
             if (spubprice == 0){
-                switch_btn_price.setChecked(true);
-            }else {switch_btn_price.setChecked(false);}
+                switchBtnPrice.setChecked(true);
+            }else {switchBtnPrice.setChecked(false);}
             if (spubnum == 0){
-                switch_btn_goods_num.setChecked(true);
-            }else {switch_btn_goods_num.setChecked(false);}
+                switchBtnGoodsNum.setChecked(true);
+            }else {switchBtnGoodsNum.setChecked(false);}
         }
     }
 
@@ -305,12 +287,12 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
                 break;
             case R.id.title_right_text:
                 //判断上传还是修改
-                if (codex == true && mPiclist != null) {
+                if (codex && mPiclist != null) {
                     save();
-                }else if (codex == false){
+                }else if (!codex){
                     editor();
                 }else {
-
+                    ToastUtils.showShortToast(mContext,"上传编辑判别失败");
                 }
                 break;
             default:
@@ -339,11 +321,17 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
         number.setText(String.valueOf(intNumber + 1));
     }
 
-    //查看大图
+    /**
+     * 查看大图
+     *
+     * @param position 当前点击的位置
+     */
     private void viewPluImg(int position) {
+        ArrayList<PictureInfo> maList = new ArrayList<>(pictureInfoList);
         Intent intent = new Intent(mContext, PlusImageActivity.class);
         intent.putStringArrayListExtra(MainConstant.IMG_LIST, mPiclist);
         intent.putStringArrayListExtra(MainConstant.IMG_LIST_NUM, mPiclistNum);
+        intent.putParcelableArrayListExtra(MainConstant.IMG_LIST_NUM_ALL,maList);
         intent.putExtra(MainConstant.POSITION, position);
         startActivityForResult(intent, MainConstant.REQUEST_CODE_MAIN);
     }
@@ -357,13 +345,19 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
         PictureSelectorConfig.initMultiConfig(this, maxTotal);
     }
 
-    // 处理选择的照片的地址
+    /**
+     * 处理选择的照片的地址
+     *
+     * @param picList 图片的地址
+     */
     private void refreshAdapter(List<LocalMedia> picList) {
         for (LocalMedia localMedia : picList) {
             //被压缩后的图片路径
             if (localMedia.isCompressed()) {
-                String compressPath = localMedia.getCompressPath(); //压缩后的图片路径
-                mPiclist.add(compressPath); //把图片添加到将要上传的图片数组中
+                //压缩后的图片路径
+                String compressPath = localMedia.getCompressPath();
+                //把图片添加到将要上传的图片数组中
+                mPiclist.add(compressPath);
                 mGridViewAddImgAdapter.notifyDataSetChanged();
             }
         }
@@ -390,16 +384,23 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
                         Toast.makeText(this,returnData,Toast.LENGTH_SHORT).show();
 
                     break;
+                    default:
+                        break;
             }
         }
+        //查看大图页面删除了图片
         if (requestCode == MainConstant.REQUEST_CODE_MAIN && resultCode == MainConstant.RESULT_CODE_VIEW_IMG) {
-            //查看大图页面删除了图片
-            ArrayList<String> toDeletePicList = data.getStringArrayListExtra(MainConstant.IMG_LIST); //要删除的图片的集合
-            ArrayList<String> toDeletePicListNum = data.getStringArrayListExtra(MainConstant.IMG_LIST_NUM); //要删除的图片的集合
+            //要删除的图片的集合
+            ArrayList<String> toDeletePicList = data.getStringArrayListExtra(MainConstant.IMG_LIST);
+            //要删除的图片的集合
+            ArrayList<String> toDeletePicListNum = data.getStringArrayListExtra(MainConstant.IMG_LIST_NUM);
+            List<PictureInfo> toDeletePiclistNumAll = data.getParcelableArrayListExtra(MainConstant.IMG_LIST_NUM_ALL);
             mPiclist.clear();
             mPiclistNum.clear();
+            pictureInfoList.clear();
             mPiclist.addAll(toDeletePicList);
-            mPiclist.addAll(toDeletePicListNum);
+            mPiclistNum.addAll(toDeletePicListNum);
+            pictureInfoList.addAll(toDeletePiclistNumAll);
             mGridViewAddImgAdapter.notifyDataSetChanged();
         }
     }
@@ -418,7 +419,7 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
                 .params("appKey",loginResult.getAppKey())
                 .params("goodsName",editTitle.getText().toString().trim())
                 .params("goodsInfo",editContent.getText().toString().trim())
-                .params("tradPosition",current_location.getText().toString().trim())
+                .params("tradPosition",currentLocation.getText().toString().trim())
                 .params("maxPrice",editPrice.getText().toString().trim())
                 .params("minPrice",editPriceMin.getText().toString().trim())
                 .params("priceOpen",pubprice)
@@ -428,8 +429,8 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
         request.execute(new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
-                Log.d("loglog",response.body().toString());
-                                String responeseData = response.body().toString().trim();
+                Log.d("loglog",response.body());
+                                String responeseData = response.body();
                                 Gson gson = new Gson();
                                 Json<Goods> jsonData = gson.fromJson(responeseData,new TypeToken<Json<Goods>>(){}.getType());
                                 if (jsonData.getCode() ==0){
@@ -458,16 +459,27 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
             }
         }
 
+        JSONArray pictureArray = new JSONArray();
+        for (int i =0;i < pictureInfoList.size();i++) {
+            Map<String,String> piclistEdit = new HashMap<>(9);
+            piclistEdit.put("width",pictureInfoList.get(i).getWidth()+"");
+            piclistEdit.put("height",pictureInfoList.get(i).getHeight()+"");
+            piclistEdit.put("urllarge",pictureInfoList.get(i).getUrllarge()+"");
+            piclistEdit.put("urlsmall",pictureInfoList.get(i).getUrlsmall()+"");
+            JSONObject pictureObject = new JSONObject(piclistEdit);
+            pictureArray.put(pictureObject);
+        }
+        Log.d("loglog",pictureArray.toString());
         PostRequest<String> request = OkGo.<String>post(Config.URL + "/goods/editGoods")
                 .tag(this)
                 .addFileParams("pictrueInfo",files)
-                .upJson(jsonArray)
+                .params("oldPictureInfo",pictureArray.toString())
                 .params("sellerId",loginResult.getSellerId())
                 .params("appKey",loginResult.getAppKey())
                 .params("goodsId",goodsId)
                 .params("goodsName",editTitle.getText().toString().trim())
                 .params("goodsInfo",editContent.getText().toString().trim())
-                .params("tradPosition",current_location.getText().toString().trim())
+                .params("tradPosition",currentLocation.getText().toString().trim())
                 .params("maxPrice",editPrice.getText().toString().trim())
                 .params("minPrice",editPriceMin.getText().toString().trim())
                 .params("priceOpen",pubprice)
@@ -477,8 +489,8 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
                 request.execute(new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
-                Log.d("loglog",response.body().toString());
-                String responeseData = response.body().toString().trim();
+                Log.d("loglog",response.body());
+                String responeseData = response.body();
                 Gson gson = new Gson();
                 Json<Goods> jsonData = gson.fromJson(responeseData,new TypeToken<Json<Goods>>(){}.getType());
                 if (jsonData.getCode() ==0){

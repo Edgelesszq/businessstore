@@ -55,9 +55,9 @@ public class MyApplication extends Application {
         //builder.addInterceptor(new ChuckInterceptor(this));
 
         //超时时间设置，默认60秒
-        builder.readTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS);      //全局的读取超时时间
-        builder.writeTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS);     //全局的写入超时时间
-        builder.connectTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS);   //全局的连接超时时间
+        builder.readTimeout(3000, TimeUnit.MILLISECONDS);      //全局的读取超时时间
+        builder.writeTimeout(3000, TimeUnit.MILLISECONDS);     //全局的写入超时时间
+        builder.connectTimeout(3000, TimeUnit.MILLISECONDS);   //全局的连接超时时间
 
         //自动管理cookie（或者叫session的保持）
         builder.cookieJar(new CookieJarImpl(new SPCookieStore(this)));            //使用sp保持cookie，如果cookie不过期，则一直有效

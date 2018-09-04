@@ -9,6 +9,7 @@ package com.businessstore;
 public class MainConstant {
     public static final String IMG_LIST = "img_list"; //图片列表
     public static final String IMG_LIST_NUM = "img_list_num"; //编辑图片列表
+    public static final String IMG_LIST_NUM_ALL = "img_list_num_all"; //编辑图片列表的所有属性
     public static final String POSITION = "position"; //第几张图片
     public static final String PIC_PATH = "pic_path"; //图片路径
     public static final int MAX_SELECT_PIC_NUM = 9; // 最多上传9张图片

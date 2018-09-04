@@ -68,8 +68,8 @@ public class AdapterMainActivity extends RecyclerView.Adapter<AdapterMainActivit
 
     @Override
     public int getItemCount() {
-//        return mList != null ? mList.size():0;
-        return 20;
+     return mList != null ? mList.size():0;
+    //    return 20;
     }
 
     @Override

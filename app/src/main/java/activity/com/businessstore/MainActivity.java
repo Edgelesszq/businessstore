@@ -4,6 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 
+import android.os.Handler;
+import android.os.Message;
+import android.os.Parcelable;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
@@ -23,6 +26,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aspsine.swipetoloadlayout.OnLoadMoreListener;
+import com.aspsine.swipetoloadlayout.OnRefreshListener;
+import com.aspsine.swipetoloadlayout.SwipeToLoadLayout;
 import com.bumptech.glide.Glide;
 import com.businessstore.Config;
 import com.businessstore.model.Goods;
@@ -32,6 +38,8 @@ import com.businessstore.model.LoginResult;
 import com.businessstore.model.PictureInfo;
 import com.businessstore.util.ActivityUtil;
 import com.businessstore.util.StringUtil;
+import com.businessstore.util.ToastUtils;
+import com.businessstore.view.footer.LoadMoreFooterView;
 import com.businessstore.view.popwindow.CustomPopWindow;
 import com.businessstore.util.DpConversion;
 import com.businessstore.util.SharedPreferencesUtil;
@@ -46,6 +54,9 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,12 +68,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class MainActivity extends BaseActivity implements View.OnClickListener,
-        CommonPopupWindow.ViewInterface {
+        CommonPopupWindow.ViewInterface,OnRefreshListener, OnLoadMoreListener {
+
+    private static final int REFRESH_WHAT = 9663;
+    private static final int LOADMORE_WHAT = 9664;
 
     private Context mContext;
     private TextView upload_btn,user_name,user_num,user_address;
     //    private NavigationView navView;
-    private String edt_title, edt_content,location;
+    private String edt_title , edt_content,location;
     private Double edt_price,edt_price2;
     private int pubPrice,pubNumber,edt_number,goodsId;
     private Toolbar toolbar;
@@ -80,7 +94,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     private FrameLayout myaccount_icon, myorder_icon, setting_icon, third_party_domian,
             store_address,mystore;
 
-
+    private SwipeToLoadLayout swipeToLoadLayout;
+    private LoadMoreFooterView loadMoreFooterView;
+    private int count = 2;
 
     //自定义popwindow对象
     private CustomPopWindow popWindow;
@@ -90,23 +106,45 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
     private long exitTime = 0; //退出程序
 
+    @SuppressLint("HandlerLeak")
+    private Handler handler =new Handler(){
+        public void handleMessage(Message message){
+            switch (message.what){
+                case REFRESH_WHAT:
+                  List<Goods> refreshList=(List<Goods>)message.obj;
+                  if (mList!=null&&refreshList!=null){
+                      mList.clear();
+                      mList.addAll(refreshList);
+                      count=2;
+                      mAdapterMainActivity.notifyDataSetChanged();
+                  }
+                  break;
+                case LOADMORE_WHAT:
+                    List<Goods>  loadmoreList=(List<Goods>)message.obj;
+                    if (mList!=null&&loadmoreList!=null) {
+                        mList.addAll(loadmoreList);
+                        count++;
+                        mAdapterMainActivity.notifyDataSetChanged();
+                    }
+                break;
+            }
+        }
+    };
+
     @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loginResult = SharedPreferencesUtil.getObject(this,"loginResult");
 
-
        if (loginResult==null||loginResult.getNumActiva()==0){
            ActivityUtil.skipActivity(MainActivity.this,LoginActivity.class);
        }
 
        else {
-
-
            setContentView(R.layout.activity_main);
            mContext = this;
-//        navView=findViewById(R.id.nav_view);
+
            StatusBarUtil.StatusBarLightMode_white(this);
            toolbar = findViewById(R.id.toolbar);
            setSupportActionBar(toolbar);
@@ -115,6 +153,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
            initview();
            initGoods();
            initAdapter();
+
        }
 
           /*  navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -131,9 +170,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         super.onResume();
         loginResult = SharedPreferencesUtil.getObject(this,"loginResult");
 
-//        initview();
-//        initGoods();
-//        initAdapter();
 
     }
 
@@ -143,8 +179,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
         OkGo.<String>get(Config.URL + "/goods/goodsList")
                 .tag(this)
-//                .params("sellerId",loginResult.getSellerId())
-//                .params("appKey",loginResult.getAppKey())
+             .params("sellerId",loginResult.getSellerId())
+              .params("appKey",loginResult.getAppKey())
                 .params("p",1)//页数（每页有固定的商品数）
                 .params("page",0)
                 .execute(new StringCallback() {
@@ -192,9 +228,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     }
 
     public void initview() {
+
+        loadMoreFooterView=findViewById(R.id.swipe_load_more_footer);
+
         message_imgview=findViewById(R.id.message_imgview);//我的消息界面
         message_imgview.setOnClickListener(this);
-        mRecyclerView = findViewById(R.id.main_recyclerview);
+        mRecyclerView = findViewById(R.id.swipe_target);
 
         qrcode=findViewById(R.id.qrcode);//二维码
         qrcode.setOnClickListener(this);
@@ -241,6 +280,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
         user_address = findViewById(R.id.text_user_address);//店铺位置
 
+        swipeToLoadLayout =findViewById(R.id.swipeToLoadLayout);
+        swipeToLoadLayout.setOnRefreshListener(this);
+        swipeToLoadLayout.setOnLoadMoreListener(this);
 
         //设置头像
         if (loginResult.getSellerHead()!=null){
@@ -508,7 +550,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
     public void editor(){
         int position = popWindow.getPosition();
-        mList.get(position);
         edt_title = mList.get(position).getGoodsName();
         edt_content = mList.get(position).getGoodsInfo();
         edt_price = mList.get(position).getMaxprice();
@@ -519,7 +560,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         location = mList.get(position).getTradPosition();
         goodsId = mList.get(position).getGoodsId();
         List<PictureInfo> pictureInfoList= mList.get(position).getPictureInfo();
-
+        ArrayList<PictureInfo> maList = new ArrayList<>(pictureInfoList);
         Intent editor = new Intent(MainActivity.this,
                 CommodityUploadActivity.class);
         editor.putExtra("editor_title", edt_title);
@@ -531,11 +572,84 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         editor.putExtra("editor_price2",edt_price2);
         editor.putExtra("editor_location",location);
         editor.putExtra("editor_goodsId",goodsId);
-        editor.putExtra("editor_picture",(Serializable)pictureInfoList);
+        editor.putParcelableArrayListExtra("editor_picture",maList);
 
         startActivity(editor);
         popWindow.dismiss();
         mPopwindowIsShow = true;
     }
 
+    @Override
+    public void onLoadMore() {
+        OkGo.<String>get(Config.URL + "/goods/goodsList")
+                .tag(this)
+                .params("sellerId",loginResult.getSellerId())
+                .params("appKey",loginResult.getAppKey())
+                .params("p",count)//页数（每页有固定的商品数）
+                .params("page",0)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        Log.d("loglog",response.body());
+                        Gson gson = new Gson();
+                        Json<GoodsList> jsonData = gson.fromJson(response.body(), new TypeToken<Json<GoodsList>>(){}.getType());
+                        if (jsonData.getCode() == 0) {
+                            List<Goods> goodsList = jsonData.getData().getList();
+                            Message loadmoreMessage = new Message();
+                            loadmoreMessage.what = LOADMORE_WHAT;
+                            loadmoreMessage.obj = goodsList;
+                            handler.sendMessage(loadmoreMessage);
+                            swipeToLoadLayout.setLoadingMore(false);
+                        }else if (jsonData.getCode() == 1){
+                            ToastUtils.showShortToast(mContext,jsonData.getMsg());
+                            swipeToLoadLayout.setLoadingMore(false);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        ToastUtils.showShortToast(mContext,"加载失败！");
+                        swipeToLoadLayout.setLoadingMore(false);
+                    }
+                });
+    }
+
+    @Override
+    public void onRefresh() {
+        OkGo.<String>get(Config.URL + "/goods/goodsList")
+                .tag(this)
+                .params("sellerId",loginResult.getSellerId())
+                .params("appKey",loginResult.getAppKey())
+                .params("p",1)//页数（每页有固定的商品数）
+                .params("page",0)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        Log.d("loglog",response.body());
+                        String responseData = response.body().toString().trim();
+                        Gson gson = new Gson();
+                        Json<GoodsList> jsonData = gson.fromJson(responseData, new TypeToken<Json<GoodsList>>(){}.getType());
+                        if (jsonData.getCode() == 0) {
+                            List<Goods> goodsList = jsonData.getData().getList();
+                            Message refreshMessage = new Message();
+                            refreshMessage.what = REFRESH_WHAT;
+                            refreshMessage.obj = goodsList;
+                            handler.sendMessage(refreshMessage);
+                            swipeToLoadLayout.setRefreshing(false);
+                        }else if (jsonData.getCode() == 1){
+                            ToastUtils.showShortToast(mContext,jsonData.getMsg());
+                            swipeToLoadLayout.setRefreshing(false);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        ToastUtils.showShortToast(mContext,"刷新失败！");
+                        swipeToLoadLayout.setRefreshing(false);
+                    }
+
+                });
+    }
 }
