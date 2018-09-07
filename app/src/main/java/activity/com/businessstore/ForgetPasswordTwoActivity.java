@@ -2,6 +2,7 @@ package activity.com.businessstore;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -61,12 +62,12 @@ public class ForgetPasswordTwoActivity extends BaseActivity implements View.OnCl
                 String inputCode=verifiCode_et.getText().toString().trim();
                 String verifiCode=forgetPassword.getVerifiCode();
                 if(StringUtil.isBlank(inputCode)){
-                    ToastViewUtils.toastShowLoginMessage("請輸入驗證碼！",getApplicationContext(),inflater);
+                    ToastViewUtils.toastShowLoginMessage("请输入验证码！",getApplicationContext(),inflater);
                 }
                 else {
                     if (verifiCode.equals(inputCode)){
-                        showDialogprogressBarWithString("正在驗證...");
-                        OkGo.<String>get(Config.URL+"/user/resetPassword/")
+                        showDialogprogressBarWithString("正在验证...");
+                        OkGo.<String>get(Config.URL+"/user/verifiCode/")
                                 .params("sellerId",forgetPassword.getSellerId())
                                 .params("sellerNum",forgetPassword.getSellerNum())
                                 .params("verifiCode",inputCode)
@@ -74,7 +75,8 @@ public class ForgetPasswordTwoActivity extends BaseActivity implements View.OnCl
                                     @Override
                                     public void onSuccess(Response<String> response) {
                                         dissmissDialogprogressBarWithString();
-                                        ToastViewUtils.toastShowLoginMessage("驗證成功！！",getApplicationContext(),inflater);
+                                        Log.d("loglog",response.body());
+                                        ToastViewUtils.toastShowLoginMessage("验证成功！！",getApplicationContext(),inflater);
 
                                         Intent ensurethree=new Intent(ForgetPasswordTwoActivity.this,ForgetPasswordThreeActivity.class);
                                         startActivity(ensurethree);
@@ -84,14 +86,14 @@ public class ForgetPasswordTwoActivity extends BaseActivity implements View.OnCl
                                     public void onError(Response<String> response) {
                                         super.onError(response);
                                         dissmissDialogprogressBarWithString();
-                                        ToastViewUtils.toastShowLoginMessage("發生未知錯誤！",getApplicationContext(),inflater);
+                                        ToastViewUtils.toastShowLoginMessage("发生未知错误！",getApplicationContext(),inflater);
 
                                     }
                                 });
 
                     }
                     else {
-                        ToastViewUtils.toastShowLoginMessage("驗證碼錯誤！",getApplicationContext(),inflater);
+                        ToastViewUtils.toastShowLoginMessage("验证码错误！",getApplicationContext(),inflater);
 
                     }
                 }

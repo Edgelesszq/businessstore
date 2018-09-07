@@ -44,11 +44,13 @@
                         android:orientation="horizontal">
 
                         <com.businessstore.view.roundImageView.RoundImageView
+                            android:id="@+id/img_head"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:src="@mipmap/default_head_image" />
 
                         <TextView
+                            android:id="@+id/text_user_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
@@ -84,6 +86,7 @@
                         android:background="@color/my_account_number_line" />
 
                     <TextView
+                        android:id="@+id/goods_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
@@ -92,6 +95,7 @@
                         android:textSize="17sp" />
 
                     <TextView
+                        android:id="@+id/goods_content"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
@@ -164,6 +168,7 @@
                             android:layout_weight="1" />
 
                         <TextView
+                            android:id="@+id/comment_num"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="999条留言"

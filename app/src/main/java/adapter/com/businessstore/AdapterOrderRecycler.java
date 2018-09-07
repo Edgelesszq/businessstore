@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.businessstore.model.Order;
 import com.businessstore.view.dialog.DialogStyleOne;
 
 import java.util.List;
@@ -20,7 +21,7 @@ import activity.com.businessstore.R;
 
 public class AdapterOrderRecycler extends RecyclerView.Adapter<AdapterOrderRecycler.MyCompletedHolder> implements View.OnClickListener {
     private Context mcontext;
-    private List<String> mlist;
+    private List<Order> mlist;
     private OnItemClickListener mOnItemClickListener = null;
     private final int COMPLETED_TYPE = 1;
     private final int UND0NE_TYPE = 2;
@@ -28,7 +29,7 @@ public class AdapterOrderRecycler extends RecyclerView.Adapter<AdapterOrderRecyc
 
     //private List<MYViewHolder> mHolderList;
 
-    public AdapterOrderRecycler(Context mcontext, List<String> mlist) {
+    public AdapterOrderRecycler(Context mcontext, List<Order> mlist) {
         this.mcontext = mcontext;
         this.mlist = mlist;
     }
@@ -54,14 +55,17 @@ public class AdapterOrderRecycler extends RecyclerView.Adapter<AdapterOrderRecyc
     @Override
     public void onBindViewHolder(final MyCompletedHolder holder, final int position) {
         holder.itemView.setTag(position + "");
-        holder.more_icon.setOnClickListener(new View.OnClickListener() {
+        holder.moreIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((OrderMainActivity)mcontext).showPopWindow(holder.more_icon,position);
+                ((OrderMainActivity)mcontext).showPopWindow(holder.moreIcon,position);
             }
         });
+        //下单x件
 
-
+        String form = mcontext.getResources().getString(R.string.place_an_order);
+        String result = String.format(form,5);
+        holder.placeOrderNum.setText(result);
 
     }
 
@@ -81,32 +85,40 @@ public class AdapterOrderRecycler extends RecyclerView.Adapter<AdapterOrderRecyc
     }
 
     public class MyCompletedHolder extends RecyclerView.ViewHolder {
-        TextView goods_title;
-        TextView goods_comment;
-        TextView goods_price;
-        ImageView more_icon;
+        TextView goodsTitle;
+        TextView goodsComment;
+        TextView goodsPrice;
+        TextView goodsDate;
+        TextView placeOrderNum;
+        ImageView moreIcon;
 
         public MyCompletedHolder(View itemView) {
             super(itemView);
-            goods_title = itemView.findViewById(R.id.goods_title);
-            goods_comment = itemView.findViewWithTag(R.id.goods_conment);
-            goods_price = itemView.findViewById(R.id.goods_price);
-            more_icon = itemView.findViewById(R.id.delete_icon);
+            goodsTitle = itemView.findViewById(R.id.goods_title);
+            goodsComment = itemView.findViewWithTag(R.id.goods_conment);
+            goodsPrice = itemView.findViewById(R.id.goods_price);
+            goodsDate = itemView.findViewById(R.id.goods_date);
+            moreIcon = itemView.findViewById(R.id.delete_icon);
+            placeOrderNum = itemView.findViewById(R.id.place_order);
         }
     }
 
     public class MyUndoneHolder extends RecyclerView.ViewHolder {
-        TextView goods_title;
-        TextView goods_comment;
-        TextView goods_price;
-        ImageView delete_icon;
+        TextView goodsTitle;
+        TextView goodsComment;
+        TextView goodsPrice;
+        TextView goodsDate;
+        ImageView deleteIcon;
+        TextView placeOrderNum;
 
         public MyUndoneHolder(View itemView) {
             super(itemView);
-            goods_title = itemView.findViewById(R.id.goods_title);
-            goods_comment = itemView.findViewWithTag(R.id.goods_conment);
-            goods_price = itemView.findViewById(R.id.goods_price);
-            delete_icon = itemView.findViewById(R.id.restore_icon);
+            goodsTitle = itemView.findViewById(R.id.goods_title);
+            goodsComment = itemView.findViewWithTag(R.id.goods_conment);
+            goodsPrice = itemView.findViewById(R.id.goods_price);
+            goodsDate = itemView.findViewById(R.id.goods_date);
+            deleteIcon = itemView.findViewById(R.id.restore_icon);
+            placeOrderNum = itemView.findViewById(R.id.place_order);
         }
     }
 

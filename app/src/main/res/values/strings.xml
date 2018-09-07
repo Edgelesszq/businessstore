@@ -58,4 +58,5 @@
     <string name="select_address">选择地址</string>
     <string name="register">注册</string>
     <string name="goods_title">全新潮流时尚新款，各个码折扣销售圣诞节全场五折</string>
+    <string name="place_an_order">下单了%1$d件</string>
 </resources>

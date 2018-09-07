@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -24,12 +25,25 @@ import android.widget.Toast;
 import com.aspsine.swipetoloadlayout.OnLoadMoreListener;
 import com.aspsine.swipetoloadlayout.OnRefreshListener;
 import com.aspsine.swipetoloadlayout.SwipeToLoadLayout;
+import com.businessstore.Config;
+import com.businessstore.model.Json;
+import com.businessstore.model.LoginResult;
+import com.businessstore.model.Order;
+import com.businessstore.model.OrderList;
+import com.businessstore.util.SharedPreferencesUtil;
+import com.businessstore.util.ToastUtils;
 import com.businessstore.view.popwindow.CustomPopWindow2;
 import com.businessstore.util.DpConversion;
 import com.businessstore.view.dialog.DialogStyleOne;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Response;
 
 import org.feezu.liuli.timeselector.TimeSelector;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import adapter.com.businessstore.AdapterOrderRecycler;
@@ -45,7 +59,7 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
 
     private FrameLayout select_time_icon, select_order_icon, processed_orders, unprocessed_orders;
     //    private Toolbar toolbar;
-    private ImageView time_down, time_up, order_down, order_up;
+    private ImageView time_down, time_up, order_down, order_up,orderCompleted,orderUncompleted;
     private static Boolean TimeIcon = true, OrderIcon = true;
     private LinearLayout order_test;
     TimeSelector timeSelector;
@@ -53,14 +67,13 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
     private EditText order_search_edit;//搜索输入框
     private ImageView clean_iv;//清空图标
     private TextView cancel_tv;//取消按钮
-
     private RecyclerView recyclerview_completed;
     private AdapterOrderRecycler adapterOrderRecyclerCompleted;
 
     private CustomPopWindow2 popWindow;
     private boolean mPopwindowIsShow;
-
-    private List<String> mlist;
+    private LoginResult loginResult;
+    private List<Order> mlist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,10 +84,43 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
         setContentView(R.layout.my_order_main);
         mContext = this;
 
-//        toolbar=findViewById(R.id.toolbar2);
-//        setSupportActionBar(toolbar);
+        loginResult = SharedPreferencesUtil.getObject(this,"loginResult");
+
         initview();
+        initOder(1);
         initAdapter();
+    }
+
+    private void initOder(int x) {
+        mlist = new ArrayList<>();
+        OkGo.<String>get(Config.URL + "/order/orderList")
+//                .params("sellerId",loginResult.getSellerId())
+//                .params("appKey",loginResult.getAppKey())
+//                .params("sellerState",x)
+//                .params("page",1)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        Gson gson = new Gson();
+                        Json<OrderList> jsonData = gson.fromJson(response.body(),new TypeToken<Json<OrderList>>(){}.getType());
+                        Json<OrderList> jsonData2 = gson.fromJson(response.body(),new TypeToken<Json<OrderList>>(){}.getType());
+                        if (jsonData2.getCode() == 0) {
+                            List<Order> orderLists = jsonData2.getData().getList();
+                            for (int i = 0; i < jsonData2.getData().getList().size(); i++) {
+                                mlist.add(orderLists.get(i));
+                            }
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    adapterOrderRecyclerCompleted.notifyDataSetChanged();
+                                }
+                            });
+                        }else if (jsonData2.getCode()==1){
+                            ToastUtils.showShortToast(mContext,jsonData2.getMsg());
+                        }
+
+                    }
+                });
     }
 
     private void initAdapter() {
@@ -87,6 +133,7 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
             public void onClick(View v, int position) {
                 Toast.makeText(mContext, "Item 的点击事件", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(OrderMainActivity.this, OrderCommodityDetailsActivity.class);
+
                 startActivity(intent);
             }
         });
@@ -105,7 +152,8 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
         swipeToLoadLayout.setOnLoadMoreListener(this);
         mTitleCenterSearchImg.setOnClickListener(this);
         //主界面LinearLayout
-
+        orderCompleted = findViewById(R.id.img_v1);
+        orderUncompleted = findViewById(R.id.img_v2);
         //搜索框
         searchLinerLayout = findViewById(R.id.search_LinearLayout);
         order_search_edit = findViewById(R.id.order_search_edit);
@@ -113,6 +161,7 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
         cancel_tv = findViewById(R.id.cancel_tv);
         clean_iv.setOnClickListener(this);
         cancel_tv.setOnClickListener(this);
+
         TextWatcher watcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -140,7 +189,6 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 if (i == EditorInfo.IME_ACTION_SEARCH) {
                     if (order_search_edit.getText().toString().length() <= 0) {
-                        //  Toast.makeText(AtActivity.this,"请输入用户昵称",Toast.LENGTH_SHORT).show();
                         return true;
                     } else {
                     }
@@ -171,8 +219,11 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
         select_time_icon.setOnClickListener(this);
         select_order_icon.setOnClickListener(this);
         order_test = findViewById(R.id.order_test);
-        processed_orders = findViewById(R.id.processed_orders);//订单选择界面
+        //订单选择界面
+        processed_orders = findViewById(R.id.processed_orders);
         unprocessed_orders = findViewById(R.id.unprocessed_orders);
+        processed_orders.setOnClickListener(this);
+        unprocessed_orders.setOnClickListener(this);
 
 
         timeSelector = new TimeSelector(this, new TimeSelector.ResultHandler() {
@@ -200,6 +251,18 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
             case R.id.title_center_search_img:
                 searchLinerLayout.setVisibility(View.VISIBLE);
                 title_layout.setVisibility(View.GONE);
+                break;
+            case R.id.processed_orders:
+                //点击已完成订单
+                orderUncompleted.setVisibility(View.GONE);
+                orderCompleted.setVisibility(View.VISIBLE);
+                initOder(1);
+                break;
+            case R.id.unprocessed_orders:
+                //点击未完成订单
+                orderCompleted.setVisibility(View.GONE);
+                orderUncompleted.setVisibility(View.VISIBLE);
+                initOder(0);
                 break;
             case R.id.cancel_tv:
                 searchLinerLayout.setVisibility(View.GONE);
@@ -280,22 +343,14 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
         }, 2000);
     }
 
-    private void autoRefresh() {
-        swipeToLoadLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeToLoadLayout.setRefreshing(true);
-            }
-        });
-    }
-
     public void showPopWindow(final View mButton1, int position) {
 
         //三个点的绝对坐标
         int[] location = new int[2];
-        mButton1.getLocationOnScreen(location);//获取在整个屏幕内的绝对坐标
-        int x = location[0];//--->x坐标,
-        int y = location[1];//--->y坐标
+        //获取在整个屏幕内的绝对坐标
+        mButton1.getLocationOnScreen(location);
+        int x = location[0];
+        int y = location[1];
         //三个点控件的宽高
         int morewidth = mButton1.getWidth();
         int moreheight = mButton1.getHeight();

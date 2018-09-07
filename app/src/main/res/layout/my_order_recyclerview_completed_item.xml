@@ -100,7 +100,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="下单1件"
+                android:id="@+id/place_order"
+                android:text="@string/place_an_order"
                 android:textColor="@color/mgray"
                 android:gravity="center"
                 android:layout_gravity="center"

@@ -54,7 +54,7 @@ public class AdapterCommodityDetailsActivityListView extends BaseAdapter impleme
             convertView = mInflater.inflate(R.layout.commodity_details_listview_item, parent, false);
             holder = new ViewHolder();
             holder.mTotalRecovery = convertView.findViewById(R.id.total_recovery);
-           holder.mTotalRecovery.setOnClickListener(new View.OnClickListener() {
+            holder.mTotalRecovery.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, TotalRecoveryActivity.class);

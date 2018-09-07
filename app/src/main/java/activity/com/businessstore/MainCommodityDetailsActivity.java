@@ -2,9 +2,11 @@ package activity.com.businessstore;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -13,9 +15,21 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.businessstore.Config;
+import com.businessstore.model.Goods;
+import com.businessstore.model.GoodsDetails;
+import com.businessstore.model.Json;
+import com.businessstore.model.LoginResult;
 import com.businessstore.util.DpConversion;
+import com.businessstore.util.SharedPreferencesUtil;
+import com.businessstore.util.ToastUtils;
 import com.businessstore.view.scrollview.ObservableScrollView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +46,11 @@ public class MainCommodityDetailsActivity extends BaseActivity implements View.O
     static int position=0;
     private List<String> urlList;
     private ObservableScrollView details_scrollview;
-    private TextView price,symbol;
-
+    private TextView price,symbol,sellerName,goodsName,goodsContent;
+    private LoginResult loginResult;
+    private Goods goods;
+    private Bitmap bitmap;
+    private ImageView head;
 
 
     @Override
@@ -41,21 +58,69 @@ public class MainCommodityDetailsActivity extends BaseActivity implements View.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_commodity_details);
         mContext = this;
+        //取出缓存
+        loginResult = SharedPreferencesUtil.getObject(mContext,"loginResult");
 
         getDeviceDensity();
-        initdata();
         initView();
+        initData();
         initAdapter();
-
 
     }
 
-    private void initdata() {
-        urlList=new ArrayList<>();
-        urlList.add("http://a.hiphotos.baidu.com/image/pic/item/00e93901213fb80e3b0a611d3fd12f2eb8389424.jpg");
-        urlList.add("http://a.hiphotos.baidu.com/image/pic/item/00e93901213fb80e3b0a611d3fd12f2eb8389424.jpg");
-        urlList.add("http://a.hiphotos.baidu.com/image/pic/item/00e93901213fb80e3b0a611d3fd12f2eb8389424.jpg");
-        urlList.add("http://a.hiphotos.baidu.com/image/pic/item/00e93901213fb80e3b0a611d3fd12f2eb8389424.jpg");
+    /**
+     * 初始化数据
+     */
+    private void initData() {
+
+        Intent intent = getIntent();
+        int goodsId = intent.getIntExtra("goodsId",0);
+        OkGo.<String>get(Config.URL + "/goods/getGoodsById")
+                .params("sellerId",loginResult.getSellerId())
+                .params("appKey",loginResult.getAppKey())
+                .params("goodsId",goodsId)
+                .params("page",1)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        Log.d("loglog",response.body());
+                        Gson gson = new Gson();
+                        Json<GoodsDetails> jsonData = gson.fromJson(response.body(),new TypeToken<Json<GoodsDetails>>(){}.getType());
+                        if (jsonData.getCode() == 0){
+                            goods = jsonData.getData().getGoodsInfo();
+                            Log.d("loglog",goods.getGoodsInfo());
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    goodsContent.setText(goods.getGoodsInfo());
+                                    goodsName.setText(goods.getGoodsName());
+                                    String pr = goods.getMinPrice()+"";
+                                    price.setText(pr);
+                                    if (loginResult.getSellerName() != null) {
+                                        sellerName.setText(loginResult.getSellerName());
+                                    }
+                                    //加载头像
+                                    if (loginResult.getSellerHead()==null){
+                                        Glide.with(mContext).load(R.drawable.qidong)
+                                                .into(head);
+                                    }
+                                    else {
+                                        Glide.with(mContext).load(loginResult.getSellerHead())
+                                                .into(head);
+                                    }
+                                }
+                            });
+                        }else if (jsonData.getCode() == 1){
+                            ToastUtils.showShortToast(mContext,jsonData.getMsg());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        ToastUtils.showShortToast(mContext,"请求错误");
+                    }
+                });
     }
 
     private void initAdapter() {
@@ -84,6 +149,10 @@ public class MainCommodityDetailsActivity extends BaseActivity implements View.O
 
         price=findViewById(R.id.price);
         symbol=findViewById(R.id.symbol);
+        head = findViewById(R.id.img_head);
+        sellerName = findViewById(R.id.text_user_name);
+        goodsName = findViewById(R.id.goods_name);
+        goodsContent = findViewById(R.id.goods_content);
 
 
         details_scrollview=findViewById(R.id.details_scrollview);
@@ -108,8 +177,7 @@ public class MainCommodityDetailsActivity extends BaseActivity implements View.O
         WindowManager wm = (WindowManager) this
                 .getSystemService(Context.WINDOW_SERVICE);
         int screenWidth = wm.getDefaultDisplay().getWidth();
-//        int screenHeight = wm.getDefaultDisplay().getHeight();
-
+        int screenHeight = wm.getDefaultDisplay().getHeight();
         mTitleLefeBackImg.setOnClickListener(this);
         mTitleRightSearchImg.setOnClickListener(this);
         //循环画九张展示图
@@ -189,6 +257,8 @@ public class MainCommodityDetailsActivity extends BaseActivity implements View.O
             case R.id.title_right_img:
                 Toast.makeText(mContext, "分享", Toast.LENGTH_SHORT).show();
                 break;
+                default:
+                    break;
 
         }
 

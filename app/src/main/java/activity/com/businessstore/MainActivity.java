@@ -108,6 +108,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
     @SuppressLint("HandlerLeak")
     private Handler handler =new Handler(){
+        @Override
         public void handleMessage(Message message){
             switch (message.what){
                 case REFRESH_WHAT:
@@ -127,6 +128,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                         mAdapterMainActivity.notifyDataSetChanged();
                     }
                 break;
+                    default:
+                        break;
             }
         }
     };
@@ -190,16 +193,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                         String responseData = response.body().toString().trim();
                         Gson gson = new Gson();
                         Json<GoodsList> jsonData = gson.fromJson(responseData, new TypeToken<Json<GoodsList>>(){}.getType());
-                        List<Goods> goodsList = jsonData.getData().getList();
-                        for (int i=0;i<goodsList.size();i++) {
-                            mList.add(goodsList.get(i));
-                        }
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                            mAdapterMainActivity.notifyDataSetChanged();
+                        if (jsonData.getCode() ==0) {
+                            List<Goods> goodsList = jsonData.getData().getList();
+                            for (int i = 0; i < goodsList.size(); i++) {
+                                mList.add(goodsList.get(i));
                             }
-                        });
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mAdapterMainActivity.notifyDataSetChanged();
+                                }
+                            });
+                        }else if (jsonData.getCode() ==1){
+                            ToastUtils.showShortToast(mContext,jsonData.getMsg());
+                        }
                     }
 
                     @Override
@@ -218,6 +225,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 // RecyclerView Item 的点击事件回调
                 Intent intent = new Intent(MainActivity.this,
                         MainCommodityDetailsActivity.class);
+                intent.putExtra("goodsId",mList.get(position).getGoodsId());
                 startActivity(intent);
                 Toast.makeText(mContext, "Item 的点击事件", Toast.LENGTH_SHORT).show();
             }
@@ -497,7 +505,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
 
     }
-
+    @Override
     public void onDestroy() {
         //在该生命周期的时候调用该方法，
         //mAdapterMainActivity.onDestroy();
@@ -525,6 +533,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         switch (layoutResId) {
             case R.layout.popwindow_share:
                 break;
+                default:
+                    break;
         }
     }
 

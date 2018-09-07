@@ -244,6 +244,8 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
                 Intent updateName=new Intent(this,AccountUpadateNameActivity.class);
                 updateName.putExtra("Name",namestr);
                 startActivityForResult(updateName,2335);
+                default:
+                    break;
         }
 
     }
@@ -402,7 +404,8 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
                        }
                    }
                    break;
-
+                default:
+                    break;
            }
        }
     }
