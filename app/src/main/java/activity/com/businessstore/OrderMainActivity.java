@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -53,6 +55,10 @@ import adapter.com.businessstore.AdapterOrderRecycler;
  */
 
 public class OrderMainActivity extends BaseActivity implements OnRefreshListener, OnLoadMoreListener, View.OnClickListener {
+
+    private static final int REFRESH_WHAT = 3882;
+    private static final int LOADMORE_WHAT = 3883;
+
     private Context mContext;
     private SwipeToLoadLayout swipeToLoadLayout;
     private LinearLayout searchLinerLayout, title_layout;
@@ -73,7 +79,36 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
     private CustomPopWindow2 popWindow;
     private boolean mPopwindowIsShow;
     private LoginResult loginResult;
-    private List<Order> mlist;
+    private List<Order> mlist  = new ArrayList<>();
+    private int count =2;
+
+    @SuppressLint("HandlerLeak")
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case REFRESH_WHAT:
+                    List<Order> refreshList = (List<Order>) msg.obj;
+                    if (mlist!=null&&refreshList!=null){
+                        mlist.clear();
+                        mlist.addAll(refreshList);
+                        count=2;
+                        adapterOrderRecyclerCompleted.notifyDataSetChanged();
+                    }
+                    break;
+                case LOADMORE_WHAT:
+                    List<Order> loadmoreList = (List<Order>) msg.obj;
+                    if (mlist!=null&&loadmoreList!=null){
+                        mlist.addAll(loadmoreList);
+                        count++;
+                        adapterOrderRecyclerCompleted.notifyDataSetChanged();
+                    }
+                        break;
+                    default:
+                        break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +127,6 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
     }
 
     private void initOder(int x) {
-        mlist = new ArrayList<>();
         OkGo.<String>get(Config.URL + "/order/orderList")
 //                .params("sellerId",loginResult.getSellerId())
 //                .params("appKey",loginResult.getAppKey())
@@ -106,9 +140,7 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
                         Json<OrderList> jsonData2 = gson.fromJson(response.body(),new TypeToken<Json<OrderList>>(){}.getType());
                         if (jsonData2.getCode() == 0) {
                             List<Order> orderLists = jsonData2.getData().getList();
-                            for (int i = 0; i < jsonData2.getData().getList().size(); i++) {
-                                mlist.add(orderLists.get(i));
-                            }
+                            mlist.addAll(orderLists);
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -229,11 +261,45 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
         timeSelector = new TimeSelector(this, new TimeSelector.ResultHandler() {
             @Override
             public void handle(String time) {
-                Toast.makeText(getApplicationContext(), time, Toast.LENGTH_SHORT).show();
+                //处理选择的时间
+                orderTime(time);
             }
         }, "1970-1-1 00:00", "2030-12-1 12:00", "00:00", "12:00");
         timeSelector.setMode(TimeSelector.MODE.YMD);
         // autoRefresh();
+    }
+
+    private void orderTime(String time) {
+        showDialogprogressBarWithString("正在筛选:");
+        OkGo.<String>get(Config.URL + "/order/orderList")
+//                .params("sellerId",loginResult.getSellerId())
+//                .params("appKey",loginResult.getAppKey())
+//                .params("sellerState",x)
+//                .params("page",1)
+//                .params("time",time)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        Gson gson = new Gson();
+                        Json<OrderList> jsonData = gson.fromJson(response.body(),new TypeToken<Json<OrderList>>(){}.getType());
+                        Json<OrderList> jsonData2 = gson.fromJson(response.body(),new TypeToken<Json<OrderList>>(){}.getType());
+                        if (jsonData2.getCode() == 0) {
+                            dissmissDialogprogressBarWithString();
+                            List<Order> orderLists = jsonData2.getData().getList();
+                            mlist.addAll(orderLists);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    adapterOrderRecyclerCompleted.notifyDataSetChanged();
+                                }
+                            });
+                        }else if (jsonData2.getCode()==1){
+                            dissmissDialogprogressBarWithString();
+                            ToastUtils.showShortToast(mContext,jsonData2.getMsg());
+                        }
+
+                    }
+                });
     }
 
     private void search() {
@@ -323,24 +389,76 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
 
     @Override
     public void onRefresh() {
-        swipeToLoadLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                swipeToLoadLayout.setRefreshing(false);
-                // mAdapter.add("REFRESH:\n" + new Date());
-            }
-        }, 2000);
+        OkGo.<String>get(Config.URL + "/order/orderList")
+//                .params("sellerId",loginResult.getSellerId())
+//                .params("appKey",loginResult.getAppKey())
+//                .params("sellerState",x)
+//                .params("page",1)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        Gson gson = new Gson();
+                        Json<OrderList> jsonData = gson.fromJson(response.body(),new TypeToken<Json<OrderList>>(){}.getType());
+                        Json<OrderList> jsonData2 = gson.fromJson(response.body(),new TypeToken<Json<OrderList>>(){}.getType());
+                        if (jsonData2.getCode() == 0) {
+                            List<Order> orderLists = jsonData2.getData().getList();
+                            Message refreshMessage = new Message();
+                            refreshMessage.what = REFRESH_WHAT;
+                            refreshMessage.obj = orderLists;
+                            handler.sendMessage(refreshMessage);
+                            swipeToLoadLayout.setRefreshing(false);
+
+                        }else if (jsonData2.getCode()==1){
+                            ToastUtils.showShortToast(mContext,jsonData2.getMsg());
+                            swipeToLoadLayout.setRefreshing(false);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        ToastUtils.showShortToast(mContext,"刷新失败");
+                        swipeToLoadLayout.setRefreshing(false);
+                    }
+                });
     }
 
     @Override
     public void onLoadMore() {
-        swipeToLoadLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                swipeToLoadLayout.setLoadingMore(false);
-                //mAdapter.add("LOAD MORE:\n" + new Date());
-            }
-        }, 2000);
+        OkGo.<String>get(Config.URL + "/order/orderList")
+//                .params("sellerId",loginResult.getSellerId())
+//                .params("appKey",loginResult.getAppKey())
+//                .params("sellerState",x)
+//                .params("page",count)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        Gson gson = new Gson();
+                        Json<OrderList> jsonData = gson.fromJson(response.body(),new TypeToken<Json<OrderList>>(){}.getType());
+                        Json<OrderList> jsonData2 = gson.fromJson(response.body(),new TypeToken<Json<OrderList>>(){}.getType());
+                        if (jsonData2.getCode() == 0) {
+                            List<Order> orderLists = jsonData2.getData().getList();
+                            Message refreshMessage = new Message();
+                            refreshMessage.what = LOADMORE_WHAT;
+                            refreshMessage.obj = orderLists;
+                            handler.sendMessage(refreshMessage);
+                            swipeToLoadLayout.setLoadingMore(false);
+
+                        }else if (jsonData2.getCode()==1){
+                            ToastUtils.showShortToast(mContext,jsonData2.getMsg());
+                            swipeToLoadLayout.setLoadingMore(false);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        ToastUtils.showShortToast(mContext,"加载失败");
+                        swipeToLoadLayout.setLoadingMore(false);
+                    }
+                });
     }
 
     public void showPopWindow(final View mButton1, int position) {

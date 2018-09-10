@@ -54,11 +54,11 @@ public class ForgetPasswordOneActivity extends BaseActivity implements View.OnCl
                String inputsellerNum= sellerNum_et.getText().toString().trim();
                 final LayoutInflater inflater = getLayoutInflater();
                if(StringUtil.isBlank(inputsellerNum)){
-                    ToastViewUtils.toastShowLoginMessage("請輸入驗證碼！", getApplicationContext(), inflater);
+                    ToastViewUtils.toastShowLoginMessage("请输入验证码！", getApplicationContext(), inflater);
 
                }
                else {
-                   showDialogprogressBarWithString("正在請求...");
+                   showDialogprogressBarWithString("正在请求...");
                    OkGo.<String>get(Config.URL+"/user/getCodeByForgetPwd/")
                            .params("sellerNum",inputsellerNum)
                            .execute(new StringCallback() {
@@ -73,7 +73,7 @@ public class ForgetPasswordOneActivity extends BaseActivity implements View.OnCl
                                        case 0:
                                            SharedPreferencesUtil.putObject(getApplicationContext(),"forgetPassword",dataInfo.getData());
                                            dissmissDialogprogressBarWithString();
-                                           Toast.makeText(getApplicationContext(),"驗證碼已發送",Toast.LENGTH_SHORT).show();
+                                           Toast.makeText(getApplicationContext(),"验证码已发送",Toast.LENGTH_SHORT).show();
 
                                            Intent ensure=new Intent(ForgetPasswordOneActivity.this,ForgetPasswordTwoActivity.class);
                                            startActivity(ensure);
@@ -81,12 +81,12 @@ public class ForgetPasswordOneActivity extends BaseActivity implements View.OnCl
                                        case 1:
                                            dissmissDialogprogressBarWithString();
 
-                                           Toast.makeText(getApplicationContext(),"請求失敗",Toast.LENGTH_SHORT).show();
+                                           Toast.makeText(getApplicationContext(),"请求失败",Toast.LENGTH_SHORT).show();
 
                                            break;
                                        default:
                                            dissmissDialogprogressBarWithString();
-                                           Toast.makeText(getApplicationContext(),"發生未知錯誤",Toast.LENGTH_SHORT).show();
+                                           Toast.makeText(getApplicationContext(),"发生未知错误",Toast.LENGTH_SHORT).show();
 
                                            break;
 

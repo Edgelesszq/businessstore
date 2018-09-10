@@ -159,13 +159,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
        }
 
-          /*  navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            drawerLayout.closeDrawers();
-            return true;
-            }
-        });*/
     }
 
     @Override
@@ -637,9 +630,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                     @Override
                     public void onSuccess(Response<String> response) {
                         Log.d("loglog",response.body());
-                        String responseData = response.body().toString().trim();
                         Gson gson = new Gson();
-                        Json<GoodsList> jsonData = gson.fromJson(responseData, new TypeToken<Json<GoodsList>>(){}.getType());
+                        Json<GoodsList> jsonData = gson.fromJson(response.body(), new TypeToken<Json<GoodsList>>(){}.getType());
                         if (jsonData.getCode() == 0) {
                             List<Goods> goodsList = jsonData.getData().getList();
                             Message refreshMessage = new Message();
