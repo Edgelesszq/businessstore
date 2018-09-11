@@ -174,7 +174,7 @@ public class MainSearchActivity extends BaseActivity implements View.OnClickList
                 clear();
                 break;
             case R.id.main_recyclerview_item_more_pop_editer:
-//                Toast.makeText(mContext, "编辑", Toast.LENGTH_SHORT).show();
+                //编辑
                 int position = popWindow.getPosition();
                 mList.get(position);
                 edt_title = mList.get(position).getGoodsName();
@@ -196,7 +196,7 @@ public class MainSearchActivity extends BaseActivity implements View.OnClickList
                 mPopwindowIsShow = true;
                 break;
             case R.id.main_recyclerview_item_more_pop_delete:
-//                Toast.makeText(mContext, "删除", Toast.LENGTH_SHORT).show();
+                //删除
                 final DialogStyleOne dialogStyleOne=new DialogStyleOne(this);
                 dialogStyleOne.setYesOnclickListener("是", new DialogStyleOne.onYesOnclickListener() {
                     @Override
@@ -215,7 +215,7 @@ public class MainSearchActivity extends BaseActivity implements View.OnClickList
                 mPopwindowIsShow = true;
                 break;
             case R.id.main_recyclerview_item_more_pop_share:
-//                Toast.makeText(mContext, "分享", Toast.LENGTH_SHORT).show();
+                //分享
                 OnekeyShare oks = new OnekeyShare();
                 //关闭sso授权
                 oks.disableSSOWhenAuthorize();

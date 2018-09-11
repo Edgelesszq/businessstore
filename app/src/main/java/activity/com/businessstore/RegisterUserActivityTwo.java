@@ -50,13 +50,14 @@ public class RegisterUserActivityTwo extends BaseActivity implements View.OnClic
     }
 
     private void Re_request() {
-
-            OkGo.<String>get(Config.URL+"/user /getCode/")
+        showDialogprogressBarWithString("正在重发");
+            OkGo.<String>get(Config.URL+"/user/getCode/")
                     .params("sellerId",loginData.getSellerId())
                     .params("sellerNum",loginData.getSellerNum())
                     .execute(new StringCallback() {
                         @Override
                         public void onSuccess(Response<String> response) {
+                            dissmissDialogprogressBarWithString();
                             Toast.makeText(mContext,"请求成功",Toast.LENGTH_SHORT).show();
                             starttimer();
                         }
@@ -64,6 +65,7 @@ public class RegisterUserActivityTwo extends BaseActivity implements View.OnClic
                         @Override
                         public void onError(Response<String> response) {
                             super.onError(response);
+                            dissmissDialogprogressBarWithString();
                         }
                     });
 
@@ -93,7 +95,7 @@ public class RegisterUserActivityTwo extends BaseActivity implements View.OnClic
                 final LayoutInflater inflater = getLayoutInflater();
 
 
-                    showDialogprogressBarWithString("正在驗證...");
+                    showDialogprogressBarWithString("正在验证...");
                     OkGo.<String>get(Config.URL + "/user/verifiCode")
                             .tag(this)
                             .params("sellerId",loginData.getSellerId())
@@ -148,6 +150,8 @@ public class RegisterUserActivityTwo extends BaseActivity implements View.OnClic
                 text_verification_again.setClickable(false);
                 text_verification_again.setTextColor(getResources().getColor(R.color.nav_fontcolor));
                 break;
+                default:
+                    break;
         }
     }
     public void starttimer(){

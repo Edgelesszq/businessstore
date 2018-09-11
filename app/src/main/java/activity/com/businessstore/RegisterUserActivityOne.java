@@ -138,23 +138,23 @@ public class RegisterUserActivityOne extends BaseActivity implements View.OnClic
                                     @Override
                                     public void onSuccess(Response<String> response) {
                                         Log.d("loglog", response.body());
-                                        String responseData = response.body().toString().trim();
+                                        String responseData = response.body();
                                         Gson gson = new Gson();
 //
-                                        Json<LoginResult> DataInfo = gson.fromJson(responseData,
+                                        Json<LoginResult> dataInfo = gson.fromJson(responseData,
                                                 new TypeToken<Json<LoginResult>>() {
                                                 }.getType());
 
-                                        if (DataInfo.getCode()==0){
+                                        if (dataInfo.getCode()==0){
 
-                                            SharedPreferencesUtil.putObject(mContext,"loginResult",DataInfo.getData());
+                                            SharedPreferencesUtil.putObject(mContext,"loginResult",dataInfo.getData());
                                             dissmissDialogprogressBarWithString();
                                             Intent intent = new Intent(RegisterUserActivityOne.this,
                                                     RegisterUserActivityTwo.class);
                                             startActivity(intent);
                                         }else {
                                             dissmissDialogprogressBarWithString();
-                                            Toast.makeText(mContext,DataInfo.getMsg().toString(),Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(mContext,dataInfo.getMsg(),Toast.LENGTH_SHORT).show();
                                         }
 
                                     }
@@ -186,6 +186,8 @@ public class RegisterUserActivityOne extends BaseActivity implements View.OnClic
         switch (view.getId()) {
             case R.id.title_left_back_img:
                 finish();
+                default:
+                    break;
         }
     }
 

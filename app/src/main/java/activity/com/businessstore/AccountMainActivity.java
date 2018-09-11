@@ -157,7 +157,7 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-
+                    showDialogprogressBarWithString("正在修改");
                     OkGo.<String>post(Config.URL + "/user/editUserInfo")
                             .tag(this)
                             .params("headImg",loginResult.getSellerHead())
@@ -169,6 +169,7 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
                             .execute(new StringCallback() {
                                 @Override
                                 public void onSuccess(Response<String> response) {
+                                    dissmissDialogprogressBarWithString();
                                     Log.d("loglog",response.body());
                                     String responedata = response.body().toString().trim();
                                     Gson gson = new Gson();
@@ -183,6 +184,7 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
                                 }
                             });
                 } else {
+                    showDialogprogressBarWithString("正在修改");
                     OkGo.<String>post(Config.URL + "/user/editUserInfo")
                             .tag(this)
                             .params("headImg",loginResult.getSellerHead())
@@ -194,6 +196,7 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
                             .execute(new StringCallback() {
                                 @Override
                                 public void onSuccess(Response<String> response) {
+                                    dissmissDialogprogressBarWithString();
                                     Log.d("loglog",response.body());
                                     String responedata = response.body().toString().trim();
                                     Gson gson = new Gson();
@@ -350,6 +353,7 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
                        Log.d("loglog",filepath);
 
                        if (head != null) {
+                           showDialogprogressBarWithString("正在修改");
                            /**
                             * 上传服务器代码
                             */
@@ -364,6 +368,7 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
                                    .execute(new StringCallback() {
                                        @Override
                                        public void onSuccess(Response<String> response) {
+                                           dissmissDialogprogressBarWithString();
                                            Log.d("loglog",response.body());
                                            String responedata = response.body().toString().trim();
                                            Gson gson = new Gson();

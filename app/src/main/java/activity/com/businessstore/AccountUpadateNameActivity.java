@@ -18,6 +18,7 @@ import com.businessstore.util.ActivityUtil;
 import com.businessstore.util.NoDoubleClickListener;
 import com.businessstore.util.SharedPreferencesUtil;
 import com.businessstore.util.StatusBarUtil;
+import com.businessstore.util.ToastViewUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lzy.okgo.OkGo;
@@ -73,6 +74,7 @@ public class AccountUpadateNameActivity extends BaseActivity implements View.OnC
                         @Override
                         public void onNoDoubleClick(View v) {
                             loginResult.setSellerName(phonenum_et.getText().toString());
+                            showDialogprogressBarWithString("正在修改");
                             OkGo.<String>post(Config.URL + "/user/editUserInfo")
                                     .tag(this)
                                     .params("headImg",loginResult.getSellerHead())
@@ -84,6 +86,7 @@ public class AccountUpadateNameActivity extends BaseActivity implements View.OnC
                                     .execute(new StringCallback() {
                                         @Override
                                         public void onSuccess(Response<String> response) {
+                                            dissmissDialogprogressBarWithString();
                                             Log.d("loglog",response.body());
                                             String responedata = response.body().toString().trim();
                                             Gson gson = new Gson();
@@ -95,6 +98,13 @@ public class AccountUpadateNameActivity extends BaseActivity implements View.OnC
                                             }else{
                                                 Toast.makeText(mContext,jsondata.getMsg(),Toast.LENGTH_SHORT).show();
                                             }
+                                        }
+
+                                        @Override
+                                        public void onError(Response<String> response) {
+                                            super.onError(response);
+                                            dissmissDialogprogressBarWithString();
+                                            ToastViewUtils.toastShowLoginMessage("请求错误",mContext,getLayoutInflater());
                                         }
                                     });
 

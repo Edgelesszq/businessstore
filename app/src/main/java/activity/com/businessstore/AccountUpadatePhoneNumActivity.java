@@ -74,16 +74,13 @@ public class AccountUpadatePhoneNumActivity extends BaseActivity implements View
                     mTitleRightText.setClickable(true);
                     mTitleRightText.setTextColor(getBaseContext().getResources().getColor(R.color.nav_color));
                     mTitleRightText.setOnClickListener(new NoDoubleClickListener() {
-
-
-
-
                         @Override
                         public void onNoDoubleClick(View v) {
                             String phoneNum=phonenum_et.getText().toString().trim();
                             Log.d("loglog",phoneNum);
 
                             mTitleRightText.setClickable(false);
+                            showDialogprogressBarWithString("正在修改");
                             OkGo.<String>post(Config.URL + "/user/editUserInfo")
                                     .tag(this)
                                     .params("headImg",loginResult.getSellerHead())
@@ -95,6 +92,7 @@ public class AccountUpadatePhoneNumActivity extends BaseActivity implements View
                                     .execute(new StringCallback() {
                                         @Override
                                         public void onSuccess(Response<String> response) {
+                                            dissmissDialogprogressBarWithString();
                                             Log.d("loglog",response.body());
                                             String responedata = response.body().toString().trim();
                                             Gson gson = new Gson();
@@ -108,6 +106,13 @@ public class AccountUpadatePhoneNumActivity extends BaseActivity implements View
                                             }else{
                                                 Toast.makeText(mContext,jsondata.getMsg(),Toast.LENGTH_SHORT).show();
                                             }
+                                        }
+
+                                        @Override
+                                        public void onError(Response<String> response) {
+                                            super.onError(response);
+                                            dissmissDialogprogressBarWithString();
+                                            ToastViewUtils.toastShowLoginMessage("请求错误",mContext,getLayoutInflater());
                                         }
                                     });
 
@@ -149,7 +154,8 @@ public class AccountUpadatePhoneNumActivity extends BaseActivity implements View
             case R.id.clean_iv:
                 phonenum_et.setText("");
                 break;
-
+                default:
+                    break;
         }
     }
 }

@@ -11,7 +11,6 @@ import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import android.widget.LinearLayout;
@@ -29,7 +28,6 @@ import java.util.Map;
 
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ToggleButton;
 
 import com.businessstore.PictureSelectorConfig;
 import com.businessstore.model.Goods;
@@ -63,7 +61,6 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
 
     private TextView currentLocation;
     private EditText editTitle, editContent, editPrice, editPriceMin;
-    private int pubprice, pubnumber;
     private EditText number;
     private int intNumber, goodsId;
     private Context mContext;
@@ -71,7 +68,6 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
     private ArrayList<String> mPiclistNum = new ArrayList<>();
     private GridViewAdapter mGridViewAddImgAdapter;
     private List<PictureInfo> pictureInfoList;
-    private ToggleButton switchBtnPrice, switchBtnGoodsNum;
     private LoginResult loginResult;
     private GridView gridView;
 
@@ -91,16 +87,6 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
     @Override
     protected void onResume() {
         super.onResume();
-        if (switchBtnPrice.isChecked()) {
-            pubprice = 0;
-        } else {
-            pubprice = 1;
-        }
-        if (switchBtnGoodsNum.isChecked()) {
-            pubnumber = 0;
-        } else {
-            pubnumber = 1;
-        }
         loginResult = SharedPreferencesUtil.getObject(mContext, "loginResult");
     }
 
@@ -120,10 +106,6 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
         number = findViewById(R.id.text_number);
         //保存的监听事件
         mTitleRightText.setOnClickListener(this);
-        //是否公开价格
-        switchBtnPrice = findViewById(R.id.switch_btn_price);
-        //是否公开商品个数
-        switchBtnGoodsNum = findViewById(R.id.switch_btn_goods_num);
         //当前定位未知
         currentLocation = findViewById(R.id.current_location);
         LinearLayout locationUpload = findViewById(R.id.location_upload);
@@ -204,27 +186,6 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
                 }
             }
         });
-        switchBtnPrice.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    pubprice = 0;
-                } else {
-                    pubprice = 1;
-                }
-            }
-        });
-
-        switchBtnGoodsNum.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    pubnumber = 0;
-                } else {
-                    pubnumber = 0;
-                }
-            }
-        });
     }
 
     private void isEditor() {
@@ -238,8 +199,6 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
             Double edtPriceMax = getIntent().getDoubleExtra("editor_price", 0);
             Double edtPriceMin = getIntent().getDoubleExtra("editor_price2", 0);
             int edtNumber = getIntent().getIntExtra("editor_number", 0);
-            int spubprice = getIntent().getIntExtra("pub_price", 0);
-            int spubnum = getIntent().getIntExtra("pub_number", 0);
             String location = getIntent().getStringExtra("editor_location");
             goodsId = getIntent().getIntExtra("editor_goodsId", 0);
             pictureInfoList = getIntent().getParcelableArrayListExtra("editor_picture");
@@ -264,16 +223,6 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
             editPriceMin.setText(min);
             number.setText(num);
             currentLocation.setText(location);
-            if (spubprice == 0) {
-                switchBtnPrice.setChecked(true);
-            } else {
-                switchBtnPrice.setChecked(false);
-            }
-            if (spubnum == 0) {
-                switchBtnGoodsNum.setChecked(true);
-            } else {
-                switchBtnGoodsNum.setChecked(false);
-            }
         }
     }
 
@@ -437,9 +386,9 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
                 .params("tradPosition", currentLocation.getText().toString().trim())
                 .params("maxPrice", editPrice.getText().toString().trim())
                 .params("minPrice", editPriceMin.getText().toString().trim())
-                .params("priceOpen", pubprice)
-                .params("goodsStock", number.getText().toString().trim())
-                .params("stockOpen", pubnumber);
+                .params("goodsStock", number.getText().toString().trim());
+//                .params("priceOpen", pubprice)
+//                .params("stockOpen", pubnumber)
 
         request.execute(new StringCallback() {
             @Override
@@ -500,9 +449,9 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
                 .params("tradPosition", currentLocation.getText().toString().trim())
                 .params("maxPrice", editPrice.getText().toString().trim())
                 .params("minPrice", editPriceMin.getText().toString().trim())
-                .params("priceOpen", pubprice)
-                .params("goodsStock", number.getText().toString().trim())
-                .params("stockOpen", pubnumber);
+                .params("goodsStock", number.getText().toString().trim());
+//                .params("priceOpen", pubprice)
+//                .params("stockOpen", pubnumber)
 
         request.execute(new StringCallback() {
             @Override

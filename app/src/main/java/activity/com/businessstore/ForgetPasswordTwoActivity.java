@@ -10,12 +10,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.businessstore.Config;
+import com.businessstore.model.Json;
 import com.businessstore.model.LoginResult;
 import com.businessstore.util.NoDoubleClickListener;
 import com.businessstore.util.SharedPreferencesUtil;
 import com.businessstore.util.StatusBarUtil;
 import com.businessstore.util.StringUtil;
+import com.businessstore.util.ToastUtils;
 import com.businessstore.util.ToastViewUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
@@ -76,17 +80,22 @@ public class ForgetPasswordTwoActivity extends BaseActivity implements View.OnCl
                                     public void onSuccess(Response<String> response) {
                                         dissmissDialogprogressBarWithString();
                                         Log.d("loglog",response.body());
-                                        ToastViewUtils.toastShowLoginMessage("验证成功！！",getApplicationContext(),inflater);
-
-                                        Intent ensurethree=new Intent(ForgetPasswordTwoActivity.this,ForgetPasswordThreeActivity.class);
-                                        startActivity(ensurethree);
+                                        Gson gson = new Gson();
+                                        Json<String> jsondata = gson.fromJson(response.body(),new TypeToken<Json<String>>(){}.getType());
+                                        if (jsondata.getCode() == 0) {
+                                            ToastViewUtils.toastShowLoginMessage("验证成功！！", getApplicationContext(), inflater);
+                                            Intent ensurethree = new Intent(ForgetPasswordTwoActivity.this, ForgetPasswordThreeActivity.class);
+                                            startActivity(ensurethree);
+                                        }else if (jsondata.getCode() == 1){
+                                            ToastViewUtils.toastShowLoginMessage(jsondata.getMsg(),getApplicationContext(),inflater);
+                                        }
                                     }
 
                                     @Override
                                     public void onError(Response<String> response) {
                                         super.onError(response);
                                         dissmissDialogprogressBarWithString();
-                                        ToastViewUtils.toastShowLoginMessage("发生未知错误！",getApplicationContext(),inflater);
+                                        ToastViewUtils.toastShowLoginMessage("请求失败！",getApplicationContext(),inflater);
 
                                     }
                                 });

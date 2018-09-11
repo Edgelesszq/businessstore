@@ -78,7 +78,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     //    private NavigationView navView;
     private String edt_title , edt_content,location;
     private Double edt_price,edt_price2;
-    private int pubPrice,pubNumber,edt_number,goodsId;
+    private int edt_number,goodsId;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     //适配器
@@ -166,7 +166,32 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         super.onResume();
         loginResult = SharedPreferencesUtil.getObject(this,"loginResult");
 
+        setCache();
+    }
 
+    private void setCache() {
+        //设置头像
+        if (loginResult.getSellerHead()!=null){
+            Glide.with(this).load(loginResult.getSellerHead()).into(circleImageView);
+        }
+        if (loginResult.getSellerHead()==null){
+            Glide.with(this).load(R.drawable.qidong).into(circleImageView);
+        }
+        //设置用户名
+        if (StringUtil.isBlank(loginResult.getSellerName())){
+            user_name.setText(loginResult.getSellerNum());
+        }
+        if (!StringUtil.isBlank(loginResult.getSellerName())){
+            user_name.setText(loginResult.getSellerName());
+        }
+        //设置我的账号
+        if (loginResult.getSellerNum()!=null){
+            user_num.setText(loginResult.getSellerNum());
+        }
+        //设置店的位置
+        if(loginResult.getDetailedAddress()!=null){
+            user_address.setText(loginResult.getDetailedAddress());
+        }
     }
 
     private void initGoods() {
@@ -285,30 +310,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         swipeToLoadLayout.setOnRefreshListener(this);
         swipeToLoadLayout.setOnLoadMoreListener(this);
 
-        //设置头像
-        if (loginResult.getSellerHead()!=null){
-//            circleImageView.setImageDrawable(user.getSellerHead());
-            Glide.with(this).load(loginResult.getSellerHead()).into(circleImageView);
-        }
-        if (loginResult.getSellerHead()==null){
-            Glide.with(this).load(R.drawable.qidong).into(circleImageView);
-
-        }
-        //设置用户名
-        if (StringUtil.isBlank(loginResult.getSellerName())){
-            user_name.setText(loginResult.getSellerNum());
-        }
-        if (!StringUtil.isBlank(loginResult.getSellerName())){
-            user_name.setText(loginResult.getSellerName());
-        }
-        //设置我的账号
-        if (loginResult.getSellerNum()!=null){
-            user_num.setText(loginResult.getSellerNum());
-        }
-        //设置店的位置
-        if(loginResult.getDetailedAddress()!=null){
-            user_address.setText(loginResult.getDetailedAddress());
-        }
+        setCache();
     }
 
     @Override
@@ -557,8 +559,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         edt_content = mList.get(position).getGoodsInfo();
         edt_price = mList.get(position).getMaxprice();
         edt_number = mList.get(position).getGoodsStock();
-        pubPrice = mList.get(position).getPriceOpen();
-        pubNumber = mList.get(position).getStockOpen();
         edt_price2 = mList.get(position).getMinPrice();
         location = mList.get(position).getTradPosition();
         goodsId = mList.get(position).getGoodsId();
@@ -570,8 +570,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         editor.putExtra("editor_content", edt_content);
         editor.putExtra("editor_price", edt_price);
         editor.putExtra("editor_number", edt_number);
-        editor.putExtra("pub_price", pubPrice);
-        editor.putExtra("pub_number", pubNumber);
         editor.putExtra("editor_price2",edt_price2);
         editor.putExtra("editor_location",location);
         editor.putExtra("editor_goodsId",goodsId);

@@ -61,6 +61,7 @@ public class AccountUpadatePasswordActivity extends BaseActivity implements View
                 }
                 else if (newPwd.equals(newPwd2)) {
                     mTitleRightText.setClickable(false);
+                    showDialogprogressBarWithString("正在修改");
                     OkGo.<String>post(Config.URL + "/user/editPassword")
                             .tag(this)
                             .params("sellerPwd",newPwd)
@@ -70,6 +71,7 @@ public class AccountUpadatePasswordActivity extends BaseActivity implements View
                             .execute(new StringCallback() {
                                 @Override
                                 public void onSuccess(Response<String> response) {
+                                    dissmissDialogprogressBarWithString();
                                     Log.d("loglog",response.body());
                                     String responedata = response.body().toString().trim();
                                     Gson gson = new Gson();
@@ -110,6 +112,8 @@ public class AccountUpadatePasswordActivity extends BaseActivity implements View
                 ActivityUtil.startActivity(AccountUpadatePasswordActivity.this,ForgetPasswordOneActivity.class);
 
                 break;
+                default:
+                    break;
         }
     }
 }
