@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.businessstore.model.Goods;
 import com.businessstore.view.roundImageView.RoundImageView1;
 
@@ -57,6 +60,7 @@ public class AdapterSearchResultActivity extends RecyclerView.Adapter<AdapterSea
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
+        Goods goods = mList.get(position);//每个item的数据指定
         //一定要设置这个。要不在回调方法里面获得不到当前点击的是第几个item;注意tag是object类型的；
         holder.itemView.setTag(position + "");
         holder.itemMore.setOnClickListener(new View.OnClickListener() {
@@ -66,14 +70,22 @@ public class AdapterSearchResultActivity extends RecyclerView.Adapter<AdapterSea
                 ((MainSearchActivity) mContext).showPopWindow(holder.itemMore,position);
             }
         });
-
+        holder.itemTitle.setText(goods.getGoodsName());//设置标题
+        holder.itemDescribe.setText(goods.getGoodsInfo());//设置内容
+        RequestOptions options = new RequestOptions()
+                .placeholder(R.drawable.qidong)
+                .diskCacheStrategy(DiskCacheStrategy.NONE);
+        if (goods.getPictureInfo() != null) {
+            Glide.with(mContext).load(goods.getPictureInfo().get(0).getUrllarge()).apply(options).into(holder.itrmDisplayDiagram);//设置图片
+        }
+        holder.itemPrice.setText(goods.getMinPrice().toString());
+        holder.itemNumber.setText("剩余" + goods.getGoodsStock() + "件");
     }
 
 
     @Override
     public int getItemCount() {
-//        return mList != null ? mList.size():0;
-        return 20;
+        return mList.size();
     }
 
     @Override

@@ -75,7 +75,7 @@ dependencies {
     implementation files('libs/MobCommons-2018.0704.1311.jar')
     //网络请求框架
     api 'com.lzy.net:okgo:3.0.4'
-
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
     api 'com.android.support:multidex:1.0.3'
     api 'com.google.code.gson:gson:2.7'
 

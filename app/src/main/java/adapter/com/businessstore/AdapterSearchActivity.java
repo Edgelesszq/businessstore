@@ -53,6 +53,7 @@ public class AdapterSearchActivity extends RecyclerView.Adapter<AdapterSearchAct
         return mSearchHistory.size();
     }
 
+    @Override
     public void onClick(View v) {
         if (mItemClickListener!=null){
             mItemClickListener.onItemClick((Integer) v.getTag());

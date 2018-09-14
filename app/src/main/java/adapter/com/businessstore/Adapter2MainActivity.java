@@ -62,7 +62,7 @@ public class Adapter2MainActivity extends RecyclerView.Adapter<Adapter2MainActiv
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder,final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
         Goods goods = mList.get(position);//每个item的数据指定
         //一定要设置这个。要不在回调方法里面获得不到当前点击的是第几个item;注意tag是object类型的；
         holder.itemView.setTag(position + "");
@@ -77,9 +77,11 @@ public class Adapter2MainActivity extends RecyclerView.Adapter<Adapter2MainActiv
         RequestOptions options = new RequestOptions()
                 .placeholder(R.drawable.qidong)
                 .diskCacheStrategy(DiskCacheStrategy.NONE);
-        Glide.with(mContext).load(goods.getPictureInfo().get(0).getUrllarge()).apply(options).into(holder.itrmDisplayDiagram);//设置图片
+        if (goods.getPictureInfo() != null) {
+            Glide.with(mContext).load(goods.getPictureInfo().get(0).getUrllarge()).apply(options).into(holder.itrmDisplayDiagram);//设置图片
+        }
         holder.itemPrice.setText(goods.getMinPrice().toString());
-        holder.itemNumber.setText("剩余"+goods.getGoodsStock()+"件");
+        holder.itemNumber.setText("剩余" + goods.getGoodsStock() + "件");
     }
 
     @Override
@@ -113,18 +115,19 @@ public class Adapter2MainActivity extends RecyclerView.Adapter<Adapter2MainActiv
         this.mOnItemClickListener = listener;
     }
 
-    static class MyViewHolder extends RecyclerView.ViewHolder{
+    static class MyViewHolder extends RecyclerView.ViewHolder {
         View itemView;
         //item展示图
         RoundImageView1 itrmDisplayDiagram;
         //item标题、描述、价格、剩余件数
-        TextView itemTitle,itemDescribe,itemPrice,itemNumber;
+        TextView itemTitle, itemDescribe, itemPrice, itemNumber;
         //item三个点
         ImageView itemMore;
+
         public MyViewHolder(View itemView) {
             super(itemView);
             //重要
-            this.itemView =itemView;
+            this.itemView = itemView;
             itrmDisplayDiagram = itemView.findViewById(R.id.main_recyclerview_item_display_diagram2);
             itemTitle = itemView.findViewById(R.id.main_recyclerview_item_title2);
             itemDescribe = itemView.findViewById(R.id.main_recyclerview_item_describe2);

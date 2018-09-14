@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,7 +23,7 @@ import com.businessstore.MainConstant;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -158,9 +159,11 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
             @Override
             public void myclick(View v, int position) {
                 mPiclist.remove(position);
-                if (position < mPiclistNum.size()) {
-                    mPiclistNum.remove(position);
-                    pictureInfoList.remove(position);
+                if (mPiclistNum != null) {
+                    if (position < mPiclistNum.size()) {
+                        mPiclistNum.remove(position);
+                        pictureInfoList.remove(position);
+                    }
                 }
                 mGridViewAddImgAdapter.notifyDataSetChanged();
             }
@@ -209,8 +212,8 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
                 String compressPath = pictureInfoList.get(i).getUrlsmall();
                 //把图片添加到将要上传的图片数组中
                 mPiclist.add(compressPath);
-                mPiclistNum.addAll(mPiclist);
             }
+            mPiclistNum.addAll(mPiclist);
 
             mGridViewAddImgAdapter.notifyDataSetChanged();
 
@@ -290,11 +293,13 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
      * @param position 当前点击的位置
      */
     private void viewPluImg(int position) {
-        ArrayList<PictureInfo> maList = new ArrayList<>(pictureInfoList);
         Intent intent = new Intent(mContext, PlusImageActivity.class);
         intent.putStringArrayListExtra(MainConstant.IMG_LIST, mPiclist);
-        intent.putStringArrayListExtra(MainConstant.IMG_LIST_NUM, mPiclistNum);
-        intent.putParcelableArrayListExtra(MainConstant.IMG_LIST_NUM_ALL, maList);
+        if (pictureInfoList != null) {
+            ArrayList<PictureInfo> maList = new ArrayList<>(pictureInfoList);
+            intent.putStringArrayListExtra(MainConstant.IMG_LIST_NUM, mPiclistNum);
+            intent.putParcelableArrayListExtra(MainConstant.IMG_LIST_NUM_ALL, maList);
+        }
         intent.putExtra(MainConstant.POSITION, position);
         startActivityForResult(intent, MainConstant.REQUEST_CODE_MAIN);
     }
@@ -356,79 +361,71 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
             //要删除的图片的集合
             ArrayList<String> toDeletePicList = data.getStringArrayListExtra(MainConstant.IMG_LIST);
             //要删除的图片的集合
-            ArrayList<String> toDeletePicListNum = data.getStringArrayListExtra(MainConstant.IMG_LIST_NUM);
-            List<PictureInfo> toDeletePiclistNumAll = data.getParcelableArrayListExtra(MainConstant.IMG_LIST_NUM_ALL);
             mPiclist.clear();
-            mPiclistNum.clear();
-            pictureInfoList.clear();
             mPiclist.addAll(toDeletePicList);
-            mPiclistNum.addAll(toDeletePicListNum);
-            pictureInfoList.addAll(toDeletePiclistNumAll);
+            if (mPiclistNum != null && mPiclistNum.size() != 0) {
+                ArrayList<String> toDeletePicListNum = data.getStringArrayListExtra(MainConstant.IMG_LIST_NUM);
+                List<PictureInfo> toDeletePiclistNumAll = data.getParcelableArrayListExtra(MainConstant.IMG_LIST_NUM_ALL);
+                mPiclistNum.clear();
+                pictureInfoList.clear();
+                mPiclistNum.addAll(toDeletePicListNum);
+                pictureInfoList.addAll(toDeletePiclistNumAll);
+            }
             mGridViewAddImgAdapter.notifyDataSetChanged();
         }
     }
 
     private void save() {
-        List<File> files = new ArrayList<>();
+        if (isEmpty()) {
+            showDialogprogressBarWithString("正在上传");
+            PostRequest<String> request = OkGo.<String>post(Config.URL + "/goods/addGoods")
+                    .tag(this)
+                    .params("sellerId", loginResult.getSellerId())
+                    .params("appKey", loginResult.getAppKey())
+                    .params("goodsName", editTitle.getText().toString().trim())
+                    .params("goodsInfo", editContent.getText().toString().trim())
+                    .params("tradPosition", currentLocation.getText().toString().trim())
+                    .params("maxPrice", editPrice.getText().toString().trim())
+                    .params("minPrice", editPriceMin.getText().toString().trim())
+                    .params("goodsStock", number.getText().toString().trim());
+            for (int mm = 0; mm < mPiclist.size(); mm++) {
+                request.params("img" + mm, new File(mPiclist.get(mm)));
+            }
 
-        for (int i = 0; i < mPiclist.size(); i++) {
-            File file = new File(mPiclist.get(i));
-            files.add(file);
-        }
-        showDialogprogressBarWithString("正在上传");
-        PostRequest<String> request = OkGo.<String>post(Config.URL + "/goods/addGoods")
-                .tag(this)
-                .addFileParams("pictrueInfo", files)
-                .params("sellerId", loginResult.getSellerId())
-                .params("appKey", loginResult.getAppKey())
-                .params("goodsName", editTitle.getText().toString().trim())
-                .params("goodsInfo", editContent.getText().toString().trim())
-                .params("tradPosition", currentLocation.getText().toString().trim())
-                .params("maxPrice", editPrice.getText().toString().trim())
-                .params("minPrice", editPriceMin.getText().toString().trim())
-                .params("goodsStock", number.getText().toString().trim());
-//                .params("priceOpen", pubprice)
-//                .params("stockOpen", pubnumber)
-
-        request.execute(new StringCallback() {
-            @Override
-            public void onSuccess(Response<String> response) {
-                String responeseData = response.body();
-                Gson gson = new Gson();
-                Json<Goods> jsonData = gson.fromJson(responeseData, new TypeToken<Json<Goods>>() {
-                }.getType());
-                if (jsonData.getCode() == 0) {
-                    dissmissDialogprogressBarWithString();
-                    Toast.makeText(mContext, jsonData.getMsg(), Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(CommodityUploadActivity.this, MainActivity.class);
-                    startActivity(intent);
-                } else {
-                    dissmissDialogprogressBarWithString();
-                    Toast.makeText(mContext, jsonData.getMsg(), Toast.LENGTH_SHORT).show();
+            request.execute(new StringCallback() {
+                @Override
+                public void onSuccess(Response<String> response) {
+                    Log.d("loglog", response.body());
+                    String responeseData = response.body();
+                    Gson gson = new Gson();
+                    Json<Goods> jsonData = gson.fromJson(responeseData, new TypeToken<Json<Goods>>() {
+                    }.getType());
+                    if (jsonData.getCode() == 0) {
+                        dissmissDialogprogressBarWithString();
+                        Toast.makeText(mContext, jsonData.getMsg(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(CommodityUploadActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    } else {
+                        dissmissDialogprogressBarWithString();
+                        Toast.makeText(mContext, jsonData.getMsg(), Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
 
-            @Override
-            public void onError(Response<String> response) {
-                dissmissDialogprogressBarWithString();
-                super.onError(response);
-                Toast.makeText(mContext, "请求错误", Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onError(Response<String> response) {
+                    dissmissDialogprogressBarWithString();
+                    super.onError(response);
+                    Toast.makeText(mContext, "请求错误", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
-    private void editor() {
-        List<File> files = new ArrayList<>();
-        if (mPiclistNum != null) {
-            for (int i = mPiclistNum.size() - 1; i < mPiclist.size(); i++) {
-                File file = new File(mPiclist.get(i));
-                files.add(file);
-            }
-        }
 
+    private void editor() {
         JSONArray pictureArray = new JSONArray();
         for (int i = 0; i < pictureInfoList.size(); i++) {
-            Map<String, String> piclistEdit = new HashMap<>(9);
+            Map<String, String> piclistEdit = new LinkedHashMap<>();
             piclistEdit.put("width", pictureInfoList.get(i).getWidth() + "");
             piclistEdit.put("height", pictureInfoList.get(i).getHeight() + "");
             piclistEdit.put("urllarge", pictureInfoList.get(i).getUrllarge() + "");
@@ -436,48 +433,66 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
             JSONObject pictureObject = new JSONObject(piclistEdit);
             pictureArray.put(pictureObject);
         }
-        showDialogprogressBarWithString("正在完成编辑");
-        PostRequest<String> request = OkGo.<String>post(Config.URL + "/goods/editGoods")
-                .tag(this)
-                .addFileParams("pictrueInfo", files)
-                .params("oldPictureInfo", pictureArray.toString())
-                .params("sellerId", loginResult.getSellerId())
-                .params("appKey", loginResult.getAppKey())
-                .params("goodsId", goodsId)
-                .params("goodsName", editTitle.getText().toString().trim())
-                .params("goodsInfo", editContent.getText().toString().trim())
-                .params("tradPosition", currentLocation.getText().toString().trim())
-                .params("maxPrice", editPrice.getText().toString().trim())
-                .params("minPrice", editPriceMin.getText().toString().trim())
-                .params("goodsStock", number.getText().toString().trim());
-//                .params("priceOpen", pubprice)
-//                .params("stockOpen", pubnumber)
-
-        request.execute(new StringCallback() {
-            @Override
-            public void onSuccess(Response<String> response) {
-                String responeseData = response.body();
-                Gson gson = new Gson();
-                Json<Goods> jsonData = gson.fromJson(responeseData, new TypeToken<Json<Goods>>() {
-                }.getType());
-                if (jsonData.getCode() == 0) {
-                    dissmissDialogprogressBarWithString();
-                    Toast.makeText(mContext, jsonData.getMsg(), Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(CommodityUploadActivity.this, MainActivity.class);
-                    startActivity(intent);
-                } else {
-                    dissmissDialogprogressBarWithString();
-                    Toast.makeText(mContext, jsonData.getMsg(), Toast.LENGTH_SHORT).show();
+        if (isEmpty()) {
+            showDialogprogressBarWithString("正在完成编辑");
+            PostRequest<String> request = OkGo.<String>post(Config.URL + "/goods/editGoods")
+                    .tag(this)
+                    .params("oldPictureInfo", pictureArray.toString())
+                    .params("sellerId", loginResult.getSellerId())
+                    .params("appKey", loginResult.getAppKey())
+                    .params("goodsId", goodsId)
+                    .params("goodsName", editTitle.getText().toString().trim())
+                    .params("goodsInfo", editContent.getText().toString().trim())
+                    .params("tradPosition", currentLocation.getText().toString().trim())
+                    .params("maxPrice", editPrice.getText().toString().trim())
+                    .params("minPrice", editPriceMin.getText().toString().trim())
+                    .params("goodsStock", number.getText().toString().trim());
+            for (int i = mPiclistNum.size(); i < mPiclist.size(); i++) {
+                request.params("img" + i, new File(mPiclist.get(i)));
+            }
+            request.execute(new StringCallback() {
+                @Override
+                public void onSuccess(Response<String> response) {
+                    Log.d("loglog", response.body());
+                    String responeseData = response.body();
+                    Gson gson = new Gson();
+                    Json<Goods> jsonData = gson.fromJson(responeseData, new TypeToken<Json<Goods>>() {
+                    }.getType());
+                    if (jsonData.getCode() == 0) {
+                        dissmissDialogprogressBarWithString();
+                        Toast.makeText(mContext, jsonData.getMsg(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(CommodityUploadActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    } else {
+                        dissmissDialogprogressBarWithString();
+                        Toast.makeText(mContext, jsonData.getMsg(), Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
 
-            @Override
-            public void onError(Response<String> response) {
-                dissmissDialogprogressBarWithString();
-                super.onError(response);
-                Toast.makeText(mContext, "请求错误", Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onError(Response<String> response) {
+                    dissmissDialogprogressBarWithString();
+                    super.onError(response);
+                    Toast.makeText(mContext, "请求错误", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
+
+    private boolean isEmpty() {
+        if (editTitle.getText().toString().isEmpty()) {
+            ToastUtils.showShortToast(mContext, "请输入商品标题");
+            return false;
+        } else if (editContent.getText().toString().isEmpty()) {
+            ToastUtils.showShortToast(mContext, "请输入商品介绍");
+            return false;
+        } else if (mPiclist.size() == 0) {
+            ToastUtils.showShortToast(mContext, "请添加图片");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
 }
 

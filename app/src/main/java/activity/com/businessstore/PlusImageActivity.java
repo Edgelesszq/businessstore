@@ -81,11 +81,13 @@ public class PlusImageActivity extends AppCompatActivity implements ViewPager.On
 
     //返回上一个页面
     private void back() {
-        ArrayList<PictureInfo> maList = new ArrayList<>(pictureInfoList);
         Intent intent = getIntent();
         intent.putStringArrayListExtra(MainConstant.IMG_LIST, imgList);
-        intent.putStringArrayListExtra(MainConstant.IMG_LIST_NUM, imgListNum);
-        intent.putParcelableArrayListExtra(MainConstant.IMG_LIST_NUM_ALL,maList);
+        if (pictureInfoList != null) {
+            ArrayList<PictureInfo> maList = new ArrayList<>(pictureInfoList);
+            intent.putStringArrayListExtra(MainConstant.IMG_LIST_NUM, imgListNum);
+            intent.putParcelableArrayListExtra(MainConstant.IMG_LIST_NUM_ALL, maList);
+        }
         setResult(MainConstant.RESULT_CODE_VIEW_IMG, intent);
         finish();
     }
