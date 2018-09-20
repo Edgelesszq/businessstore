@@ -183,7 +183,7 @@
                         android:layout_marginTop="10dp"
                         android:background="@color/my_account_number_line" />
 
-                    <com.businessstore.view.scrollview.NoScrollListview
+                    <ListView
                         android:id="@+id/commodity_details_listview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -192,7 +192,8 @@
                         android:listSelector="@android:color/transparent"
                         >
 
-                    </com.businessstore.view.scrollview.NoScrollListview>
+                    </ListView>
+
 
                 </LinearLayout>
 

@@ -149,7 +149,7 @@ public class AdapterMyMessageRecycler extends RecyclerView.Adapter implements Vi
         if (position==10){
             return 0;
         }
-        else return COMMENT_TYPE;
+        else {return COMMENT_TYPE;}
     }
 
     @Override

@@ -11,11 +11,13 @@
         android:gravity="center_vertical">
 
         <com.businessstore.view.roundImageView.RoundImageView
+            android:id="@+id/writer_head"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:src="@mipmap/default_head_image" />
 
         <TextView
+            android:id="@+id/writer_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -25,6 +27,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/writer_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="45dp"
@@ -47,6 +50,7 @@
             android:textSize="11sp" />
 
         <TextView
+            android:id="@+id/text_reply"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -57,6 +61,7 @@
 
 
     <LinearLayout
+        android:id="@+id/linear_reply"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="45dp"
@@ -68,6 +73,7 @@
         android:paddingTop="10dp">
 
         <LinearLayout
+            android:id="@+id/linear_reply1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -78,11 +84,13 @@
                 android:gravity="center_vertical">
 
                 <com.businessstore.view.roundImageView.RoundImageView
+                    android:id="@+id/reply_head1"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@mipmap/default_head_image" />
 
                 <TextView
+                    android:id="@+id/reply_name1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -93,6 +101,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/reply_content1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40dp"
@@ -104,6 +113,7 @@
 
 
         <LinearLayout
+            android:id="@+id/linear_reply2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -115,11 +125,13 @@
                 android:gravity="center_vertical">
 
                 <com.businessstore.view.roundImageView.RoundImageView
+                    android:id="@+id/reply_head2"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@mipmap/default_head_image" />
 
                 <TextView
+                    android:id="@+id/reply_name2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -130,6 +142,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/reply_content2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40dp"

@@ -110,7 +110,7 @@ public class ReplyActivity extends BaseActivity implements View.OnClickListener{
                 finish();
                 break;
 
-
+            default:break;
         }
     }
 }

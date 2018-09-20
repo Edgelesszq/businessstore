@@ -299,11 +299,36 @@ public class MainSearchActivity extends BaseActivity implements View.OnClickList
      * 点击删除
      */
     private void delete() {
+        final int position = popWindow.getPosition();
         final DialogStyleOne dialogStyleOne = new DialogStyleOne(this);
         dialogStyleOne.setYesOnclickListener("是", new DialogStyleOne.onYesOnclickListener() {
             @Override
             public void onYesClick() {
                 dialogStyleOne.dismiss();
+                OkGo.<String>put(Config.URL + "/goods/deleteGoods")
+                        .tag(this)
+                        .params("sellerId",loginResult.getSellerId())
+                        .params("appKey",loginResult.getAppKey())
+                        .params("goodsId",mList.get(position).getGoodsId())
+                        .execute(new StringCallback() {
+                            @Override
+                            public void onSuccess(Response<String> response) {
+
+                                Gson gson = new Gson();
+                                Json<String> jsonData = gson.fromJson(response.body(),new TypeToken<Json<String>>(){}.getType());
+                                if (jsonData.getCode() == 0){
+                                    mList.remove(position);
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            mAdapterMainActivity.notifyDataSetChanged();
+                                        }
+                                    });
+                                }else if (jsonData.getCode() == 1){
+                                    ToastUtils.showShortToast(mContext,jsonData.getMsg());
+                                }
+                            }
+                        });
             }
         });
         dialogStyleOne.setNoOnclickListener("否", new DialogStyleOne.onNoOnclickListener() {

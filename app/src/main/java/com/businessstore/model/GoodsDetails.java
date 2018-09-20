@@ -5,7 +5,7 @@ import java.util.List;
 
 public class GoodsDetails implements Serializable {
     private Goods goodsInfo;
-    private List<Comment> comment;
+    private List<Reply> comment;
 
     public Goods getGoodsInfo() {
         return goodsInfo;
@@ -15,11 +15,11 @@ public class GoodsDetails implements Serializable {
         this.goodsInfo = goodsInfo;
     }
 
-    public List<Comment> getComment() {
+    public List<Reply> getComment() {
         return comment;
     }
 
-    public void setComment(List<Comment> comment) {
+    public void setComment(List<Reply> comment) {
         this.comment = comment;
     }
 }

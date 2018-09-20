@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.businessstore.Config;
+import com.businessstore.model.Reply;
 import com.businessstore.util.DpConversion;
 import com.businessstore.util.StatusBarUtil;
 
@@ -28,7 +29,7 @@ public class OrderCommodityDetailsActivity extends BaseActivity implements View.
     private ListView mListView;
     int leght = 9;
     private AdapterCommodityDetailsActivityListView adapterCommodityDetailsActivityListView;
-    private List<String> mDatas;
+    private List<Reply> mDatas;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,10 +43,7 @@ public class OrderCommodityDetailsActivity extends BaseActivity implements View.
     }
 
     private void initAdapter() {
-        mDatas = new ArrayList<String>();
-        for (int i = 0; i < 10; i++) {
-            mDatas.add("ASD");
-        }
+        mDatas = new ArrayList<Reply>(10);
 
         mListView = findViewById(R.id.commodity_details_listview);
         adapterCommodityDetailsActivityListView = new AdapterCommodityDetailsActivityListView(mDatas,mContext);

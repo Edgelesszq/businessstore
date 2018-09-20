@@ -240,9 +240,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 // RecyclerView Item 的点击事件回调
                 Intent intent = new Intent(MainActivity.this,
                         MainCommodityDetailsActivity.class);
+                ArrayList<PictureInfo> pic = new ArrayList<>(mList.get(position).getPictureInfo());
                 intent.putExtra("goodsId", mList.get(position).getGoodsId());
+                intent.putExtra("goodsName",mList.get(position).getGoodsName());
+                intent.putExtra("goodsInfo",mList.get(position).getGoodsInfo());
+                intent.putExtra("goodsStock",mList.get(position).getGoodsStock());
+                intent.putExtra("goodsMinPrice",mList.get(position).getMinPrice());
+                intent.putExtra("goodsMaxPrice",mList.get(position).getMaxprice());
+                intent.putParcelableArrayListExtra("goodsPictureInfo",pic);
                 startActivity(intent);
-                Toast.makeText(mContext, "Item 的点击事件", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -391,22 +397,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 break;
             case R.id.main_recyclerview_item_more_pop_delete:
                 //删除
-                final DialogStyleOne dialogStyleOne = new DialogStyleOne(this);
-                dialogStyleOne.setYesOnclickListener("是", new DialogStyleOne.onYesOnclickListener() {
-                    @Override
-                    public void onYesClick() {
-                        dialogStyleOne.dismiss();
-                    }
-                });
-                dialogStyleOne.setNoOnclickListener("否", new DialogStyleOne.onNoOnclickListener() {
-                    @Override
-                    public void onNoClick() {
-                        dialogStyleOne.dismiss();
-                    }
-                });
-                dialogStyleOne.show();
-                popWindow.dismiss();
-                mPopwindowIsShow = true;
+                delete();
                 break;
             case R.id.main_recyclerview_item_more_pop_share:
 //                Toast.makeText(mContext, "分享", Toast.LENGTH_SHORT).show();
@@ -435,7 +426,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
             case R.id.qrcode:
                 Toast.makeText(this, "二维码", Toast.LENGTH_SHORT).show();
                 break;
-
+            //消息
             case R.id.message_imgview:
                 Intent mymessageIntent = new Intent(MainActivity.this,
                         MyMessageActivity.class);
@@ -444,6 +435,50 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
             default:
                 break;
         }
+    }
+
+    private void delete() {
+        final int position = popWindow.getPosition();
+        final DialogStyleOne dialogStyleOne = new DialogStyleOne(this);
+        dialogStyleOne.setYesOnclickListener("是", new DialogStyleOne.onYesOnclickListener() {
+            @Override
+            public void onYesClick() {
+                dialogStyleOne.dismiss();
+                OkGo.<String>put(Config.URL + "/goods/deleteGoods")
+                        .tag(this)
+                        .params("sellerId",loginResult.getSellerId())
+                        .params("appKey",loginResult.getAppKey())
+                        .params("goodsId",mList.get(position).getGoodsId())
+                        .execute(new StringCallback() {
+                            @Override
+                            public void onSuccess(Response<String> response) {
+
+                                Gson gson = new Gson();
+                                Json<String> jsonData = gson.fromJson(response.body(),new TypeToken<Json<String>>(){}.getType());
+                                if (jsonData.getCode() == 0){
+                                    mList.remove(position);
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            mAdapterMainActivity.notifyDataSetChanged();
+                                        }
+                                    });
+                                }else if (jsonData.getCode() == 1){
+                                    ToastUtils.showShortToast(mContext,jsonData.getMsg());
+                                }
+                            }
+                        });
+            }
+        });
+        dialogStyleOne.setNoOnclickListener("否", new DialogStyleOne.onNoOnclickListener() {
+            @Override
+            public void onNoClick() {
+                dialogStyleOne.dismiss();
+            }
+        });
+        dialogStyleOne.show();
+        popWindow.dismiss();
+        mPopwindowIsShow = true;
     }
 
 
