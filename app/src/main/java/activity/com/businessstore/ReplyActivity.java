@@ -14,6 +14,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.businessstore.Config;
+import com.businessstore.model.LoginResult;
+import com.businessstore.util.SharedPreferencesUtil;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Response;
+
 import java.util.zip.Inflater;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -25,6 +32,7 @@ public class ReplyActivity extends BaseActivity implements View.OnClickListener{
     private TextView total_recovery,retract_more;
     int j,i=8;
     private LayoutInflater inflater;
+    private LoginResult loginResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,15 +40,29 @@ public class ReplyActivity extends BaseActivity implements View.OnClickListener{
         setContentView(R.layout.activity_reply_message);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         mcontext = this;
+
+        loginResult = SharedPreferencesUtil.getObject(this,"loginResult");
         initview();
         addview();
-
-
 
     }
 
     private void addview() {
+        int goodsId = getIntent().getIntExtra("goodsId",0);
+        int commentId = getIntent().getIntExtra("commentId",0);
 
+        OkGo.<String>post(Config.URL + "/goods/queryAComment")
+                .tag(this)
+                .params("sellerId",loginResult.getSellerId())
+                .params("appKey",loginResult.getAppKey())
+                .params("goodsId",goodsId)
+                .params("commentId",commentId)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+
+                    }
+                });
     }
 
     public void initview(){

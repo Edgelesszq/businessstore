@@ -43,7 +43,7 @@ public class MainCommodityDetailsActivity extends BaseActivity implements View.O
     private ListView mListView;
     private int goodsId;
     private AdapterCommodityDetailsActivityListView adapterCommodityDetailsActivityListView;
-    private List<Reply> mDatas,mReply = new ArrayList<>();
+    private List<Reply> mDatas;
     private int position=0;
     private List<String> urlList;
     private ObservableScrollView details_scrollview;
@@ -104,7 +104,7 @@ public class MainCommodityDetailsActivity extends BaseActivity implements View.O
         allInfo();
 
         mListView = findViewById(R.id.commodity_details_listview);
-        adapterCommodityDetailsActivityListView = new AdapterCommodityDetailsActivityListView(mDatas,mContext);
+        adapterCommodityDetailsActivityListView = new AdapterCommodityDetailsActivityListView(mDatas,mContext,goodsId);
         mListView.setAdapter(adapterCommodityDetailsActivityListView);
 
 
@@ -187,9 +187,11 @@ public class MainCommodityDetailsActivity extends BaseActivity implements View.O
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(mContext,""+finalI +"" ,Toast.LENGTH_SHORT).show();
+                        ArrayList<PictureInfo> mPictureInfoList = new ArrayList<>();
+                        mPictureInfoList.addAll(pictureInfoList);
                         Intent intent=new Intent(MainCommodityDetailsActivity.this,BigPhotoActivity.class);
                         intent.putExtra("posi",finalI);
+                        intent.putParcelableArrayListExtra("pictureInfoList",mPictureInfoList);
                         startActivity(intent);
                     }
                 });
@@ -234,12 +236,6 @@ public class MainCommodityDetailsActivity extends BaseActivity implements View.O
                             dissmissDialogprogressBarWithString();
                             mDatas.clear();
                             mDatas.addAll(jsonData.getData().getComment());
-                            for (int i = 0; i < mDatas.size();i++){
-                                List<Reply> mReplyList = haveReply(mDatas,i);
-                                mReply.clear();
-
-                            }
-
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -263,22 +259,6 @@ public class MainCommodityDetailsActivity extends BaseActivity implements View.O
                         ToastUtils.showShortToast(mContext,"请求错误");
                     }
                 });
-    }
-
-    /**
-     * 递归获取所有的回复
-     * @param replyList 消息列表
-     * @param i 节点
-     * @return mReply
-     */
-    private List<Reply> haveReply(List<Reply> replyList,int i){
-        if (replyList.get(i).getReply()!=null){
-            for (int j = 0; j < replyList.get(i).getReply().size();j++) {
-                mReply.add(replyList.get(i).getReply().get(j));
-                return haveReply(replyList.get(i).getReply(),j);
-            }
-        }
-        return mReply;
     }
 
     /**

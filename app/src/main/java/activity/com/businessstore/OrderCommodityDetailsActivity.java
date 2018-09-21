@@ -46,7 +46,7 @@ public class OrderCommodityDetailsActivity extends BaseActivity implements View.
         mDatas = new ArrayList<Reply>(10);
 
         mListView = findViewById(R.id.commodity_details_listview);
-        adapterCommodityDetailsActivityListView = new AdapterCommodityDetailsActivityListView(mDatas,mContext);
+        adapterCommodityDetailsActivityListView = new AdapterCommodityDetailsActivityListView(mDatas,mContext,0);
         mListView.setAdapter(adapterCommodityDetailsActivityListView);
 
     }

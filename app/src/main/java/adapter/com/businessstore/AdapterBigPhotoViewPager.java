@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 
+import com.businessstore.model.PictureInfo;
 import com.businessstore.view.fragment.BigPhotoFragment;
 
 import java.util.ArrayList;
@@ -22,9 +23,9 @@ import activity.com.businessstore.R;
 public class AdapterBigPhotoViewPager extends FragmentPagerAdapter {
 
 
-   private final ArrayList<String> urlList;
+   private final List<PictureInfo> urlList;
 
-    public AdapterBigPhotoViewPager(FragmentManager fm, ArrayList<String> urlList) {
+    public AdapterBigPhotoViewPager(FragmentManager fm, List<PictureInfo> urlList) {
         super(fm);
         this.urlList=urlList;
 
@@ -33,7 +34,7 @@ public class AdapterBigPhotoViewPager extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
 
-        return BigPhotoFragment.newInstance(urlList.get(position));
+        return BigPhotoFragment.newInstance(urlList.get(position).getUrllarge());
     }
 
     @Override

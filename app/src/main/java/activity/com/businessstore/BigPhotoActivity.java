@@ -3,21 +3,25 @@ package activity.com.businessstore;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.businessstore.model.PictureInfo;
 import com.businessstore.util.LogUtil;
 import com.businessstore.util.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import adapter.com.businessstore.AdapterBigPhotoViewPager;
+import adapter.com.businessstore.ViewPagerAdapter;
 
 public class BigPhotoActivity extends BaseActivity {
     private ViewPager viewPager;
     private TextView tvNum;
-    private ArrayList<String> urlList;
+    private List<String> stringList;
     private int posi=0;
 
     @Override
@@ -41,12 +45,12 @@ public class BigPhotoActivity extends BaseActivity {
         LogUtil.d("test",""+posi);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         tvNum = (TextView) findViewById(R.id.text_num);
-        AdapterBigPhotoViewPager viewPagerAdapter = new AdapterBigPhotoViewPager(getSupportFragmentManager(),urlList);
-
-        viewPager.setAdapter(viewPagerAdapter);
+//        AdapterBigPhotoViewPager viewPagerAdapter = new AdapterBigPhotoViewPager(getSupportFragmentManager(),stringList);
+//        viewPager.setAdapter(viewPagerAdapter);
+        ViewPagerAdapter mAdapter = new ViewPagerAdapter(this,stringList);
+        viewPager.setAdapter(mAdapter);
         viewPager.setCurrentItem(posi);
-       // tvNum.setText(String.valueOf(position + 1+posi) + "/" + urlList.size());
-        tvNum.setText(posi+1+"/" + urlList.size());
+        tvNum.setText(posi+1+"/" + stringList.size());
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -57,7 +61,7 @@ public class BigPhotoActivity extends BaseActivity {
             public void onPageSelected(int position) {
 
 
-                tvNum.setText(position + 1 + "/" + urlList.size());
+                tvNum.setText(position + 1 + "/" + stringList.size());
             }
 
             @Override
@@ -69,19 +73,11 @@ public class BigPhotoActivity extends BaseActivity {
 
     private void initParam() {
         //需要加载的网络图片
-        String[] urls = {
-                "http://a.hiphotos.baidu.com/image/pic/item/00e93901213fb80e3b0a611d3fd12f2eb8389424.jpg",
-                "http://b.hiphotos.baidu.com/image/pic/item/5243fbf2b2119313999ff97a6c380cd790238d1f.jpg",
-                "http://f.hiphotos.baidu.com/image/pic/item/43a7d933c895d1430055e4e97af082025baf07dc.jpg",
-                "http://a.hiphotos.baidu.com/image/pic/item/00e93901213fb80e3b0a611d3fd12f2eb8389424.jpg",
-                "http://b.hiphotos.baidu.com/image/pic/item/5243fbf2b2119313999ff97a6c380cd790238d1f.jpg",
-                "http://f.hiphotos.baidu.com/image/pic/item/43a7d933c895d1430055e4e97af082025baf07dc.jpg",
-                "http://a.hiphotos.baidu.com/image/pic/item/00e93901213fb80e3b0a611d3fd12f2eb8389424.jpg",
-                "http://b.hiphotos.baidu.com/image/pic/item/5243fbf2b2119313999ff97a6c380cd790238d1f.jpg",
-                "http://f.hiphotos.baidu.com/image/pic/item/43a7d933c895d1430055e4e97af082025baf07dc.jpg",
-        };
 
-        urlList = new ArrayList<>();
-        Collections.addAll(urlList, urls);
+        List<PictureInfo> mList = getIntent().getParcelableArrayListExtra("pictureInfoList");
+        stringList = new ArrayList<>();
+        for (int i = 0; i < mList.size();i++) {
+            stringList.add(mList.get(i).getUrllarge());
+        }
     }
 }

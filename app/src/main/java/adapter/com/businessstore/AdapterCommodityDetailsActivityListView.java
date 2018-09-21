@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 
 import com.bumptech.glide.Glide;
+import com.businessstore.model.GoodsDetails;
 import com.businessstore.model.Reply;
 
 import java.util.ArrayList;
@@ -29,11 +30,13 @@ public class AdapterCommodityDetailsActivityListView extends BaseAdapter impleme
     private Context mContext;
     private LayoutInflater mInflater;
     private List<Reply> mDatas,mReplyList = new ArrayList<>();
+    private int goodsId;
 
-    public AdapterCommodityDetailsActivityListView(List<Reply> mDatas, Context mContext) {
+    public AdapterCommodityDetailsActivityListView(List<Reply> mDatas, Context mContext ,int goodsId) {
         mInflater = LayoutInflater.from(mContext);
         this.mDatas = mDatas;
         this.mContext = mContext;
+        this.goodsId = goodsId;
     }
 
     @Override
@@ -65,7 +68,7 @@ public class AdapterCommodityDetailsActivityListView extends BaseAdapter impleme
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.commodity_details_listview_item, parent, false);
@@ -84,7 +87,6 @@ public class AdapterCommodityDetailsActivityListView extends BaseAdapter impleme
             holder.mLinearLayout = convertView.findViewById(R.id.linear_reply);
             holder.mLinearLayout1 = convertView.findViewById(R.id.linear_reply1);
             holder.mLinearLayout2 = convertView.findViewById(R.id.linear_reply2);
-
 
             holder.mWriterName.setText(mDatas.get(position).getName());
             holder.mWriterContent.setText(mDatas.get(position).getCommentCon());
@@ -120,6 +122,8 @@ public class AdapterCommodityDetailsActivityListView extends BaseAdapter impleme
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, ReplyActivity.class);
+                    intent.putExtra("goodsId",goodsId);
+                    intent.putExtra("commentId",mDatas.get(position).getCommentId());
                     mContext.startActivity(intent);
                 }
             });
@@ -127,7 +131,10 @@ public class AdapterCommodityDetailsActivityListView extends BaseAdapter impleme
                 @Override
                 public void onClick(View v) {
                     //回复点击事件
-
+                    Intent intent = new Intent(mContext, ReplyActivity.class);
+                    intent.putExtra("goodsId",goodsId);
+                    intent.putExtra("commentId",mDatas.get(position).getCommentId());
+                    mContext.startActivity(intent);
                 }
             });
 
