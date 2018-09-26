@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.businessstore.model.GoodsDetails;
 import com.businessstore.model.Reply;
+import com.businessstore.util.HaveReplyUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,7 +93,7 @@ public class AdapterCommodityDetailsActivityListView extends BaseAdapter impleme
             holder.mWriterContent.setText(mDatas.get(position).getCommentCon());
             Glide.with(mContext).load(mDatas.get(position).getHead()).into(holder.mWriterHead);
 
-            List<Reply> mhave = haveReply(mDatas,position);
+            List<Reply> mhave = HaveReplyUtil.haveReply(mDatas,position);
             if (mhave.size() >= 2){
                 holder.replyName1.setText(mhave.get(0).getName());
                 holder.replyContent1.setText(mhave.get(0).getCommentCon());

@@ -11,7 +11,7 @@ import android.os.Parcelable;
  */
 public class Order implements Parcelable{
     private int orderId;
-    private int sellerId;
+    private String orderNumber;
     private int buyerId;
     private int goodsId;
     private int goodsNum;
@@ -31,12 +31,12 @@ public class Order implements Parcelable{
         this.orderId = orderId;
     }
 
-    public int getSellerId() {
-        return sellerId;
+    public String getOrderNumber() {
+        return orderNumber;
     }
 
-    public void setSellerId(int sellerId) {
-        this.sellerId = sellerId;
+    public void setOrderNumber(String sellerId) {
+        this.orderNumber = sellerId;
     }
 
     public int getBuyerId() {
@@ -127,7 +127,7 @@ public class Order implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.orderId);
-        dest.writeInt(this.sellerId);
+        dest.writeString(this.orderNumber);
         dest.writeInt(this.buyerId);
         dest.writeInt(this.goodsId);
         dest.writeInt(this.goodsNum);
@@ -145,7 +145,7 @@ public class Order implements Parcelable{
 
     protected Order(Parcel in) {
         this.orderId = in.readInt();
-        this.sellerId = in.readInt();
+        this.orderNumber = in.readString();
         this.buyerId = in.readInt();
         this.goodsId = in.readInt();
         this.goodsNum = in.readInt();

@@ -8,16 +8,16 @@
         android:layout_width="match_parent"
         android:layout_height="0dp">
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_marginLeft="10dp"
             android:id="@+id/head_circle"
+            android:layout_marginLeft="10dp"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/qidong"/>
         <TextView
+            android:id="@+id/name_circle"
             android:layout_marginLeft="10dp"
             android:text="zhanshan"
             android:gravity="center_vertical"
-            android:id="@+id/username"
             android:layout_toRightOf="@id/head_circle"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
@@ -34,6 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp">
         <TextView
+            android:id="@+id/content_circle"
             android:gravity="center_vertical"
             android:text="哎哟，今天的天气不错哟！"
             android:layout_marginLeft="60dp"

@@ -2,37 +2,42 @@ package activity.com.businessstore;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.businessstore.Config;
+import com.businessstore.model.Json;
 import com.businessstore.model.LoginResult;
+import com.businessstore.model.Reply;
+import com.businessstore.util.HaveReplyUtil;
 import com.businessstore.util.SharedPreferencesUtil;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 
-import java.util.zip.Inflater;
-
-import de.hdodenhof.circleimageview.CircleImageView;
+import java.util.List;
 
 
 public class ReplyActivity extends BaseActivity implements View.OnClickListener{
     private LinearLayout comment_layout,total_layout,retract_layout;
     private Context mcontext;
     private TextView total_recovery,retract_more;
-    int j,i=8;
+    private TextView replyName,replyContent,circleName,circleContent;
+    private int x;
+    private List<Reply> replyList;
+    private Reply first;
     private LayoutInflater inflater;
     private LoginResult loginResult;
+    private ImageView head,circleHead;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +65,52 @@ public class ReplyActivity extends BaseActivity implements View.OnClickListener{
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
+                        Gson gson = new Gson();
+                        Json<Reply> jsonData = gson.fromJson(response.body(),new TypeToken<Json<Reply>>(){}.getType());
+                        if (jsonData.getCode() == 0) {
+                            first = jsonData.getData();
+                            replyList = HaveReplyUtil.haveReplyX(first,0);
+                            x = replyList.size();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Glide.with(mcontext).load(first.getHead()).into(head);
+                                    replyName.setText(first.getName());
+                                    replyContent.setText(first.getCommentCon());
+                                    if(x>4){
+                                        for (int j=0;j<4;j++){
+                                            LinearLayout linearLayout=(LinearLayout)inflater.inflate(R.layout.message__linearlayout_reply_item,null);
+                                            comment_layout.addView(linearLayout);
+                                            total_layout.setVisibility(View.VISIBLE);
+                                            circleHead = linearLayout.findViewById(R.id.head_circle);
+                                            circleName = linearLayout.findViewById(R.id.name_circle);
+                                            circleContent = linearLayout.findViewById(R.id.content_circle);
+                                            Glide.with(mcontext).load(replyList.get(j)).into(circleHead);
+                                            circleName.setText(replyList.get(j).getName());
+                                            circleContent.setText(replyList.get(j).getCommentCon());
+                                            total_recovery.setText("共有"+""+x+"条留言");
+
+                                        }
+
+                                    }
+                                    else{
+                                        for (int j=0;j<x;j++) {
+                                            LinearLayout linearLayout=(LinearLayout)inflater.inflate(R.layout.message__linearlayout_reply_item,null);
+                                            comment_layout.addView(linearLayout);
+                                            circleHead = linearLayout.findViewById(R.id.head_circle);
+                                            circleName = linearLayout.findViewById(R.id.name_circle);
+                                            circleContent = linearLayout.findViewById(R.id.content_circle);
+                                            Glide.with(mcontext).load(replyList.get(j)).into(circleHead);
+                                            circleName.setText(replyList.get(j).getName());
+                                            circleContent.setText(replyList.get(j).getCommentCon());
+                                        }
+                                    }
+                                }
+                            });
+
+                        }else if (jsonData.getCode() == 1){
+
+                        }
 
                     }
                 });
@@ -78,23 +129,9 @@ public class ReplyActivity extends BaseActivity implements View.OnClickListener{
         retract_layout.setOnClickListener(this);
         retract_more=findViewById(R.id.retract_more);
         retract_more.setOnClickListener(this);
-        if(i>4){
-            for ( j=0;j<4;j++){
-                LinearLayout linearLayout=(LinearLayout)inflater.inflate(R.layout.message__linearlayout_reply_item,null);
-                comment_layout.addView(linearLayout);
-                total_layout.setVisibility(View.VISIBLE);
-                total_recovery.setText("共有"+""+i+"条留言");
-
-            }
-
-        }
-        else{
-            for ( j=0;j<i;j++) {
-                LinearLayout linearLayout=(LinearLayout)inflater.inflate(R.layout.message__linearlayout_reply_item,null);
-
-                comment_layout.addView(linearLayout);
-            }
-        }
+        replyName = findViewById(R.id.reply_name);
+        head = findViewById(R.id.reply_head);
+        replyContent = findViewById(R.id.reply_content);
 
 
     }
@@ -106,9 +143,14 @@ public class ReplyActivity extends BaseActivity implements View.OnClickListener{
             case R.id.total_layout:
                 comment_layout.removeAllViews();
 
-                for ( j=0;j<i;j++) {
+                for (int j=0;j<x;j++) {
                     LinearLayout linearLayout=(LinearLayout)inflater.inflate(R.layout.message__linearlayout_reply_item,null);
-
+                    circleHead = linearLayout.findViewById(R.id.head_circle);
+                    circleName = linearLayout.findViewById(R.id.name_circle);
+                    circleContent = linearLayout.findViewById(R.id.content_circle);
+                    Glide.with(mcontext).load(replyList.get(j)).into(circleHead);
+                    circleName.setText(replyList.get(j).getName());
+                    circleContent.setText(replyList.get(j).getCommentCon());
                     comment_layout.addView(linearLayout);
                     total_layout.setVisibility(View.GONE);
                     retract_layout.setVisibility(View.VISIBLE);
@@ -118,12 +160,18 @@ public class ReplyActivity extends BaseActivity implements View.OnClickListener{
                 break;
             case R.id.retract_more:
                 comment_layout.removeAllViews();
-                for ( j=0;j<4;j++){
+                for (int j=0;j<4;j++){
                     LinearLayout linearLayout=(LinearLayout)inflater.inflate(R.layout.message__linearlayout_reply_item,null);
                     comment_layout.addView(linearLayout);
                     total_layout.setVisibility(View.VISIBLE);
-                    total_recovery.setText("共有"+""+i+"条留言");
+                    total_recovery.setText("共有"+""+x+"条留言");
                     retract_layout.setVisibility(View.GONE);
+                    circleHead = linearLayout.findViewById(R.id.head_circle);
+                    circleName = linearLayout.findViewById(R.id.name_circle);
+                    circleContent = linearLayout.findViewById(R.id.content_circle);
+                    Glide.with(mcontext).load(replyList.get(0)).into(circleHead);
+                    circleName.setText(replyList.get(j).getName());
+                    circleContent.setText(replyList.get(j).getCommentCon());
 
 
                 }
@@ -134,5 +182,11 @@ public class ReplyActivity extends BaseActivity implements View.OnClickListener{
 
             default:break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        replyList.clear();
     }
 }

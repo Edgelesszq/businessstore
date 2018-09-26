@@ -26,11 +26,13 @@
         android:gravity="center_vertical">
 
         <com.businessstore.view.roundImageView.RoundImageView
+            android:id="@+id/reply_head"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:src="@mipmap/default_head_image" />
 
         <TextView
+            android:id="@+id/reply_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -40,6 +42,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/reply_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"

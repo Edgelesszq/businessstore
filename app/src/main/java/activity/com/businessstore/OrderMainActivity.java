@@ -128,18 +128,18 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
 
     private void initOder(int x) {
         OkGo.<String>get(Config.URL + "/order/orderList")
-//                .params("sellerId",loginResult.getSellerId())
-//                .params("appKey",loginResult.getAppKey())
+                .params("sellerId",loginResult.getSellerId())
+                .params("appKey",loginResult.getAppKey())
 //                .params("sellerState",x)
+//                .params("createdAt",x)
 //                .params("page",1)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         Gson gson = new Gson();
                         Json<OrderList> jsonData = gson.fromJson(response.body(),new TypeToken<Json<OrderList>>(){}.getType());
-                        Json<OrderList> jsonData2 = gson.fromJson(response.body(),new TypeToken<Json<OrderList>>(){}.getType());
-                        if (jsonData2.getCode() == 0) {
-                            List<Order> orderLists = jsonData2.getData().getList();
+                        if (jsonData.getCode() == 0) {
+                            List<Order> orderLists = jsonData.getData().getList();
                             mlist.addAll(orderLists);
                             runOnUiThread(new Runnable() {
                                 @Override
@@ -147,8 +147,8 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
                                     adapterOrderRecyclerCompleted.notifyDataSetChanged();
                                 }
                             });
-                        }else if (jsonData2.getCode()==1){
-                            ToastUtils.showShortToast(mContext,jsonData2.getMsg());
+                        }else if (jsonData.getCode()==1){
+                            ToastUtils.showShortToast(mContext,jsonData.getMsg());
                         }
 
                     }
