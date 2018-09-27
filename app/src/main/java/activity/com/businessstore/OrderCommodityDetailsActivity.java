@@ -14,9 +14,15 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.businessstore.Config;
+import com.businessstore.model.LoginResult;
 import com.businessstore.model.Reply;
 import com.businessstore.util.DpConversion;
+import com.businessstore.util.SharedPreferencesUtil;
 import com.businessstore.util.StatusBarUtil;
+import com.google.gson.Gson;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,13 +36,16 @@ public class OrderCommodityDetailsActivity extends BaseActivity implements View.
     int leght = 9;
     private AdapterCommodityDetailsActivityListView adapterCommodityDetailsActivityListView;
     private List<Reply> mDatas;
+    private LoginResult loginResult;
+    private int goodsId,OrderId;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.order_main_commodity_details);
         mContext = this;
-
+        loginResult = SharedPreferencesUtil.getObject(mContext,"loginResult");
         getDeviceDensity();
         initView();
         initAdapter();
@@ -49,6 +58,28 @@ public class OrderCommodityDetailsActivity extends BaseActivity implements View.
         adapterCommodityDetailsActivityListView = new AdapterCommodityDetailsActivityListView(mDatas,mContext,0);
         mListView.setAdapter(adapterCommodityDetailsActivityListView);
 
+        Intent intent = getIntent();
+        goodsId = intent.getIntExtra("goodsId",0);
+        OrderId = intent.getIntExtra("OrderId",0);
+
+        OkGo.<String>get(Config.URL + "/order/getOrderById")
+                .tag(this)
+                .params("sellerId",loginResult.getSellerId())
+                .params("appKey",loginResult.getAppKey())
+                .params("goodsId",goodsId)
+                .params("OrderId",OrderId)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        Gson gson = new Gson();
+
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                    }
+                });
     }
     /**
      * 获取当前设备的屏幕密度等基本参数
@@ -109,30 +140,6 @@ public class OrderCommodityDetailsActivity extends BaseActivity implements View.
         }
 
 
-
-
-        /*for (int i = 0; i < leght; i++) {
-            LinearLayout linearLayout = null;
-            if (i % 3 == 0) {
-                linearLayout = new LinearLayout(this);
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                linearLayout.setLayoutParams(layoutParams);
-                linearLayout.setBackgroundColor(0Xffff000);
-            }
-
-            ImageView imageView = new ImageView(this);
-            LinearLayout.LayoutParams imgParams = new LinearLayout.LayoutParams(100, 100);
-            imageView.setLayoutParams(imgParams);
-            imageView.setBackgroundColor(0xffff0000);
-            imgParams.setMargins(0, 0, 10, 10);
-            linearLayout.addView(imageView);
-            if (i % 3 == 2 && i == leght - 1) {
-                mImgViewLinearLayout.addView(linearLayout);
-            }
-
-
-        }*/
-
     }
 
     @Override
@@ -141,6 +148,7 @@ public class OrderCommodityDetailsActivity extends BaseActivity implements View.
             case R.id.title_left_back_img:
                 this.finish();
                 break;
+            default:break;
         }
 
 

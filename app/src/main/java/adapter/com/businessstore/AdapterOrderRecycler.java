@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.bumptech.glide.Glide;
 import com.businessstore.model.Order;
 import com.businessstore.view.dialog.DialogStyleOne;
 
@@ -26,8 +27,6 @@ public class AdapterOrderRecycler extends RecyclerView.Adapter<AdapterOrderRecyc
     private final int COMPLETED_TYPE = 1;
     private final int UND0NE_TYPE = 2;
 
-
-    //private List<MYViewHolder> mHolderList;
 
     public AdapterOrderRecycler(Context mcontext, List<Order> mlist) {
         this.mcontext = mcontext;
@@ -55,6 +54,13 @@ public class AdapterOrderRecycler extends RecyclerView.Adapter<AdapterOrderRecyc
     @Override
     public void onBindViewHolder(final MyCompletedHolder holder, final int position) {
         holder.itemView.setTag(position + "");
+
+        holder.goodsTitle.setText(mlist.get(position).getGoodsName());
+        holder.goodsComment.setText(mlist.get(position).getGoodsInfo());
+        holder.goodsPrice.setText(mlist.get(position).getOrderTotal()+"");
+        holder.goodsDate.setText(mlist.get(position).getCreatedAt());
+        holder.placeOrderNum.setText(mlist.get(position).getOrderNumber());
+        Glide.with(mcontext).load(mlist.get(position).getPictureInfo().get(0).getUrllarge()).into(holder.pictureInfo);
         holder.moreIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,7 +77,7 @@ public class AdapterOrderRecycler extends RecyclerView.Adapter<AdapterOrderRecyc
 
     @Override
     public int getItemCount() {
-        return 20;
+        return mlist.size();
     }
 
 
@@ -91,34 +97,17 @@ public class AdapterOrderRecycler extends RecyclerView.Adapter<AdapterOrderRecyc
         TextView goodsDate;
         TextView placeOrderNum;
         ImageView moreIcon;
+        ImageView pictureInfo;
 
         public MyCompletedHolder(View itemView) {
             super(itemView);
             goodsTitle = itemView.findViewById(R.id.goods_title);
-            goodsComment = itemView.findViewWithTag(R.id.goods_conment);
+            goodsComment = itemView.findViewById(R.id.goods_conment);
             goodsPrice = itemView.findViewById(R.id.goods_price);
             goodsDate = itemView.findViewById(R.id.goods_date);
             moreIcon = itemView.findViewById(R.id.delete_icon);
             placeOrderNum = itemView.findViewById(R.id.place_order);
-        }
-    }
-
-    public class MyUndoneHolder extends RecyclerView.ViewHolder {
-        TextView goodsTitle;
-        TextView goodsComment;
-        TextView goodsPrice;
-        TextView goodsDate;
-        ImageView deleteIcon;
-        TextView placeOrderNum;
-
-        public MyUndoneHolder(View itemView) {
-            super(itemView);
-            goodsTitle = itemView.findViewById(R.id.goods_title);
-            goodsComment = itemView.findViewWithTag(R.id.goods_conment);
-            goodsPrice = itemView.findViewById(R.id.goods_price);
-            goodsDate = itemView.findViewById(R.id.goods_date);
-            deleteIcon = itemView.findViewById(R.id.restore_icon);
-            placeOrderNum = itemView.findViewById(R.id.place_order);
+            pictureInfo = itemView.findViewById(R.id.goods_img);
         }
     }
 

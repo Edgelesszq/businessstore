@@ -3,6 +3,8 @@ package com.businessstore.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 /**
  * Order class
  *
@@ -22,6 +24,17 @@ public class Order implements Parcelable{
     private int sellerState;
     private int buyerState;
     private String createdAt;
+    private String goodsName;
+    private String goodsInfo;
+    private List<PictureInfo> pictureInfo;
+
+    public String getGoodsName() {
+        return goodsName;
+    }
+
+    public void setGoodsName(String goodsName) {
+        this.goodsName = goodsName;
+    }
 
     public int getOrderId() {
         return orderId;
@@ -119,6 +132,25 @@ public class Order implements Parcelable{
         this.createdAt = createdAt;
     }
 
+    public String getGoodsInfo() {
+        return goodsInfo;
+    }
+
+    public void setGoodsInfo(String goodsInfo) {
+        this.goodsInfo = goodsInfo;
+    }
+
+    public List<PictureInfo> getPictureInfo() {
+        return pictureInfo;
+    }
+
+    public void setPictureInfo(List<PictureInfo> pictureInfo) {
+        this.pictureInfo = pictureInfo;
+    }
+
+    public Order() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -138,9 +170,9 @@ public class Order implements Parcelable{
         dest.writeInt(this.sellerState);
         dest.writeInt(this.buyerState);
         dest.writeString(this.createdAt);
-    }
-
-    public Order() {
+        dest.writeString(this.goodsName);
+        dest.writeString(this.goodsInfo);
+        dest.writeTypedList(this.pictureInfo);
     }
 
     protected Order(Parcel in) {
@@ -156,6 +188,9 @@ public class Order implements Parcelable{
         this.sellerState = in.readInt();
         this.buyerState = in.readInt();
         this.createdAt = in.readString();
+        this.goodsName = in.readString();
+        this.goodsInfo = in.readString();
+        this.pictureInfo = in.createTypedArrayList(PictureInfo.CREATOR);
     }
 
     public static final Creator<Order> CREATOR = new Creator<Order>() {

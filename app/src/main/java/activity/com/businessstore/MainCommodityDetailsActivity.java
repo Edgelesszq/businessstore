@@ -177,6 +177,7 @@ public class MainCommodityDetailsActivity extends BaseActivity implements View.O
                 LinearLayout.LayoutParams imgParams = new LinearLayout.LayoutParams(linearLayoutwidth, linearLayoutwidth);
                 imageView.setLayoutParams(imgParams);
                 imageView.setBackgroundColor(0xffF08080);
+                imageView.setScaleType(ImageView.ScaleType.CENTER);
                 imgParams.setMargins(DpConversion.dp2px(mContext, 3), DpConversion.dp2px(mContext, 3), DpConversion.dp2px(mContext, 3), DpConversion.dp2px(mContext, 3));
                 Glide.with(this)
                         .load(pictureInfoList.get(position).getUrllarge())

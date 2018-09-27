@@ -201,6 +201,7 @@
                     android:layout_height="wrap_content" />
                 <ImageView
                     android:id="@+id/img_v1"
+                    android:visibility="gone"
                     android:layout_marginRight="20dp"
                     android:layout_gravity="right|center"
                     android:src="@drawable/v"

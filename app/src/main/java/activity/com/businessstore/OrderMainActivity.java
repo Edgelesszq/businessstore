@@ -1,6 +1,7 @@
 package activity.com.businessstore;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -46,6 +48,7 @@ import com.lzy.okgo.model.Response;
 import org.feezu.liuli.timeselector.TimeSelector;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import adapter.com.businessstore.AdapterOrderRecycler;
@@ -64,12 +67,10 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
     private LinearLayout searchLinerLayout, title_layout;
 
     private FrameLayout select_time_icon, select_order_icon, processed_orders, unprocessed_orders;
-    //    private Toolbar toolbar;
+
     private ImageView time_down, time_up, order_down, order_up,orderCompleted,orderUncompleted;
     private static Boolean TimeIcon = true, OrderIcon = true;
     private LinearLayout order_test;
-    TimeSelector timeSelector;
-    //定单完成的recyclerView 适配器
     private EditText order_search_edit;//搜索输入框
     private ImageView clean_iv;//清空图标
     private TextView cancel_tv;//取消按钮
@@ -80,7 +81,13 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
     private boolean mPopwindowIsShow;
     private LoginResult loginResult;
     private List<Order> mlist  = new ArrayList<>();
-    private int count =2;
+    private int count =2,m = 0;
+    private String timed = null;
+
+    private Calendar ca = Calendar.getInstance();
+    private int mYear = ca.get(Calendar.YEAR);
+    private int mMonth = ca.get(Calendar.MONTH);
+    private int mDay = ca.get(Calendar.DAY_OF_MONTH);
 
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler(){
@@ -122,24 +129,27 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
         loginResult = SharedPreferencesUtil.getObject(this,"loginResult");
 
         initview();
-        initOder(1);
         initAdapter();
+        initOder();
     }
 
-    private void initOder(int x) {
+    private void initOder() {
+        showDialogprogressBarWithString("正在筛选");
         OkGo.<String>get(Config.URL + "/order/orderList")
                 .params("sellerId",loginResult.getSellerId())
                 .params("appKey",loginResult.getAppKey())
-//                .params("sellerState",x)
-//                .params("createdAt",x)
-//                .params("page",1)
+                .params("sellerState",null)
+                .params("createdAt",null)
+                .params("page",1)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         Gson gson = new Gson();
                         Json<OrderList> jsonData = gson.fromJson(response.body(),new TypeToken<Json<OrderList>>(){}.getType());
                         if (jsonData.getCode() == 0) {
+                            dissmissDialogprogressBarWithString();
                             List<Order> orderLists = jsonData.getData().getList();
+                            mlist.clear();
                             mlist.addAll(orderLists);
                             runOnUiThread(new Runnable() {
                                 @Override
@@ -148,9 +158,56 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
                                 }
                             });
                         }else if (jsonData.getCode()==1){
+                            dissmissDialogprogressBarWithString();
                             ToastUtils.showShortToast(mContext,jsonData.getMsg());
                         }
 
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        dissmissDialogprogressBarWithString();
+                    }
+                });
+    }
+
+    private void orderTim() {
+        showDialogprogressBarWithString("正在筛选");
+        OkGo.<String>get(Config.URL + "/order/orderList")
+                .params("sellerId",loginResult.getSellerId())
+                .params("appKey",loginResult.getAppKey())
+                .params("sellerState",m)
+                .params("createdAt",timed)
+                .params("page",1)
+//                .params("time",time)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        Gson gson = new Gson();
+                        Json<OrderList> jsonData2 = gson.fromJson(response.body(),new TypeToken<Json<OrderList>>(){}.getType());
+                        if (jsonData2.getCode() == 0) {
+                            dissmissDialogprogressBarWithString();
+                            List<Order> orderLists = jsonData2.getData().getList();
+                            mlist.clear();
+                            mlist.addAll(orderLists);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    adapterOrderRecyclerCompleted.notifyDataSetChanged();
+                                }
+                            });
+                        }else if (jsonData2.getCode()==1){
+                            dissmissDialogprogressBarWithString();
+                            ToastUtils.showShortToast(mContext,jsonData2.getMsg());
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        dissmissDialogprogressBarWithString();
                     }
                 });
     }
@@ -165,7 +222,8 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
             public void onClick(View v, int position) {
                 Toast.makeText(mContext, "Item 的点击事件", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(OrderMainActivity.this, OrderCommodityDetailsActivity.class);
-
+                intent.putExtra("goodsId",mlist.get(position).getGoodsId());
+                intent.putExtra("OrderId",mlist.get(position).getOrderId());
                 startActivity(intent);
             }
         });
@@ -258,49 +316,9 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
         unprocessed_orders.setOnClickListener(this);
 
 
-        timeSelector = new TimeSelector(this, new TimeSelector.ResultHandler() {
-            @Override
-            public void handle(String time) {
-                //处理选择的时间
-                orderTime(time);
-            }
-        }, "1970-1-1 00:00", "2030-12-1 12:00", "00:00", "12:00");
-        timeSelector.setMode(TimeSelector.MODE.YMD);
-        // autoRefresh();
     }
 
-    private void orderTime(String time) {
-        showDialogprogressBarWithString("正在筛选:");
-        OkGo.<String>get(Config.URL + "/order/orderList")
-//                .params("sellerId",loginResult.getSellerId())
-//                .params("appKey",loginResult.getAppKey())
-//                .params("sellerState",x)
-//                .params("page",1)
-//                .params("time",time)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        Gson gson = new Gson();
-                        Json<OrderList> jsonData = gson.fromJson(response.body(),new TypeToken<Json<OrderList>>(){}.getType());
-                        Json<OrderList> jsonData2 = gson.fromJson(response.body(),new TypeToken<Json<OrderList>>(){}.getType());
-                        if (jsonData2.getCode() == 0) {
-                            dissmissDialogprogressBarWithString();
-                            List<Order> orderLists = jsonData2.getData().getList();
-                            mlist.addAll(orderLists);
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    adapterOrderRecyclerCompleted.notifyDataSetChanged();
-                                }
-                            });
-                        }else if (jsonData2.getCode()==1){
-                            dissmissDialogprogressBarWithString();
-                            ToastUtils.showShortToast(mContext,jsonData2.getMsg());
-                        }
 
-                    }
-                });
-    }
 
     private void search() {
     }
@@ -320,15 +338,17 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
                 break;
             case R.id.processed_orders:
                 //点击已完成订单
+                m = 1;
                 orderUncompleted.setVisibility(View.GONE);
                 orderCompleted.setVisibility(View.VISIBLE);
-                initOder(1);
+                orderTim();
                 break;
             case R.id.unprocessed_orders:
                 //点击未完成订单
+                m = 0;
                 orderCompleted.setVisibility(View.GONE);
                 orderUncompleted.setVisibility(View.VISIBLE);
-                initOder(0);
+                orderTim();
                 break;
             case R.id.cancel_tv:
                 searchLinerLayout.setVisibility(View.GONE);
@@ -339,10 +359,7 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
                 break;
 
             case R.id.select_time_icon:
-                if (TimeIcon) {
-
-                    timeSelector.show();
-                }
+                new DatePickerDialog(OrderMainActivity.this, onDateSetListener, mYear, mMonth, mDay).show();
                 break;
             case R.id.select_order_icon:
                 if (OrderIcon) {
@@ -390,15 +407,15 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
     @Override
     public void onRefresh() {
         OkGo.<String>get(Config.URL + "/order/orderList")
-//                .params("sellerId",loginResult.getSellerId())
-//                .params("appKey",loginResult.getAppKey())
-//                .params("sellerState",x)
-//                .params("page",1)
+                .params("sellerId",loginResult.getSellerId())
+                .params("appKey",loginResult.getAppKey())
+                .params("sellerState",m)
+                .params("createdAt",timed)
+                .params("page",1)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         Gson gson = new Gson();
-                        Json<OrderList> jsonData = gson.fromJson(response.body(),new TypeToken<Json<OrderList>>(){}.getType());
                         Json<OrderList> jsonData2 = gson.fromJson(response.body(),new TypeToken<Json<OrderList>>(){}.getType());
                         if (jsonData2.getCode() == 0) {
                             List<Order> orderLists = jsonData2.getData().getList();
@@ -427,15 +444,15 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
     @Override
     public void onLoadMore() {
         OkGo.<String>get(Config.URL + "/order/orderList")
-//                .params("sellerId",loginResult.getSellerId())
-//                .params("appKey",loginResult.getAppKey())
-//                .params("sellerState",x)
-//                .params("page",count)
+                .params("sellerId",loginResult.getSellerId())
+                .params("appKey",loginResult.getAppKey())
+                .params("sellerState",m)
+                .params("createdAt",timed)
+                .params("page",count)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         Gson gson = new Gson();
-                        Json<OrderList> jsonData = gson.fromJson(response.body(),new TypeToken<Json<OrderList>>(){}.getType());
                         Json<OrderList> jsonData2 = gson.fromJson(response.body(),new TypeToken<Json<OrderList>>(){}.getType());
                         if (jsonData2.getCode() == 0) {
                             List<Order> orderLists = jsonData2.getData().getList();
@@ -511,4 +528,39 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
 
 
     }
+    /**
+     * 日期选择器对话框监听
+     */
+    private DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
+
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            mYear = year;
+            mMonth = monthOfYear;
+            mDay = dayOfMonth;
+            String days;
+            if (mMonth + 1 < 10) {
+                if (mDay < 10) {
+                    days = new StringBuffer().append(mYear).append("-").append("0").
+                            append(mMonth + 1).append("-").append("0").append(mDay).toString();
+                } else {
+                    days = new StringBuffer().append(mYear).append("-").append("0").
+                            append(mMonth + 1).append("-").append(mDay).toString();
+                }
+
+            } else {
+                if (mDay < 10) {
+                    days = new StringBuffer().append(mYear).append("-").
+                            append(mMonth + 1).append("-").append("0").append(mDay).toString();
+                } else {
+                    days = new StringBuffer().append(mYear).append("-").
+                            append(mMonth + 1).append("-").append(mDay).toString();
+                }
+
+            }
+            Log.d("loglog",days);
+            timed = days;
+            orderTim();
+        }
+    };
 }

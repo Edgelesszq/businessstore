@@ -190,9 +190,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         if (loginResult.getDetailedAddress() != null) {
             user_address.setText(loginResult.getDetailedAddress());
         }
+
     }
 
     private void initGoods() {
+        Log.d("loglog",loginResult.getSellerId()+"");
+        Log.d("loglog",loginResult.getAppKey()+"");
         mList = new ArrayList<>();
         mPList = new ArrayList<>();
 
@@ -205,7 +208,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        Log.d("loglog", response.body());
                         String responseData = response.body();
                         Gson gson = new Gson();
                         Json<GoodsList> jsonData = gson.fromJson(responseData, new TypeToken<Json<GoodsList>>() {
