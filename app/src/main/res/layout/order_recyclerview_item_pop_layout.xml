@@ -62,11 +62,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:text="恢复到店"
+                android:text="交易取消"
                 android:textColor="@color/nav_fontcolor"
                 android:textSize="14sp" />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/order_recyclerview_item_more_pop_ok"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/commit_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="交易成功"
+                android:textColor="@color/nav_fontcolor"
+                android:textSize="14sp" />
+        </LinearLayout>
 
 
     </LinearLayout>

@@ -31,7 +31,7 @@ public class ReplyActivity extends BaseActivity implements View.OnClickListener{
     private LinearLayout comment_layout,total_layout,retract_layout;
     private Context mcontext;
     private TextView total_recovery,retract_more;
-    private TextView replyName,replyContent,circleName,circleContent;
+    private TextView replyName,replyContent,circleName,circleContent,circleData;
     private int x;
     private List<Reply> replyList;
     private Reply first;
@@ -55,7 +55,6 @@ public class ReplyActivity extends BaseActivity implements View.OnClickListener{
     private void addview() {
         int goodsId = getIntent().getIntExtra("goodsId",0);
         int commentId = getIntent().getIntExtra("commentId",0);
-
         OkGo.<String>post(Config.URL + "/goods/queryAComment")
                 .tag(this)
                 .params("sellerId",loginResult.getSellerId())
@@ -85,10 +84,12 @@ public class ReplyActivity extends BaseActivity implements View.OnClickListener{
                                             circleHead = linearLayout.findViewById(R.id.head_circle);
                                             circleName = linearLayout.findViewById(R.id.name_circle);
                                             circleContent = linearLayout.findViewById(R.id.content_circle);
+                                            circleData = linearLayout.findViewById(R.id.data_circle);
                                             Glide.with(mcontext).load(replyList.get(j)).into(circleHead);
                                             circleName.setText(replyList.get(j).getName());
                                             circleContent.setText(replyList.get(j).getCommentCon());
                                             total_recovery.setText("共有"+""+x+"条留言");
+                                            circleData.setText(replyList.get(j).getCreatedAt());
 
                                         }
 
@@ -100,9 +101,11 @@ public class ReplyActivity extends BaseActivity implements View.OnClickListener{
                                             circleHead = linearLayout.findViewById(R.id.head_circle);
                                             circleName = linearLayout.findViewById(R.id.name_circle);
                                             circleContent = linearLayout.findViewById(R.id.content_circle);
+                                            circleData = linearLayout.findViewById(R.id.data_circle);
                                             Glide.with(mcontext).load(replyList.get(j)).into(circleHead);
                                             circleName.setText(replyList.get(j).getName());
                                             circleContent.setText(replyList.get(j).getCommentCon());
+                                            circleData.setText(replyList.get(j).getCreatedAt());
                                         }
                                     }
                                 }

@@ -44,11 +44,13 @@
                         android:orientation="horizontal">
 
                         <com.businessstore.view.roundImageView.RoundImageView
+                            android:id="@+id/order_seller_head"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:src="@mipmap/default_head_image" />
 
                         <TextView
+                            android:id="@+id/order_seller_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
@@ -68,6 +70,7 @@
                             android:textColor="@color/red"
                             android:textSize="14sp" />
                         <TextView
+                            android:id="@+id/order_price"
                             android:layout_marginLeft="3dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -82,6 +85,7 @@
                         android:layout_height="0.5dp"
                         android:background="@color/my_account_number_line" />
                     <TextView
+                        android:id="@+id/order_remark"
                         android:paddingTop="5dp"
                         android:paddingBottom="5dp"
                         android:paddingLeft="5dp"
@@ -94,6 +98,7 @@
 
 
                     <TextView
+                        android:id="@+id/order_goods_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
@@ -102,6 +107,7 @@
                         android:textSize="17sp" />
 
                     <TextView
+                        android:id="@+id/order_goods_content"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
@@ -174,6 +180,7 @@
                             android:layout_weight="1" />
 
                         <TextView
+                            android:id="@+id/order_message_number"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="999条留言"
@@ -188,7 +195,7 @@
                         android:layout_marginTop="10dp"
                         android:background="@color/my_account_number_line" />
 
-                    <com.businessstore.view.scrollview.NoScrollListview
+                    <ListView
                         android:id="@+id/commodity_details_listview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -197,7 +204,7 @@
                         android:listSelector="@android:color/transparent"
                         >
 
-                    </com.businessstore.view.scrollview.NoScrollListview>
+                    </ListView>
 
                 </LinearLayout>
 
@@ -229,6 +236,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:id="@+id/order_tel"
                     android:textSize="16sp"
                     android:text="15585448554"
                     android:layout_width="wrap_content"
@@ -252,6 +260,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:id="@+id/order_data"
                     android:layout_gravity="right|center_vertical"
                     android:textSize="16sp"
                     android:layout_marginRight="10dp"

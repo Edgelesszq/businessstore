@@ -156,6 +156,7 @@ public class MainCommodityDetailsActivity extends BaseActivity implements View.O
         int screenHeight = wm.getDefaultDisplay().getHeight();
         mTitleLefeBackImg.setOnClickListener(this);
         mTitleRightSearchImg.setOnClickListener(this);
+
         //循环画九张展示图
         mImgViewLinearLayout = findViewById(R.id.commodity_details_linearlayout);
         int frishFornumber = 1;

@@ -32,16 +32,7 @@ public class AdapterOrderRecycler extends RecyclerView.Adapter<AdapterOrderRecyc
         this.mcontext = mcontext;
         this.mlist = mlist;
     }
-/*
-    public void onDestroy(){
-        mlist.clear();
-        mlist = null;
-        for(int i = 0 ;i < mHolderList.size() ; i++){
-            mHolderList.get(i).itemView.setOnClickListener(null);
-        }
-        mHolderList.clear();
-        mHolderList = null;
-    }*/
+
 
     @Override
     public AdapterOrderRecycler.MyCompletedHolder onCreateViewHolder(ViewGroup parent, int viewType) {

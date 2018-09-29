@@ -68,6 +68,7 @@ public class AdapterCommodityDetailsActivityListView extends BaseAdapter impleme
         LinearLayout mLinearLayout,mLinearLayout1,mLinearLayout2;
     }
 
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;

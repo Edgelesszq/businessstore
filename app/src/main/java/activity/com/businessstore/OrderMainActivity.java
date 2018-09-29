@@ -34,6 +34,7 @@ import com.businessstore.model.Json;
 import com.businessstore.model.LoginResult;
 import com.businessstore.model.Order;
 import com.businessstore.model.OrderList;
+import com.businessstore.model.PictureInfo;
 import com.businessstore.util.SharedPreferencesUtil;
 import com.businessstore.util.ToastUtils;
 import com.businessstore.view.popwindow.CustomPopWindow2;
@@ -220,10 +221,12 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
         adapterOrderRecyclerCompleted.setOnItemClickListener(new AdapterOrderRecycler.OnItemClickListener() {
             @Override
             public void onClick(View v, int position) {
-                Toast.makeText(mContext, "Item 的点击事件", Toast.LENGTH_SHORT).show();
+                ArrayList<PictureInfo> pictureInfos = new ArrayList<>();
+                pictureInfos.addAll(mlist.get(position).getPictureInfo());
                 Intent intent = new Intent(OrderMainActivity.this, OrderCommodityDetailsActivity.class);
                 intent.putExtra("goodsId",mlist.get(position).getGoodsId());
-                intent.putExtra("OrderId",mlist.get(position).getOrderId());
+                intent.putExtra("orderId",mlist.get(position).getOrderId());
+                intent.putParcelableArrayListExtra("pictureInfo",pictureInfos);
                 startActivity(intent);
             }
         });
@@ -399,6 +402,9 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
             case R.id.order_recyclerview_item_more_pop_editer:
                 Toast.makeText(mContext,"触发点击事件",Toast.LENGTH_SHORT).show();
                 break;
+
+            case R.id.order_recyclerview_item_more_pop_ok:
+                ToastUtils.showShortToast(mContext,"交易成功点击事件");
                 default:
                     break;
         }
