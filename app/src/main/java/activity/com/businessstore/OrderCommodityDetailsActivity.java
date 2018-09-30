@@ -29,6 +29,7 @@ import com.businessstore.model.Reply;
 import com.businessstore.util.DpConversion;
 import com.businessstore.util.SharedPreferencesUtil;
 import com.businessstore.util.StatusBarUtil;
+import com.businessstore.util.ToastUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lzy.okgo.OkGo;
@@ -51,7 +52,7 @@ public class OrderCommodityDetailsActivity extends BaseActivity implements View.
     private int goodsId,orderId,position = 0;
     private OrderInfo orderInfo;
     private ImageView sellerHead,picture;
-    private TextView sellerName,price,remark,goodsName,goodsContent,messageNum,tel,data;
+    private TextView sellerName,price,remark,goodsName,goodsContent,messageNum,tel,data,orderNum;
     private List<PictureInfo> pictureInfos = new ArrayList<>();
 
     @Override
@@ -98,6 +99,7 @@ public class OrderCommodityDetailsActivity extends BaseActivity implements View.
                                     sellerName.setText(orderInfo.getBuyerName());
                                     price.setText(orderInfo.getOrderTotal()+"");
                                     remark.setText("买家备注："+orderInfo.getBuyerRemarks());
+                                    orderNum.setText("订单号："+orderInfo.getOrderNumber());
                                     goodsName.setText(orderInfo.getGoodsName());
                                     goodsContent.setText(orderInfo.getGoodsInfo());
                                     mTitleRightText.setText(orderInfo.getGoodsNum()+"件");
@@ -118,6 +120,7 @@ public class OrderCommodityDetailsActivity extends BaseActivity implements View.
                     public void onError(Response<String> response) {
                         super.onError(response);
                         dissmissDialogprogressBarWithString();
+                        ToastUtils.showShortToast(mContext,"网络错误");
                     }
                 });
     }
@@ -140,7 +143,7 @@ public class OrderCommodityDetailsActivity extends BaseActivity implements View.
 
         setTitleView2(R.drawable.backimage,R.id.title_center_text,R.id.title_right_text);
         mTitleLefeBackImg.setOnClickListener(this);
-        mTitleCenterText.setText("195s4744848@163.com已下单");
+        mTitleCenterText.setText("XXX已下单");
         mTitleCenterText.setTextSize(16);
         mTitleCenterText.setGravity(View.TEXT_ALIGNMENT_CENTER);
         mTitleRightText.setText("1件");
@@ -155,6 +158,8 @@ public class OrderCommodityDetailsActivity extends BaseActivity implements View.
         tel = findViewById(R.id.order_tel);
         data = findViewById(R.id.order_data);
         messageNum = findViewById(R.id.order_message_number);
+        orderNum = findViewById(R.id.order_num);
+
         Intent intent = getIntent();
         goodsId = intent.getIntExtra("goodsId",0);
         orderId = intent.getIntExtra("orderId",0);

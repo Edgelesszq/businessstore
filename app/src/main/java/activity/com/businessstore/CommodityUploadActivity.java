@@ -489,7 +489,14 @@ public class CommodityUploadActivity extends BaseActivity implements View.OnClic
         } else if (mPiclist.size() == 0) {
             ToastUtils.showShortToast(mContext, "请添加图片");
             return false;
-        } else {
+        }else if (editPrice.getText().toString().isEmpty()){
+            ToastUtils.showShortToast(mContext, "请输入价格");
+            return false;
+        }else if (editPriceMin.getText().toString().isEmpty()){
+            editPriceMin = editPrice;
+            return true;
+        }
+        else {
             return true;
         }
     }

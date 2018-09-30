@@ -190,6 +190,8 @@ public class ReplyActivity extends BaseActivity implements View.OnClickListener{
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        replyList.clear();
+        if (replyList!=null) {
+            replyList.clear();
+        }
     }
 }

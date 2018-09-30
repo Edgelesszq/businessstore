@@ -40,6 +40,7 @@ import com.businessstore.util.ToastUtils;
 import com.businessstore.view.popwindow.CustomPopWindow2;
 import com.businessstore.util.DpConversion;
 import com.businessstore.view.dialog.DialogStyleOne;
+import com.businessstore.view.popwindow.CustomPopWindow22;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lzy.okgo.OkGo;
@@ -77,8 +78,9 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
     private TextView cancel_tv;//取消按钮
     private RecyclerView recyclerview_completed;
     private AdapterOrderRecycler adapterOrderRecyclerCompleted;
-
+    private int mPositon;
     private CustomPopWindow2 popWindow;
+    private CustomPopWindow22 popWindow2;
     private boolean mPopwindowIsShow;
     private LoginResult loginResult;
     private List<Order> mlist  = new ArrayList<>();
@@ -382,22 +384,7 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
 
                 break;
             case R.id.order_recyclerview_item_more_pop_delete:
-
-                final DialogStyleOne dialogStyleOne = new DialogStyleOne(mContext);
-                dialogStyleOne.setYesOnclickListener("是", new DialogStyleOne.onYesOnclickListener() {
-                    @Override
-                    public void onYesClick() {
-                        dialogStyleOne.dismiss();
-                    }
-                });
-                dialogStyleOne.setNoOnclickListener("否", new DialogStyleOne.onNoOnclickListener() {
-                    @Override
-                    public void onNoClick() {
-                        dialogStyleOne.dismiss();
-                    }
-                });
-                dialogStyleOne.show();
-
+                        deleteOrder();
                 break;
             case R.id.order_recyclerview_item_more_pop_editer:
                 Toast.makeText(mContext,"触发点击事件",Toast.LENGTH_SHORT).show();
@@ -454,7 +441,7 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
                 .params("appKey",loginResult.getAppKey())
                 .params("sellerState",m)
                 .params("createdAt",timed)
-                .params("page",count)
+                .params("p",count)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -483,6 +470,37 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
                     }
                 });
     }
+
+    private void deleteOrder(){
+        final int position = popWindow.getPosition();
+        final DialogStyleOne dialogStyleOne = new DialogStyleOne(mContext);
+        dialogStyleOne.setYesOnclickListener("是", new DialogStyleOne.onYesOnclickListener() {
+            @Override
+            public void onYesClick() {
+
+        OkGo.<String>put(Config.URL + "/order/deleteOrder")
+                .tag(this)
+                .params("sellerId",loginResult.getSellerId())
+                .params("appKey",loginResult.getAppKey())
+                .params("orderId",mlist.get(position).getOrderId())
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+
+                    }
+                });
+                dialogStyleOne.dismiss();
+            }
+        });
+        dialogStyleOne.setNoOnclickListener("否", new DialogStyleOne.onNoOnclickListener() {
+            @Override
+            public void onNoClick() {
+                dialogStyleOne.dismiss();
+            }
+        });
+        dialogStyleOne.show();
+    }
+
 
     public void showPopWindow(final View mButton1, int position) {
 
@@ -534,6 +552,59 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
 
 
     }
+
+    public void showPopWindow2(final View mButton1, int position) {
+
+        //三个点的绝对坐标
+        int[] location = new int[2];
+        //获取在整个屏幕内的绝对坐标
+        mButton1.getLocationOnScreen(location);
+        int x = location[0];
+        int y = location[1];
+        //三个点控件的宽高
+        int morewidth = mButton1.getWidth();
+        int moreheight = mButton1.getHeight();
+        //获取屏幕宽高
+        WindowManager wm = (WindowManager) this
+                .getSystemService(Context.WINDOW_SERVICE);
+        int screenWidth = wm.getDefaultDisplay().getWidth();
+        int screenHeight = wm.getDefaultDisplay().getHeight();
+        //三个点与屏幕底部的高度
+        int showHeight = screenHeight - moreheight - y;
+
+        popWindow2 = new CustomPopWindow22(mContext, this, position);
+        //popwindow
+        final View view = popWindow2.getContentView().findViewById(R.id.order_recyclerview_item_more_layout);
+        //pop上面的尖角
+        ImageView popTopImg = popWindow2.getContentView().findViewById(R.id.order_recyclerview_item_more_head);
+        ImageView popTopDown = popWindow2.getContentView().findViewById(R.id.order_recyclerview_item_more_head_down);
+        popTopDown.setVisibility(View.GONE);
+        //获取popwindowde 宽高
+        int w = View.MeasureSpec.makeMeasureSpec(0,
+                View.MeasureSpec.UNSPECIFIED);
+        int h = View.MeasureSpec.makeMeasureSpec(0,
+                View.MeasureSpec.UNSPECIFIED);
+        view.measure(w, h);
+        int height = view.getMeasuredHeight();
+        int width = view.getMeasuredWidth();
+
+        //判断三个点与屏幕底部高度是否大于popwindowde高度。
+        if (showHeight >= height) {
+            popWindow2.show(mButton1, -(width - morewidth),
+                    DpConversion.dp2px(mContext, -8));
+            mPopwindowIsShow = true;
+        } else {
+            popTopImg.setVisibility(View.GONE);
+            popTopDown.setVisibility(View.VISIBLE);
+            popWindow2.show(mButton1, -(width - morewidth),
+                    -(height + moreheight + DpConversion.dp2px(mContext, -8)));
+            mPopwindowIsShow = true;
+        }
+
+
+    }
+
+
     /**
      * 日期选择器对话框监听
      */

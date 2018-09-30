@@ -15,6 +15,7 @@ import com.businessstore.model.LoginResult;
 import com.businessstore.util.NoDoubleClickListener;
 import com.businessstore.util.SharedPreferencesUtil;
 import com.businessstore.util.StringUtil;
+import com.businessstore.util.ToastUtils;
 import com.businessstore.util.ToastViewUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -84,6 +85,11 @@ public class ForgetPasswordOneActivity extends BaseActivity implements View.OnCl
                                            Toast.makeText(getApplicationContext(),"请求失败",Toast.LENGTH_SHORT).show();
 
                                            break;
+                                       case 2:
+                                           dissmissDialogprogressBarWithString();
+
+                                           ToastUtils.showShortToast(mContext,dataInfo.getMsg());
+                                           break;
                                        default:
                                            dissmissDialogprogressBarWithString();
                                            Toast.makeText(getApplicationContext(),"发生未知错误",Toast.LENGTH_SHORT).show();
@@ -91,6 +97,12 @@ public class ForgetPasswordOneActivity extends BaseActivity implements View.OnCl
                                            break;
 
                                    }
+                               }
+
+                               @Override
+                               public void onError(Response<String> response) {
+                                   super.onError(response);
+                                   dissmissDialogprogressBarWithString();
                                }
                            });
                }

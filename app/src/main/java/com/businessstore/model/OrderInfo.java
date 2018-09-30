@@ -12,21 +12,21 @@ import java.util.List;
  */
 
 public class OrderInfo implements Parcelable{
-    int orderId;
-    String buyerNum;
-    String buyerName;
-    String buyerHead;
-    String orderNumber;
-    int goodsNum;
-    Double orderTotal;
-    String buyerRealName;
-    String buyerContact;
-    String buyerRemarks;
-    int sellerState;
-    String createdAt;
-    String goodsName;
-    String goodsInfo;
-    List<PictureInfo> pictureInfo;
+    private int orderId;
+    private String buyerNum;
+    private String buyerName;
+    private String buyerHead;
+    private String orderNumber;
+    private int goodsNum;
+    private Double orderTotal;
+    private String buyerRealName;
+    private String buyerContact;
+    private String buyerRemarks;
+    private int sellerState;
+    private String createdAt;
+    private String goodsName;
+    private String goodsInfo;
+    private List<PictureInfo> pictureInfo;
 
     public int getOrderId() {
         return orderId;

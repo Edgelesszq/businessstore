@@ -34,6 +34,7 @@ public class AdapterOrderRecycler extends RecyclerView.Adapter<AdapterOrderRecyc
     }
 
 
+
     @Override
     public AdapterOrderRecycler.MyCompletedHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mcontext).inflate(R.layout.my_order_recyclerview_completed_item, parent, false);
@@ -52,12 +53,15 @@ public class AdapterOrderRecycler extends RecyclerView.Adapter<AdapterOrderRecyc
         holder.goodsDate.setText(mlist.get(position).getCreatedAt());
         holder.placeOrderNum.setText(mlist.get(position).getOrderNumber());
         Glide.with(mcontext).load(mlist.get(position).getPictureInfo().get(0).getUrllarge()).into(holder.pictureInfo);
+        if (mlist.get(position).getSellerState() == 0){
         holder.moreIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((OrderMainActivity)mcontext).showPopWindow(holder.moreIcon,position);
             }
-        });
+        });}else if (mlist.get(position).getSellerState() == 1){
+            ((OrderMainActivity)mcontext).showPopWindow2(holder.moreIcon,position);
+        }
         //下单x件
 
         String form = mcontext.getResources().getString(R.string.place_an_order);

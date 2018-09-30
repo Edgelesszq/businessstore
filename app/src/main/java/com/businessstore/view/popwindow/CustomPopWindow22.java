@@ -2,7 +2,6 @@ package com.businessstore.view.popwindow;
 
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -10,13 +9,7 @@ import android.widget.PopupWindow;
 
 import activity.com.businessstore.R;
 
-/**
- * @param
- * @author ldm
- * @description 自定义PopupWindow
- *
- */
-public class CustomPopWindow2 extends PopupWindow {
+public class CustomPopWindow22 extends PopupWindow {
     //上下文
     private Context mContext;
     // PopupWindow中控件点击事件回调接口
@@ -38,13 +31,13 @@ public class CustomPopWindow2 extends PopupWindow {
      * @author ldm
      * @param
      */
-    public CustomPopWindow2(Context mContext, View.OnClickListener listener,int position) {
+    public CustomPopWindow22(Context mContext, View.OnClickListener listener,int position) {
         super(mContext);
         this.mContext = mContext;
         this.mOnClickListener = listener;
         setPosition(position);
         //获取布局文件
-        View mContentView = LayoutInflater.from(mContext).inflate(R.layout.order_recyclerview_item_pop_layout, null);
+        View mContentView = LayoutInflater.from(mContext).inflate(R.layout.order_recyclerview_item_pop_layout2, null);
         //设置布局
         setContentView(mContentView);
         // 设置弹窗的宽度和高度
