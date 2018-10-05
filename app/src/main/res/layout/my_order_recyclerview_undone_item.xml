@@ -34,7 +34,7 @@
         <TextView
             android:id="@+id/goods_title"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:ellipsize="end"
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
@@ -102,9 +102,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-
-
-                android:text="下单1件"
+                android:id="@+id/place_order"
+                android:text="@string/place_an_order"
                 android:textColor="@color/mgray"
                 android:gravity="center"
                 android:layout_gravity="center"
@@ -116,13 +115,13 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"/>
             <FrameLayout
-                android:layout_width="100dp"
+                android:layout_width="50dp"
                 android:layout_height="match_parent">
                 <ImageView
                     android:layout_marginRight="20dp"
                     android:id="@+id/restore_icon"
                     android:layout_gravity="right|center"
-                    android:src="@drawable/restore_icon"
+                    android:src="@mipmap/main_recyclerview_item_more_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </FrameLayout>

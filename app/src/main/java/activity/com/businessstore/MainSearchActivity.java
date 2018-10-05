@@ -239,8 +239,15 @@ public class MainSearchActivity extends BaseActivity implements View.OnClickList
             public void onClick(View v, int position) {
                 // RecyclerView Item 的点击事件回调
                 Intent intent = new Intent(MainSearchActivity.this, MainCommodityDetailsActivity.class);
+                ArrayList<PictureInfo> pic = new ArrayList<>(mList.get(position).getPictureInfo());
+                intent.putExtra("goodsId", mList.get(position).getGoodsId());
+                intent.putExtra("goodsName",mList.get(position).getGoodsName());
+                intent.putExtra("goodsInfo",mList.get(position).getGoodsInfo());
+                intent.putExtra("goodsStock",mList.get(position).getGoodsStock());
+                intent.putExtra("goodsMinPrice",mList.get(position).getMinPrice());
+                intent.putExtra("goodsMaxPrice",mList.get(position).getMaxprice());
+                intent.putParcelableArrayListExtra("goodsPictureInfo",pic);
                 startActivity(intent);
-                Toast.makeText(mContext, "Item 的点击事件", Toast.LENGTH_SHORT).show();
             }
         });
 

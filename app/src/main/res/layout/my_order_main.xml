@@ -246,6 +246,37 @@
                     android:background="@color/my_account_number_line"
                     />
             </FrameLayout>
+            <FrameLayout
+                android:background="@color/white"
+                android:id="@+id/all_orders"
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <TextView
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/nav_fontcolor"
+                    android:text="@string/All_orders"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:id="@+id/img_v3"
+                    android:visibility="gone"
+                    android:layout_marginRight="20dp"
+                    android:layout_gravity="right|center"
+                    android:src="@drawable/v"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
+                <View
+                    android:layout_gravity="bottom"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/my_account_number_line"
+                    />
+            </FrameLayout>
         </LinearLayout>
         <FrameLayout
 

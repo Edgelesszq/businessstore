@@ -29,6 +29,7 @@
     <string name="orders">订单</string>
     <string name="Unprocessed_orders">未处理订单</string>
     <string name="Processed_orders">已处理订单</string>
+    <string name="All_orders">所有订单</string>
     <string name="selection_period">选择时间</string>
     <string name="open_store">开店</string>
     <string name="get_verification_code">获取验证码</string>

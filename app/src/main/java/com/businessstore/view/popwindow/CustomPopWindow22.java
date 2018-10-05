@@ -64,7 +64,6 @@ public class CustomPopWindow22 extends PopupWindow {
         getContentView().findViewById(R.id.order_recyclerview_item_more_pop_editer).setOnClickListener(mOnClickListener);
         //删除的点击事件
         getContentView().findViewById(R.id.order_recyclerview_item_more_pop_delete).setOnClickListener(mOnClickListener);
-        getContentView().findViewById(R.id.order_recyclerview_item_more_pop_ok).setOnClickListener(mOnClickListener);
 
     }
 

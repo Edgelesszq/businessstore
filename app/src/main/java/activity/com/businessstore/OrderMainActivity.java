@@ -68,9 +68,9 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
     private SwipeToLoadLayout swipeToLoadLayout;
     private LinearLayout searchLinerLayout, title_layout;
 
-    private FrameLayout select_time_icon, select_order_icon, processed_orders, unprocessed_orders;
+    private FrameLayout select_time_icon, select_order_icon, processed_orders, unprocessed_orders,allOrders;
 
-    private ImageView time_down, time_up, order_down, order_up,orderCompleted,orderUncompleted;
+    private ImageView time_down, time_up, order_down, order_up,orderCompleted,orderUncompleted,orderAll;
     private static Boolean TimeIcon = true, OrderIcon = true;
     private LinearLayout order_test;
     private EditText order_search_edit;//搜索输入框
@@ -183,7 +183,6 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
                 .params("sellerState",m)
                 .params("createdAt",timed)
                 .params("page",1)
-//                .params("time",time)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -203,6 +202,45 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
                         }else if (jsonData2.getCode()==1){
                             dissmissDialogprogressBarWithString();
                             ToastUtils.showShortToast(mContext,jsonData2.getMsg());
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        dissmissDialogprogressBarWithString();
+                    }
+                });
+    }
+
+    private void orderList(){
+        showDialogprogressBarWithString("正在筛选");
+        OkGo.<String>get(Config.URL + "/order/orderList")
+                .params("sellerId",loginResult.getSellerId())
+                .params("appKey",loginResult.getAppKey())
+                .params("sellerState",null)
+                .params("createdAt",timed)
+                .params("page",1)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        Gson gson = new Gson();
+                        Json<OrderList> jsonData = gson.fromJson(response.body(),new TypeToken<Json<OrderList>>(){}.getType());
+                        if (jsonData.getCode() == 0) {
+                            dissmissDialogprogressBarWithString();
+                            List<Order> orderLists = jsonData.getData().getList();
+                            mlist.clear();
+                            mlist.addAll(orderLists);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    adapterOrderRecyclerCompleted.notifyDataSetChanged();
+                                }
+                            });
+                        }else if (jsonData.getCode()==1){
+                            dissmissDialogprogressBarWithString();
+                            ToastUtils.showShortToast(mContext,jsonData.getMsg());
                         }
 
                     }
@@ -249,6 +287,7 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
         //主界面LinearLayout
         orderCompleted = findViewById(R.id.img_v1);
         orderUncompleted = findViewById(R.id.img_v2);
+        orderAll = findViewById(R.id.img_v3);
         //搜索框
         searchLinerLayout = findViewById(R.id.search_LinearLayout);
         order_search_edit = findViewById(R.id.order_search_edit);
@@ -317,8 +356,10 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
         //订单选择界面
         processed_orders = findViewById(R.id.processed_orders);
         unprocessed_orders = findViewById(R.id.unprocessed_orders);
+        allOrders = findViewById(R.id.all_orders);
         processed_orders.setOnClickListener(this);
         unprocessed_orders.setOnClickListener(this);
+        allOrders.setOnClickListener(this);
 
 
     }
@@ -345,6 +386,7 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
                 //点击已完成订单
                 m = 1;
                 orderUncompleted.setVisibility(View.GONE);
+                orderAll.setVisibility(View.GONE);
                 orderCompleted.setVisibility(View.VISIBLE);
                 orderTim();
                 break;
@@ -352,8 +394,16 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
                 //点击未完成订单
                 m = 0;
                 orderCompleted.setVisibility(View.GONE);
+                orderAll.setVisibility(View.GONE);
                 orderUncompleted.setVisibility(View.VISIBLE);
                 orderTim();
+                break;
+            case R.id.all_orders:
+                //点击所有订单
+                orderCompleted.setVisibility(View.GONE);
+                orderUncompleted.setVisibility(View.GONE);
+                orderAll.setVisibility(View.VISIBLE);
+                orderList();
                 break;
             case R.id.cancel_tv:
                 searchLinerLayout.setVisibility(View.GONE);
@@ -384,14 +434,17 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
 
                 break;
             case R.id.order_recyclerview_item_more_pop_delete:
-                        deleteOrder();
+                //删除订单
+                deleteOrder();
                 break;
             case R.id.order_recyclerview_item_more_pop_editer:
-                Toast.makeText(mContext,"触发点击事件",Toast.LENGTH_SHORT).show();
+                //交易取消
+                cancel();
                 break;
 
             case R.id.order_recyclerview_item_more_pop_ok:
-                ToastUtils.showShortToast(mContext,"交易成功点击事件");
+                //交易成功
+                successful();
                 default:
                     break;
         }
@@ -477,7 +530,7 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
         dialogStyleOne.setYesOnclickListener("是", new DialogStyleOne.onYesOnclickListener() {
             @Override
             public void onYesClick() {
-
+        showDialogprogressBarWithString("正在删除");
         OkGo.<String>put(Config.URL + "/order/deleteOrder")
                 .tag(this)
                 .params("sellerId",loginResult.getSellerId())
@@ -486,7 +539,26 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
+                        Gson gson = new Gson();
+                        Json<String> jsonData = gson.fromJson(response.body(),new TypeToken<Json<String>>(){}.getType());
+                        dissmissDialogprogressBarWithString();
+                        if (jsonData.getCode() == 0){
+                            mlist.remove(position);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    adapterOrderRecyclerCompleted.notifyDataSetChanged();
+                                }
+                            });
+                        }else {
+                            ToastUtils.showShortToast(mContext,jsonData.getMsg());
+                        }
+                    }
 
+                    @Override
+                    public void onError(Response<String> response) {
+                        dissmissDialogprogressBarWithString();
+                        ToastUtils.showShortToast(mContext,"请求失败");
                     }
                 });
                 dialogStyleOne.dismiss();
@@ -501,6 +573,102 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
         dialogStyleOne.show();
     }
 
+    private void cancel (){
+        final int position = popWindow.getPosition();
+        final DialogStyleOne dialogStyleOne = new DialogStyleOne(mContext);
+        dialogStyleOne.setYesOnclickListener("是", new DialogStyleOne.onYesOnclickListener() {
+            @Override
+            public void onYesClick() {
+                showDialogprogressBarWithString("正在取消");
+                OkGo.<String>put(Config.URL + "/order/editOrder")
+                        .tag(this)
+                        .params("sellerId",loginResult.getSellerId())
+                        .params("appKey",loginResult.getAppKey())
+                        .params("orderId",mlist.get(position).getOrderId())
+                        .params("sellerState",0)
+                        .params("buyerState",2)
+                        .execute(new StringCallback() {
+                            @Override
+                            public void onSuccess(Response<String> response) {
+                                Gson gson = new Gson();
+                                Json<String> jsonData = gson.fromJson(response.body(),new TypeToken<Json<String>>(){}.getType());
+                                dissmissDialogprogressBarWithString();
+                                if (jsonData.getCode() == 0){
+                                    mlist.remove(position);
+                                    ToastUtils.showShortToast(mContext,jsonData.getMsg());
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            adapterOrderRecyclerCompleted.notifyDataSetChanged();
+                                        }
+                                    });
+                                }else {
+                                    ToastUtils.showShortToast(mContext,jsonData.getMsg());
+                                }
+                            }
+                            @Override
+                            public void onError(Response<String> response) {
+                                dissmissDialogprogressBarWithString();
+                                ToastUtils.showShortToast(mContext,"请求失败");
+                            }
+                        });
+
+                dialogStyleOne.dismiss();
+            }
+        });
+        dialogStyleOne.setNoOnclickListener("否", new DialogStyleOne.onNoOnclickListener() {
+            @Override
+            public void onNoClick() {
+                dialogStyleOne.dismiss();
+            }
+        });
+        dialogStyleOne.show();
+    }
+
+    private void successful(){
+        final int position = popWindow.getPosition();
+        final DialogStyleOne dialogStyleOne = new DialogStyleOne(mContext);
+        dialogStyleOne.setYesOnclickListener("是", new DialogStyleOne.onYesOnclickListener() {
+            @Override
+            public void onYesClick() {
+                OkGo.<String>put(Config.URL + "/order/editOrder")
+                        .tag(this)
+                        .params("sellerId",loginResult.getSellerId())
+                        .params("appKey",loginResult.getAppKey())
+                        .params("orderId",mlist.get(position).getOrderId())
+                        .params("sellerState",1)
+                        .params("buyerState",1)
+                        .execute(new StringCallback() {
+                            @Override
+                            public void onSuccess(Response<String> response) {
+                                Gson gson = new Gson();
+                                Json<String> jsonData = gson.fromJson(response.body(),new TypeToken<Json<String>>(){}.getType());
+                                dissmissDialogprogressBarWithString();
+                                if (jsonData.getCode() == 0){
+                                    mlist.get(position).setSellerState(1);
+                                    ToastUtils.showShortToast(mContext,jsonData.getMsg());
+                                }else {
+                                    ToastUtils.showShortToast(mContext,jsonData.getMsg());
+                                }
+                            }
+
+                            @Override
+                            public void onError(Response<String> response) {
+                                dissmissDialogprogressBarWithString();
+                                ToastUtils.showShortToast(mContext,"请求失败");
+                            }
+                        });
+                dialogStyleOne.dismiss();
+            }
+        });
+        dialogStyleOne.setNoOnclickListener("否", new DialogStyleOne.onNoOnclickListener() {
+            @Override
+            public void onNoClick() {
+                dialogStyleOne.dismiss();
+            }
+        });
+        dialogStyleOne.show();
+    }
 
     public void showPopWindow(final View mButton1, int position) {
 
