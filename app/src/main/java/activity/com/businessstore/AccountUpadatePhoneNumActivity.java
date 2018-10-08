@@ -47,7 +47,7 @@ public class AccountUpadatePhoneNumActivity extends BaseActivity implements View
     public void initview(){
         mContext = this;
         setTitleView(R.drawable.backimage,R.string.update_phonenum,R.string.save);
-
+        mTitleLefeBackImg.setOnClickListener(this);
         mTitleRightText.setClickable(false);
         clean_iv=findViewById(R.id.clean_iv);
         clean_iv.setOnClickListener(this);
@@ -148,7 +148,6 @@ public class AccountUpadatePhoneNumActivity extends BaseActivity implements View
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.title_left_back_img:
-
                 this.finish();
                 break;
             case R.id.clean_iv:

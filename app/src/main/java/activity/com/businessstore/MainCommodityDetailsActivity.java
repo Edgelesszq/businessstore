@@ -47,7 +47,7 @@ public class MainCommodityDetailsActivity extends BaseActivity implements View.O
     private int position=0;
     private List<String> urlList;
     private ObservableScrollView details_scrollview;
-    private TextView price,symbol,sellerName,goodsName,goodsContent,commentNum;
+    private TextView price,symbol,sellerName,goodsName,goodsContent,commentNum,noList;
     private LoginResult loginResult;
     private ImageView head;
     private List<PictureInfo> pictureInfoList;
@@ -130,6 +130,7 @@ public class MainCommodityDetailsActivity extends BaseActivity implements View.O
         goodsContent = findViewById(R.id.goods_content);
         pictureInfoList = getIntent().getParcelableArrayListExtra("goodsPictureInfo");
         commentNum = findViewById(R.id.comment_num);
+        noList = findViewById(R.id.commodity_details_no);
 
         details_scrollview=findViewById(R.id.details_scrollview);
         details_scrollview.setScrollViewListener(new ObservableScrollView.OnScrollChangeListener() {
@@ -245,6 +246,13 @@ public class MainCommodityDetailsActivity extends BaseActivity implements View.O
                                     String result = String.format(format,mDatas.size());
                                     commentNum.setText(result);
                                     adapterCommodityDetailsActivityListView.notifyDataSetChanged();
+                                    if (mDatas.size() == 0){
+                                        mListView.setVisibility(View.GONE);
+                                        noList.setVisibility(View.VISIBLE);
+                                    }else {
+                                        mListView.setVisibility(View.VISIBLE);
+                                        noList.setVisibility(View.GONE);
+                                    }
                                     recalculate();
                                 }
                             });

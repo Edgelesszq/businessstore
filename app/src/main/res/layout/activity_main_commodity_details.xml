@@ -183,6 +183,14 @@
                         android:layout_marginTop="10dp"
                         android:background="@color/my_account_number_line" />
 
+                    <TextView
+                        android:id="@+id/commodity_details_no"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="30dp"
+                        android:text="暂时没有留言哦~"/>
+
                     <ListView
                         android:id="@+id/commodity_details_listview"
                         android:layout_width="match_parent"

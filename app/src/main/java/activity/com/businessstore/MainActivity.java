@@ -23,6 +23,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -93,7 +94,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     private Button main_loginbtn;
     private FrameLayout myaccount_icon, myorder_icon, setting_icon, third_party_domian,
             store_address, mystore;
-
+    private LinearLayout mainNoData,mainrecycleview;
     private SwipeToLoadLayout swipeToLoadLayout;
     private int count = 2;
     private LoadMoreFooterView loadMoreFooterView;
@@ -222,6 +223,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                                 }
                             });
                         } else if (jsonData.getCode() == 1) {
+                            if (mList.size() == 0){
+                                mainrecycleview.setVisibility(View.GONE);
+                                mainNoData.setVisibility(View.VISIBLE);
+                            }else {
+                                mainNoData.setVisibility(View.GONE);
+                                mainrecycleview.setVisibility(View.VISIBLE);
+                            }
                             ToastUtils.showShortToast(mContext, jsonData.getMsg());
                         }
                     }
@@ -310,6 +318,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         user_num = findViewById(R.id.text_user_number);//账号
 
         user_address = findViewById(R.id.text_user_address);//店铺位置
+
+        mainNoData = findViewById(R.id.main_nodata_linearlayout);
+        mainrecycleview = findViewById(R.id.mian_recycleview_linearlayout);
 
         swipeToLoadLayout = findViewById(R.id.swipeToLoadLayout);
         swipeToLoadLayout.setOnRefreshListener(this);
@@ -465,6 +476,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                                             mAdapterMainActivity.notifyDataSetChanged();
                                         }
                                     });
+                                    if (mList.size() == 0){
+                                        mainrecycleview.setVisibility(View.GONE);
+                                        mainNoData.setVisibility(View.VISIBLE);
+                                    }else {
+                                        mainNoData.setVisibility(View.GONE);
+                                        mainrecycleview.setVisibility(View.VISIBLE);
+                                    }
                                 }else if (jsonData.getCode() == 1){
                                     ToastUtils.showShortToast(mContext,jsonData.getMsg());
                                 }
@@ -631,11 +649,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                         }.getType());
                         if (jsonData.getCode() == 0) {
                             List<Goods> goodsList = jsonData.getData().getList();
-                            Message loadmoreMessage = new Message();
-                            loadmoreMessage.what = LOADMORE_WHAT;
-                            loadmoreMessage.obj = goodsList;
-                            handler.sendMessage(loadmoreMessage);
-                            swipeToLoadLayout.setLoadingMore(false);
+                                Message loadmoreMessage = new Message();
+                                loadmoreMessage.what = LOADMORE_WHAT;
+                                loadmoreMessage.obj = goodsList;
+                                handler.sendMessage(loadmoreMessage);
+                                swipeToLoadLayout.setLoadingMore(false);
                         } else if (jsonData.getCode() == 1) {
                             ToastUtils.showShortToast(mContext, jsonData.getMsg());
                             swipeToLoadLayout.setLoadingMore(false);
@@ -668,11 +686,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                         }.getType());
                         if (jsonData.getCode() == 0) {
                             List<Goods> goodsList = jsonData.getData().getList();
-                            Message refreshMessage = new Message();
-                            refreshMessage.what = REFRESH_WHAT;
-                            refreshMessage.obj = goodsList;
-                            handler.sendMessage(refreshMessage);
-                            swipeToLoadLayout.setRefreshing(false);
+                                Message refreshMessage = new Message();
+                                refreshMessage.what = REFRESH_WHAT;
+                                refreshMessage.obj = goodsList;
+                                handler.sendMessage(refreshMessage);
+                                swipeToLoadLayout.setRefreshing(false);
                         } else if (jsonData.getCode() == 1) {
                             ToastUtils.showShortToast(mContext, jsonData.getMsg());
                             swipeToLoadLayout.setRefreshing(false);
