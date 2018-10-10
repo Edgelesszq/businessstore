@@ -29,6 +29,7 @@ public class AdapterOrderRecycler extends RecyclerView.Adapter<RecyclerView.View
     private final int UND0NE_TYPE = 0;
 
 
+
     public AdapterOrderRecycler(Context mcontext, List<Order> mlist) {
         this.mcontext = mcontext;
         this.mlist = mlist;
@@ -71,11 +72,10 @@ public class AdapterOrderRecycler extends RecyclerView.Adapter<RecyclerView.View
             ((MyCompletedHolder) holder).moreIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    ((OrderMainActivity) mcontext).showPopWindow(((MyCompletedHolder)holder).moreIcon, position);
-                    ToastUtils.showShortToast(mcontext,"ccc");
+                    ((OrderMainActivity) mcontext).showPopWindow2(((MyCompletedHolder)holder).moreIcon, position);
                 }
             });
-            //下单x件
+
             String form = mcontext.getResources().getString(R.string.place_an_order);
             String result = String.format(form, 5);
             ((MyCompletedHolder) holder).placeOrderNum.setText(result);
@@ -89,11 +89,10 @@ public class AdapterOrderRecycler extends RecyclerView.Adapter<RecyclerView.View
             ((MyUndoneHolder) holder).moreIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    ((OrderMainActivity) mcontext).showPopWindow(((MyUndoneHolder) holder).moreIcon, position);
-                    ToastUtils.showShortToast(mcontext,"bbb");
+                    ((OrderMainActivity) mcontext).showPopWindow(((MyUndoneHolder) holder).moreIcon, position);
                 }
             });
-            //下单x件
+
             String form = mcontext.getResources().getString(R.string.place_an_order);
             String result = String.format(form, 5);
             ((MyUndoneHolder) holder).placeOrderNum.setText(result);
@@ -164,7 +163,7 @@ public class AdapterOrderRecycler extends RecyclerView.Adapter<RecyclerView.View
      */
     public interface OnItemClickListener {
         void onClick(View v, int position);
-
+        void onMoreIconClick(View v,int position);
     }
 
     /**

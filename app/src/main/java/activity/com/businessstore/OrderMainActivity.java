@@ -37,6 +37,8 @@ import com.businessstore.model.OrderList;
 import com.businessstore.model.PictureInfo;
 import com.businessstore.util.SharedPreferencesUtil;
 import com.businessstore.util.ToastUtils;
+import com.businessstore.view.dialog.DialogStyleThree;
+import com.businessstore.view.dialog.DialogStyleTwo;
 import com.businessstore.view.popwindow.CustomPopWindow2;
 import com.businessstore.util.DpConversion;
 import com.businessstore.view.dialog.DialogStyleOne;
@@ -75,6 +77,7 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
     private LinearLayout order_test;
     private EditText order_search_edit;//搜索输入框
     private ImageView clean_iv;//清空图标
+    private ImageView unCompleted,completed;
     private TextView cancel_tv;//取消按钮
     private RecyclerView recyclerview_completed;
     private AdapterOrderRecycler adapterOrderRecyclerCompleted;
@@ -269,6 +272,11 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
                 intent.putParcelableArrayListExtra("pictureInfo",pictureInfos);
                 startActivity(intent);
             }
+
+            @Override
+            public void onMoreIconClick(View v, int position) {
+
+            }
         });
         LinearLayoutManager layoutManage = new LinearLayoutManager(mContext);
         layoutManage.setOrientation(LinearLayoutManager.VERTICAL);
@@ -295,6 +303,9 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
         cancel_tv = findViewById(R.id.cancel_tv);
         clean_iv.setOnClickListener(this);
         cancel_tv.setOnClickListener(this);
+
+        completed = findViewById(R.id.delete_icon);
+        unCompleted =findViewById(R.id.restore_icon);
 
         TextWatcher watcher = new TextWatcher() {
             @Override
@@ -412,7 +423,6 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
             case R.id.clean_iv:
                 order_search_edit.setText("");
                 break;
-
             case R.id.select_time_icon:
                 new DatePickerDialog(OrderMainActivity.this, onDateSetListener, mYear, mMonth, mDay).show();
                 break;
@@ -575,8 +585,8 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
 
     private void cancel (){
         final int position = popWindow.getPosition();
-        final DialogStyleOne dialogStyleOne = new DialogStyleOne(mContext);
-        dialogStyleOne.setYesOnclickListener("是", new DialogStyleOne.onYesOnclickListener() {
+        final DialogStyleTwo dialogStyleTwo = new DialogStyleTwo(mContext);
+        dialogStyleTwo.setYesOnclickListener("是", new DialogStyleTwo.onYesOnclickListener() {
             @Override
             public void onYesClick() {
                 showDialogprogressBarWithString("正在取消");
@@ -613,22 +623,22 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
                             }
                         });
 
-                dialogStyleOne.dismiss();
+                dialogStyleTwo.dismiss();
             }
         });
-        dialogStyleOne.setNoOnclickListener("否", new DialogStyleOne.onNoOnclickListener() {
+        dialogStyleTwo.setNoOnclickListener("否", new DialogStyleTwo.onNoOnclickListener() {
             @Override
             public void onNoClick() {
-                dialogStyleOne.dismiss();
+                dialogStyleTwo.dismiss();
             }
         });
-        dialogStyleOne.show();
+        dialogStyleTwo.show();
     }
 
     private void successful(){
         final int position = popWindow.getPosition();
-        final DialogStyleOne dialogStyleOne = new DialogStyleOne(mContext);
-        dialogStyleOne.setYesOnclickListener("是", new DialogStyleOne.onYesOnclickListener() {
+        final DialogStyleThree dialogStylethree = new DialogStyleThree(mContext);
+        dialogStylethree.setYesOnclickListener("是", new DialogStyleThree.onYesOnclickListener() {
             @Override
             public void onYesClick() {
                 OkGo.<String>put(Config.URL + "/order/editOrder")
@@ -658,16 +668,16 @@ public class OrderMainActivity extends BaseActivity implements OnRefreshListener
                                 ToastUtils.showShortToast(mContext,"请求失败");
                             }
                         });
-                dialogStyleOne.dismiss();
+                dialogStylethree.dismiss();
             }
         });
-        dialogStyleOne.setNoOnclickListener("否", new DialogStyleOne.onNoOnclickListener() {
+        dialogStylethree.setNoOnclickListener("否", new DialogStyleThree.onNoOnclickListener() {
             @Override
             public void onNoClick() {
-                dialogStyleOne.dismiss();
+                dialogStylethree.dismiss();
             }
         });
-        dialogStyleOne.show();
+        dialogStylethree.show();
     }
 
     public void showPopWindow(final View mButton1, int position) {

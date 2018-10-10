@@ -23,6 +23,7 @@
             android:layout_margin="20dp"
             android:background="@drawable/thrid_party_border">
             <EditText
+                android:id="@+id/opinionCon"
                 android:theme="@style/edittextstyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -37,6 +38,7 @@
 
         </LinearLayout>
         <TextView
+            android:id="@+id/submit_recommendations"
             android:layout_width="230dp"
             android:layout_height="45dp"
             android:background="@drawable/login_btn"

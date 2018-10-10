@@ -426,7 +426,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 // text是分享文本，所有平台都需要这个字段
                 oks.setText("我是分享文本");
                 // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-                oks.setImagePath("http://img5.imgtn.bdimg.com/it/u=471547240,4067919551&fm=27&gp=0.jpg");//确保SDcard下面存在此张图片
+                oks.setImagePath("https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=415293130,2419074865&fm=27&gp=0.jpg");//确保SDcard下面存在此张图片
                 // url在微信、微博，Facebook等平台中使用
                 oks.setUrl("http://sharesdk.cn");
                 // comment是我对这条分享的评论，仅在人人网使用

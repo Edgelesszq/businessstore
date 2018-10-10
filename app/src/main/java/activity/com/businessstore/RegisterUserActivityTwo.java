@@ -28,7 +28,7 @@ public class RegisterUserActivityTwo extends BaseActivity implements View.OnClic
     private TextView submit_btn,text_verification_again,timer_tv;//提交按钮  和验证按钮//倒计时
     private EditText verification;
     private String verifiCode,verifiCode2,sellerId,sellerNum;
-    LoginResult loginData;
+    private LoginResult loginData;
     private TextView sellerNum_tv;
 
     @Override
@@ -37,8 +37,9 @@ public class RegisterUserActivityTwo extends BaseActivity implements View.OnClic
         setContentView(R.layout.register_verification_two);
         mContext = this;
         loginData=SharedPreferencesUtil.getObject(getApplicationContext(),"loginResult");
+
         initview();
-        if(loginData.getNumActiva()==0){
+        if(getIntent().getIntExtra("NumActiva",2)==0){
             Re_request();
         }
         else {

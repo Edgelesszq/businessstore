@@ -12,6 +12,7 @@ import com.businessstore.util.ActivityUtil;
 import com.businessstore.util.AppManager;
 import com.businessstore.util.SharedPreferencesUtil;
 import com.businessstore.util.StatusBarUtil;
+import com.businessstore.util.ToastUtils;
 
 
 public class SettingMainActivity extends BaseActivity implements View.OnClickListener {
@@ -59,10 +60,11 @@ public class SettingMainActivity extends BaseActivity implements View.OnClickLis
                 SharedPreferencesUtil.removeSP(getApplicationContext(),"loginResult");
                 AppManager.getAppManager().finishAllActivity();
                 ActivityUtil.skipActivity(this,LoginActivity.class);
-
-
                 break;
-
+            case R.id.version_upgrades:
+                ToastUtils.showShortToast(mContext,"暂无更新");
+                break;
+            default:break;
         }
     }
 }

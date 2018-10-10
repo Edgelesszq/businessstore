@@ -77,6 +77,7 @@ public class ForgetPasswordOneActivity extends BaseActivity implements View.OnCl
                                            Toast.makeText(getApplicationContext(),"验证码已发送",Toast.LENGTH_SHORT).show();
 
                                            Intent ensure=new Intent(ForgetPasswordOneActivity.this,ForgetPasswordTwoActivity.class);
+                                           ensure.putExtra("NumActiva",1);
                                            startActivity(ensure);
                                            break;
                                        case 1:

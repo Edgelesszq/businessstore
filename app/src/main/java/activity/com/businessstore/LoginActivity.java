@@ -210,6 +210,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                                 ToastViewUtils.toastShowLoginMessage("尚未激活！", getApplicationContext(), inflater);
                                                 Intent registerInternt = new Intent(LoginActivity.this,
                                                         RegisterUserActivityTwo.class);
+                                                registerInternt.putExtra("NumActiva",0);
                                                 dissmissDialogprogressBarWithString();
                                                 startActivity(registerInternt);
                                                 break;
