@@ -64,6 +64,7 @@ import java.util.List;
 
 import adapter.com.businessstore.Adapter2MainActivity;
 import adapter.com.businessstore.AdapterMainActivity;
+import cn.jpush.android.api.JPushInterface;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -155,9 +156,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
             initview();
             initGoods();
             initAdapter();
+            initPush();
 
         }
 
+    }
+
+    /**
+     * 推送启动
+     */
+    private void initPush() {
+        //初始化
+        JPushInterface.init(mContext);
+        JPushInterface.resumePush(mContext);
     }
 
     @Override
