@@ -160,9 +160,6 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
                     showDialogprogressBarWithString("正在修改");
                     OkGo.<String>post(Config.URL + "/user/editUserInfo")
                             .tag(this)
-                            .params("headImg",loginResult.getSellerHead())
-                            .params("sellerName",loginResult.getSellerName())
-                            .params("sellerTel",loginResult.getSellerTel())
                             .params("telOpen","1")
                             .params("sellerId",loginResult.getSellerId())
                             .params("appKey",loginResult.getAppKey())
@@ -187,9 +184,6 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
                     showDialogprogressBarWithString("正在修改");
                     OkGo.<String>post(Config.URL + "/user/editUserInfo")
                             .tag(this)
-                            .params("headImg",loginResult.getSellerHead())
-                            .params("sellerName",loginResult.getSellerName())
-                            .params("sellerTel",loginResult.getSellerTel())
                             .params("telOpen","0")
                             .params("sellerId",loginResult.getSellerId())
                             .params("appKey",loginResult.getAppKey())
@@ -253,7 +247,7 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
 
     }
     public void showPopWindowUpdate_HeadPortrait(View view) {
-        if (popupWindow != null && popupWindow.isShowing()) return;
+        if (popupWindow != null && popupWindow.isShowing()) {return;}
         View upView = LayoutInflater.from(this).inflate(R.layout.popwindow_choose_photo_item, null);
         //测量View的宽高
 
@@ -360,9 +354,6 @@ public class AccountMainActivity extends BaseActivity implements View.OnClickLis
                            OkGo.<String>post(Config.URL + "/user/editUserInfo")
                                    .tag(this)
                                    .params("headImg",new File(filepath))
-                                   .params("sellerName",loginResult.getSellerName())
-                                   .params("sellerTel",loginResult.getSellerTel())
-                                   .params("telOpen",loginResult.getTelOpen())
                                    .params("sellerId",loginResult.getSellerId())
                                    .params("appKey",loginResult.getAppKey())
                                    .execute(new StringCallback() {

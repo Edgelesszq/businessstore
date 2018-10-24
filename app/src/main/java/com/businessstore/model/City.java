@@ -1,47 +1,37 @@
 package com.businessstore.model;
 
 public class City {
-	public String cityCode;
-	public String name;
-	public String pinyi;
+	public String zipCode;
+	public String stateName;
+	public String cityName;
 
-
-	public City(String cityCode, String name, String pinyi) {
-		this.cityCode = cityCode;
-		this.name = name;
-		this.pinyi = pinyi;
+	public City(String zipCode, String stateName, String cityName) {
+		this.zipCode = zipCode;
+		this.stateName = stateName;
+		this.cityName = cityName;
 	}
 
-	public String getCityCode() {
-		return cityCode;
+	public String getZipCode() {
+		return zipCode;
 	}
 
-	public void setCityCode(String cityCode) {
-		this.cityCode = cityCode;
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
 	}
 
-	public City() {
-		super();
+	public String getStateName() {
+		return stateName;
 	}
 
-	public String getName() {
-		return name;
+	public void setStateName(String stateName) {
+		this.stateName = stateName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public String getCityName() {
+		return cityName;
 	}
 
-	public String getPinyi() {
-		return pinyi;
-	}
-
-	public void setPinyi(String pinyi) {
-		this.pinyi = pinyi;
-	}
-
-	@Override
-	public String toString() {
-		return getName();
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
 	}
 }

@@ -41,7 +41,8 @@ public class AdapterAddressSearch extends RecyclerView.Adapter<AdapterAddressSea
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         City city=list.get(position);
-        holder.addres_item_city.setText(city.getPinyi());
+        String zip = city.getZipCode()+","+city.stateName+","+city.cityName;
+        holder.addres_item_city.setText(zip);
 
         holder.addres_item_city.setOnClickListener(new View.OnClickListener() {
             @Override

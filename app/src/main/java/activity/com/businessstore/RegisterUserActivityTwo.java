@@ -29,7 +29,7 @@ public class RegisterUserActivityTwo extends BaseActivity implements View.OnClic
     private EditText verification;
     private String verifiCode,verifiCode2,sellerId,sellerNum;
     private LoginResult loginData;
-    private TextView sellerNum_tv;
+    private TextView sellerNum_tv,hint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +81,7 @@ public class RegisterUserActivityTwo extends BaseActivity implements View.OnClic
         text_verification_again.setOnClickListener(this);
 
         timer_tv=findViewById(R.id.timer_tv);
-
+        hint = findViewById(R.id.text_hint);
 
         sellerNum_tv=findViewById(R.id.sellerNum_tv);
         sellerNum_tv.setText(loginData.getSellerNum());
@@ -105,8 +105,6 @@ public class RegisterUserActivityTwo extends BaseActivity implements View.OnClic
                             .execute(new StringCallback() {
                                 @Override
                                 public void onSuccess(Response<String> response) {
-                                    Log.d("loglog",response.body());
-
                                     String responseData = response.body().toString().trim();
                                     Gson gson = new Gson();
                                     Json<LoginResult> dataInfo = gson.fromJson(responseData,
@@ -117,6 +115,7 @@ public class RegisterUserActivityTwo extends BaseActivity implements View.OnClic
                                         Intent intent=new Intent(RegisterUserActivityTwo.this,RegisterUserActivitythree.class);
                                         startActivity(intent);
                                     }else {
+                                        hint.setVisibility(View.VISIBLE);
                                         dissmissDialogprogressBarWithString();
                                     }
 

@@ -52,9 +52,9 @@
     <application
         android:name="com.businessstore.util.MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/app_2x"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/app_2x"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         >

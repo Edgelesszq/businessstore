@@ -4,6 +4,8 @@ package activity.com.businessstore;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
@@ -37,6 +39,8 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 
+import cn.jpush.android.api.JPushInterface;
+
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
     private TextView register_btn, title, content;
@@ -45,6 +49,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private EditText login_password, login_account;//登录账号和密码
     private Context mcontext;
     private long exitTime = 0; //退出程序
+    private MyDatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +61,58 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void initData() {
-
+        dbHelper = new MyDatabaseHelper(this, "ZipCodeCity.db", null, 1);
+        dbHelper.getWritableDatabase();
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        try {
+            String sql = "select count(*) as c from sqlite_master where type ='table' and name ='tbl_city'";
+            Cursor cursor = db.rawQuery(sql, null);
+            if (cursor.moveToNext()) {
+                int count = cursor.getInt(0);
+                if (count > 0) {
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('12201', 'NewYork(NY)', 'Albany')");
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('30301', 'Georgia(GA)', 'Atlanta')");
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('21401', 'Maryland(MD)', 'Annapolis')");
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('21201', 'Maryland(MD)', 'Baltimore')");
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('35201', 'Alabama(AL)', 'Birmingham')");
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('14201', 'NewYork(NY)', 'Buffalo')");
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('60601', 'Illinois(IL)', 'CHICAGO')");
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('45201', 'Ohio(OH)', 'Cincinnati')");
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('44101', 'Ohio(OH)', 'Cleveland')");
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('43085', 'Ohio(OH)', 'Columbus')");
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('71953', 'Arkansas(AR)', 'Dallas')");
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('80002', 'Colorado(CO)', 'Denver')");
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('99701', 'Alaska(AK)', 'Fairbanks')");
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('19019', 'Pennsylvania(PA)', 'Philidelphia')");
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('96801', 'Hawii(HI)', 'Honolulu')");
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('46201', 'Indiana(IN)', 'Indianapolis')");
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('32099', 'Florida(FL)', 'Jacksonville')");
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('64101', 'Missouri(MO)', 'Kansas City')");
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('90001', 'California(CA)', 'Los Angeles')");
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('89101', 'Navada(NV)', 'Las Vegas')");
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('55199', 'minnesota(MN)', 'Minneapolis')");
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('10001', 'NewYork(NY)', 'New York')");
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('70112', 'Louisana(LA)', 'New orleaans')");
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('68046', 'Nebraska(NE)', 'Omaha')");
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('85001', 'Arizona(AZ)', 'Phoenix')");
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('15122', 'Pennsylvania(PA)', 'Pittsburgh')");
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('84101', 'Utah(UT)', 'Salt Lake City')");
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('94203', 'California(CA)', 'Sacramento')");
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('92101', 'California(CA)', 'San Diego')");
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('94101', 'California(CA)', 'San Francisco')");
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('95101', 'California(CA)', 'San Jose')");
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('55101', 'Minnesota(MN)', 'Saint Paul')");
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('63101', 'Missouri(MO)', 'Saint Louis')");
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('98101', 'Washington(WA)', 'Seattle')");
+                    db.execSQL("INSERT INTO `tbl_city` VALUES ('33601', 'Florida(FL)', 'Tampa')");
+                    Log.d("database","ZipCodeCity表已成功创建");
+                }
+            }else {
+                Log.d("database","ZipCodeCity表已经存在");
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
     }
 
     public void initview() {
@@ -160,7 +216,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             .tag(this)
                             .params("sellerNum", account)
                             .params("sellerPwd", password)
-
+                            .params("registrationId", JPushInterface.getRegistrationID(mcontext))
                             .execute(new StringCallback() {
                                 @Override
                                 public void onSuccess(Response<String> response) {

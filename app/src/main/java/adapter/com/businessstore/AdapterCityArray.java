@@ -83,8 +83,8 @@ public class AdapterCityArray extends BaseAdapter implements Filterable{
                 view=convertView;
                 viewHolderTitle= (ViewHolderTitle) view.getTag();
             }
-            viewHolderTitle.city_name.setText(city.getName());
-            viewHolderTitle.city_code.setText(city.getCityCode());
+            viewHolderTitle.city_name.setText(city.getCityName());
+            viewHolderTitle.city_code.setText(city.getZipCode());
             return view;
         }
         else {
@@ -102,8 +102,8 @@ public class AdapterCityArray extends BaseAdapter implements Filterable{
                 view=convertView;
                 viewHolder= (ViewHolder) view.getTag();
             }
-            viewHolder.city_name.setText(city.getName());
-            viewHolder.city_code.setText(city.getCityCode());
+            viewHolder.city_name.setText(city.getCityName());
+            viewHolder.city_code.setText(city.getZipCode());
             return view;
         }
 
@@ -148,8 +148,8 @@ public class AdapterCityArray extends BaseAdapter implements Filterable{
                 String str = constraint.toString().toLowerCase();
                 //循环变量数据源，如果有属性满足过滤条件，则添加到result中
                 for (City city : mFilterCitys) {
-                    if (city.getName().contains(str)
-                            || city.getCityCode().contains(str))
+                    if (city.getCityName().contains(str)
+                            || city.getZipCode().contains(str))
                              {
                         retList.add(city);
                     }

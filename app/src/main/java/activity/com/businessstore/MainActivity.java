@@ -61,6 +61,7 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import adapter.com.businessstore.Adapter2MainActivity;
 import adapter.com.businessstore.AdapterMainActivity;
@@ -169,6 +170,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         //初始化
         JPushInterface.init(mContext);
         JPushInterface.resumePush(mContext);
+        String rid = JPushInterface.getRegistrationID(getApplicationContext());
+        if (!rid.isEmpty()) {
+            Log.d("RegistrationID",rid);
+        } else {
+            Toast.makeText(this, "Get registration fail, JPush init failed!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -199,7 +206,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
             user_num.setText(loginResult.getSellerNum());
         }
         //设置店的位置
-        if (loginResult.getDetailedAddress() != null) {
+        if (loginResult.getCityName() !=null) {
+            user_address.setText(loginResult.getCityName());
+        }else if (loginResult.getDetailedAddress() != null){
             user_address.setText(loginResult.getDetailedAddress());
         }
 
@@ -568,6 +577,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     public void onDestroy() {
         //在该生命周期的时候调用该方法，
         //mAdapterMainActivity.onDestroy();
+        //关闭推送
+        JPushInterface.stopPush(getApplicationContext());
         super.onDestroy();
     }
 

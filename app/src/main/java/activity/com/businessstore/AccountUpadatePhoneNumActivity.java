@@ -83,10 +83,7 @@ public class AccountUpadatePhoneNumActivity extends BaseActivity implements View
                             showDialogprogressBarWithString("正在修改");
                             OkGo.<String>post(Config.URL + "/user/editUserInfo")
                                     .tag(this)
-                                    .params("headImg",loginResult.getSellerHead())
-                                    .params("sellerName",loginResult.getSellerName())
                                     .params("sellerTel",phoneNum)
-                                    .params("telOpen",loginResult.getTelOpen())
                                     .params("sellerId",loginResult.getSellerId())
                                     .params("appKey",loginResult.getAppKey())
                                     .execute(new StringCallback() {
