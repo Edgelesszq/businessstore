@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import adapter.com.businessstore.AdapterCommodityDetailsActivityListView;
+import cn.sharesdk.onekeyshare.OnekeyShare;
 
 public class MainCommodityDetailsActivity extends BaseActivity implements View.OnClickListener {
     private Context mContext;
@@ -51,6 +52,7 @@ public class MainCommodityDetailsActivity extends BaseActivity implements View.O
     private LoginResult loginResult;
     private ImageView head;
     private List<PictureInfo> pictureInfoList;
+    private String shareAddress;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,6 +81,7 @@ public class MainCommodityDetailsActivity extends BaseActivity implements View.O
         int stockDouble = intent.getIntExtra("goodsMinPrice",0);
         Double minPriceDouble = intent.getDoubleExtra("goodsMinPrice",0);
         Double maxPriceDouble = intent.getDoubleExtra("goodsMaxPrice",0);
+        shareAddress = intent.getStringExtra("goodsUrl");
 
         goodsName.setText(nameString);
         goodsContent.setText(contentString);
@@ -211,12 +214,25 @@ public class MainCommodityDetailsActivity extends BaseActivity implements View.O
                 this.finish();
                 break;
             case R.id.title_right_img:
-                Toast.makeText(mContext, "分享", Toast.LENGTH_SHORT).show();
+                share();
                 break;
                 default:
                     break;
 
         }
+    }
+
+    private void share() {
+        OnekeyShare oks = new OnekeyShare();
+        oks.disableSSOWhenAuthorize();
+        oks.setTitle(goodsName.getText().toString());
+        oks.setText(goodsContent.getText().toString());
+        oks.setTitleUrl(shareAddress);
+        oks.setUrl(shareAddress);
+        oks.setImageUrl(pictureInfoList.get(0).getUrlsmall());
+        oks.setSite("无际商城");
+        oks.setSiteUrl("http://sharesdk.cn");
+        oks.show(this);
     }
 
     /**

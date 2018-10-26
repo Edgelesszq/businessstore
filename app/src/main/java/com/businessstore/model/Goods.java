@@ -17,6 +17,23 @@ public class Goods implements Serializable{
     private List<PictureInfo> pictureInfo;//图片
     private int createdAt;//创建时间
     private int updateAt;//更新时间
+    private String shareAddress;//分享地址
+
+    public Double getMaxPrice() {
+        return maxPrice;
+    }
+
+    public void setMaxPrice(Double maxPrice) {
+        this.maxPrice = maxPrice;
+    }
+
+    public String getShareAddress() {
+        return shareAddress;
+    }
+
+    public void setShareAddress(String shareAddress) {
+        this.shareAddress = shareAddress;
+    }
 
     public Goods(String title, String content, Double price, int number, int pubPrice, int pubNumber) {
         this.goodsName = title;

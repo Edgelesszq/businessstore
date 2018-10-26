@@ -277,6 +277,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 intent.putExtra("goodsStock",mList.get(position).getGoodsStock());
                 intent.putExtra("goodsMinPrice",mList.get(position).getMinPrice());
                 intent.putExtra("goodsMaxPrice",mList.get(position).getMaxprice());
+                intent.putExtra("goodsUrl",mList.get(position).getShareAddress());
                 intent.putParcelableArrayListExtra("goodsPictureInfo",pic);
                 startActivity(intent);
             }
@@ -433,28 +434,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 delete();
                 break;
             case R.id.main_recyclerview_item_more_pop_share:
-//                Toast.makeText(mContext, "分享", Toast.LENGTH_SHORT).show();
-//                showPopWindowUpdate_HeadPortrait(view);
-                OnekeyShare oks = new OnekeyShare();
-                //关闭sso授权
-                oks.disableSSOWhenAuthorize();
-
-                // title标题，微信、QQ和QQ空间等平台使用
-                oks.setTitle("分享测试标题");
-                // titleUrl QQ和QQ空间跳转链接
-                oks.setTitleUrl("http://sharesdk.cn");
-                // text是分享文本，所有平台都需要这个字段
-                oks.setText("我是分享文本");
-                // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-                oks.setImagePath("https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=415293130,2419074865&fm=27&gp=0.jpg");//确保SDcard下面存在此张图片
-                // url在微信、微博，Facebook等平台中使用
-                oks.setUrl("http://sharesdk.cn");
-                // comment是我对这条分享的评论，仅在人人网使用
-//                oks.setComment("我是测试评论文本");
-                // 启动分享GUI
-                oks.show(this);
-                popWindow.dismiss();
-                mPopwindowIsShow = true;
+                //分享
+                share();
                 break;
             case R.id.qrcode:
                 Toast.makeText(this, "二维码", Toast.LENGTH_SHORT).show();
@@ -468,6 +449,33 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
             default:
                 break;
         }
+    }
+
+    private void share() {
+        final int position = popWindow.getPosition();
+        OnekeyShare oks = new OnekeyShare();
+        //关闭sso授权
+        oks.disableSSOWhenAuthorize();
+
+        // title标题，微信、QQ和QQ空间等平台使用
+        // text是分享文本，所有平台都需要这个字段
+        oks.setTitle(mList.get(position).getGoodsName());
+        oks.setText(mList.get(position).getGoodsInfo());
+        // titleUrl是标题的网络链接，仅在Linked-in,QQ和QQ空间使用
+        // url在微信、微博，Facebook等平台中使用
+        oks.setTitleUrl(mList.get(position).getShareAddress());
+        oks.setUrl(mList.get(position).getShareAddress());
+        //分享网络图片，新浪微博分享网络图片需要通过审核后申请高级写入接口，否则请注释掉测试新浪微博
+//        对于人人网和QQ空间来说，imageUrl存在的时候，原来的imagePath将被忽略，但是新浪微博刚好相反，故须要特别注意。
+        oks.setImageUrl(mList.get(position).getPictureInfo().get(0).getUrlsmall());
+        // site是分享此内容的网站名称，仅在QQ空间使用
+        oks.setSite("无际商城");
+        // siteUrl是分享此内容的网站地址，仅在QQ空间使用
+        oks.setSiteUrl("http://sharesdk.cn");
+        // 启动分享GUI
+        oks.show(this);
+        popWindow.dismiss();
+        mPopwindowIsShow = true;
     }
 
     private void delete() {
